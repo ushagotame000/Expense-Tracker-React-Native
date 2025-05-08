@@ -54,6 +54,12 @@ export default function HomePage() {
               <Text style={styles.expensesBalance}>$1840.00</Text>
             </Text>
             <Text style={styles.expenses}>
+              <FontAwesome
+                name="arrow-down"
+                size={5}
+                color="#ffffff"
+                style={styles.arrowIcon}
+              />
               Expenses {"\n"}
               <Text style={styles.expensesBalance}>$1840.00</Text>
             </Text>
