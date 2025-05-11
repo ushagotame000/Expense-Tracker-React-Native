@@ -1,6 +1,6 @@
 import { icons } from "@/assets/images/assets";
-import React from "react";
-import { FontAwesome } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 import {
   View,
   Text,
@@ -8,11 +8,15 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  Modal,
+  TouchableWithoutFeedback,
 } from "react-native";
 
-const { height } = Dimensions.get("window");
+const { height, width } = Dimensions.get("window");
 
 export default function HomePage() {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -44,7 +48,7 @@ export default function HomePage() {
           </View>
           <View style={styles.cardHeader}>
             <Text style={styles.expenses}>
-              <FontAwesome
+              <Feather
                 name="arrow-up"
                 size={13}
                 color="#ffffff"
@@ -54,7 +58,7 @@ export default function HomePage() {
               <Text style={styles.expensesBalance}>$1840.00</Text>
             </Text>
             <Text style={styles.expenses}>
-              <FontAwesome
+              <Feather
                 name="arrow-down"
                 size={13}
                 color="#ffffff"
@@ -80,6 +84,38 @@ export default function HomePage() {
           </View>
         </View>
       </View>
+
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={() => setModalVisible(true)}
+      >
+        <Feather name="plus" size={32} color="#fff" />
+      </TouchableOpacity>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={styles.modalOverlay}>
+            <TouchableWithoutFeedback>
+              <View style={styles.modalView}>
+                <Text style={styles.modalTitle}>Add Transaction</Text>
+                <TouchableOpacity style={styles.modalButton}>
+                  <Text style={styles.modalButtonText}>Add Income</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.modalButton, styles.expenseButton]}
+                >
+                  <Text style={styles.modalButtonText}>Add Expense</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </View>
   );
 }
@@ -190,5 +226,59 @@ const styles = StyleSheet.create({
     color: "#25A969",
     fontFamily: "Inter-SemiBold",
     fontSize: 18,
+  },
+  floatingButton: {
+    position: "absolute",
+    bottom: 5,
+    left: width / 2 - 30,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: "#00712D",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#00712D",
+    shadowOffset: { width: 10, height: 10 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalView: {
+    width: "80%",
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontFamily: "Inter-SemiBold",
+    marginBottom: 15,
+  },
+  modalButton: {
+    backgroundColor: "#00712D",
+    padding: 10,
+    marginVertical: 8,
+    borderRadius: 13,
+    width: "100%",
+    alignItems: "center",
+  },
+  expenseButton: {
+    backgroundColor: "#C20000",
+  },
+  modalButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "Inter-Regular",
   },
 });
