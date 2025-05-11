@@ -1,7 +1,7 @@
+import { Link, useRouter } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { icons } from "../assets/images/assets"; // Adjust path as needed
-import { useRouter } from "expo-router";
 
 export default function Index() {
   const router = useRouter();
@@ -17,6 +17,15 @@ export default function Index() {
       >
         <Text style={styles.btntext}>Get Started</Text>
       </TouchableOpacity>
+      <Link
+        href={{
+          pathname: "/pages/[type]/[id]",
+          params: { type: "Expense", id: 0 },
+        }}
+        style={styles.button}
+      >
+        <Text style={styles.btntext}>Add Expense</Text>
+      </Link>
       <TouchableOpacity>
         <Text style={styles.loginText}>
           Already Have Account? <Text style={styles.loginLink}>Log In</Text>
