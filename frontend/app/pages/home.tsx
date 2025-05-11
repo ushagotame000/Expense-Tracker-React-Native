@@ -46,7 +46,7 @@ export default function HomePage() {
             <Text style={styles.expenses}>
               <FontAwesome
                 name="arrow-up"
-                size={5}
+                size={13}
                 color="#ffffff"
                 style={styles.arrowIcon}
               />
@@ -56,7 +56,7 @@ export default function HomePage() {
             <Text style={styles.expenses}>
               <FontAwesome
                 name="arrow-down"
-                size={5}
+                size={13}
                 color="#ffffff"
                 style={styles.arrowIcon}
               />
@@ -65,7 +65,20 @@ export default function HomePage() {
             </Text>
           </View>
         </View>
-        <Text style={styles.sectionTitle}>home page</Text>
+
+        <View style={styles.transactionHeader}>
+          <Text style={styles.transactionTitle}>Transaction History</Text>
+          <Text style={styles.semiTitle}>See all</Text>
+        </View>
+        <View>
+          <View style={styles.items}>
+            <Text style={styles.sectionTitle}>
+              Upwork {"\n"}
+              <Text style={styles.semiTitle}>Today</Text>
+            </Text>
+            <Text style={styles.transactionBalance}>+$850.00</Text>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -85,6 +98,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
+    marginTop: "5%",
   },
   greeting: {
     color: "#fff",
@@ -111,8 +125,11 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: "#25A969",
-    borderRadius: 10,
+    borderRadius: 15,
     padding: 20,
+    marginTop: "-45%",
+    borderColor: "black",
+    borderWidth: 0.5,
   },
   ellipsis: {
     padding: 8,
@@ -146,7 +163,32 @@ const styles = StyleSheet.create({
     fontFamily: "Inter-SemiBold",
   },
   arrowIcon: {
-    width: 5,
+    width: 15,
     marginLeft: "-2%",
+  },
+  transactionHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: 25,
+  },
+  transactionTitle: {
+    fontSize: 18,
+    fontFamily: "Inter-SemiBold",
+  },
+  semiTitle: {
+    fontSize: 14,
+    fontFamily: "Inter-Regular",
+    color: "#666666",
+  },
+  items: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: "5%",
+  },
+  transactionBalance: {
+    color: "#25A969",
+    fontFamily: "Inter-SemiBold",
+    fontSize: 18,
   },
 });
