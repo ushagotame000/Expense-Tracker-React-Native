@@ -1,7 +1,6 @@
-import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
-import { View, ActivityIndicator } from "react-native";
-
+import { Stack } from "expo-router";
+import { ActivityIndicator, View } from "react-native";
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     "Inter-Bold": require("../assets/fonts/Inter_28pt-Bold.ttf"),
@@ -21,6 +20,7 @@ export default function RootLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="home" />
+      {/* <Stack.Screen name="add"/> */}
     </Stack>
   );
 }
