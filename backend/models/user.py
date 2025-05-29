@@ -22,3 +22,13 @@ class UserInDB(BaseModel):
     username: str
     hashed_password: str
     email: Optional[str] = None
+    from pydantic import BaseModel
+
+class UserUpdate(BaseModel):
+    username: str
+    email: str
+
+class UserResponse(BaseModel):
+    id: int
+    username: str
+    email: str

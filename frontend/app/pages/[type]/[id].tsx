@@ -72,7 +72,6 @@ export default function AddPage() {
           />
 
           <Text style={styles.label}>Account</Text>
-          {/* <TextInput placeholder="Account" style={styles.form_control} /> */}
           <Picker
             selectedValue={selectedAccount}
             onValueChange={(itemValue, itemIndex) =>

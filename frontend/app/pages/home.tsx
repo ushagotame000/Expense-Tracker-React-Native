@@ -11,6 +11,7 @@ import {
   Modal,
   TouchableWithoutFeedback,
 } from "react-native";
+import { Link } from "expo-router";
 
 const { height, width } = Dimensions.get("window");
 
@@ -109,7 +110,13 @@ export default function HomePage() {
                 <TouchableOpacity
                   style={[styles.modalButton, styles.expenseButton]}
                 >
+                  <Link
+                          href={{
+                            pathname: "/pages/[type]/[id]",
+                            params: { type: "Expense", id: 0 },
+                          }}>
                   <Text style={styles.modalButtonText}>Add Expense</Text>
+                     </Link>
                 </TouchableOpacity>
               </View>
             </TouchableWithoutFeedback>
