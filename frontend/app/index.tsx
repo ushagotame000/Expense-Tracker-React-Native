@@ -18,7 +18,7 @@ export default function Index() {
         <Text style={styles.btntext}>Get Started</Text>
       </TouchableOpacity>
      
-      <TouchableOpacity>
+      <TouchableOpacity onPress={()=>router.navigate('/pages/login')}>
         <Text style={styles.loginText}>
           Already Have Account? <Text style={styles.loginLink}>Log In</Text>
         </Text>
