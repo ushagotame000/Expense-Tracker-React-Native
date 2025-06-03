@@ -17,4 +17,4 @@ sniffio
 motor
 python-dotenv
 PyJWT
-
+flask-cors

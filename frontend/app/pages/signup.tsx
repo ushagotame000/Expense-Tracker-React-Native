@@ -14,38 +14,38 @@ import {
 } from 'react-native';
 import { validateSignupForm } from '../utils/validationUtils';
 import { useRouter } from 'expo-router';
+import { register } from '../api/auth';
 
 const { height, width } = Dimensions.get("window");
 
 const SignupForm = () => {
-  const [fullName, setFullName] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errors, setErrors] = useState({
-    fullName: '',
+    username: '',
     email: '',
     password: ''
   });
 
   const routers = useRouter();
 
-  const handleSignup = () => {
-    const validation = validateSignupForm(email, password, fullName);
+  const handleSignup = async() => {
+    const validation = validateSignupForm(email, password,username);
     setErrors({
-      fullName: validation.errors.fullName || '',
+      username: validation.errors.username || '',
       email: validation.errors.email || '',
       password: validation.errors.password || ''
     });
+if(!validation.isValid) return;
+try{
+  await register(username, email,password)
+   Alert.alert('Registration Successfull');
+}catch(err){
+ Alert.alert('Registration failed', 'Please try again');
+ console.log({username, email, password})
+}
 
-    if (validation.isValid) {
-      Alert.alert(
-        'Registration Successful',
-        `Welcome ${fullName}! Your account has been created.`
-      );
-      setFullName('');
-      setEmail('');
-      setPassword('');
-    }
   };
 
 const router = useRouter(); 
@@ -68,14 +68,14 @@ const router = useRouter();
         <View style={styles.formContainer}>
           {/* Full Name Field */}
           <TextInput
-            style={[styles.input, errors.fullName ? styles.inputError : null]}
+            style={[styles.input, errors.username ? styles.inputError : null]}
             placeholder="Full Name"
             placeholderTextColor="#888"
-            value={fullName}
-            onChangeText={setFullName}
+            value={username}
+            onChangeText={setUsername}
             autoCapitalize="words"
           />
-          {errors.fullName ? <Text style={styles.errorText}>{errors.fullName}</Text> : null}
+          {errors.username ? <Text style={styles.errorText}>{errors.username}</Text> : null}
 
           {/* Email Field */}
           <TextInput

@@ -4,14 +4,14 @@ interface ValidationResult {
   errors: {
     email?: string;
     password?: string;
-    fullName?: string;
+    username?: string;
   };
 }
 
 export const validateSignupForm = (
   email: string,
   password: string,
-  fullName: string
+  username: string
 ): ValidationResult => {
   const result: ValidationResult = {
     isValid: true,
@@ -19,11 +19,11 @@ export const validateSignupForm = (
   };
 
   // Full Name validation
-  if (!fullName.trim()) {
-    result.errors.fullName = 'Full name is required';
+  if (!username.trim()) {
+    result.errors.username = 'Full name is required';
     result.isValid = false;
-  } else if (fullName.trim().length < 3) {
-    result.errors.fullName = 'Name too short';
+  } else if (username.trim().length < 3) {
+    result.errors.username = 'Name too short';
     result.isValid = false;
   }
 
@@ -31,9 +31,10 @@ export const validateSignupForm = (
   if (!email.trim()) {
     result.errors.email = 'Email is required';
     result.isValid = false;
-  } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))  {
     result.errors.email = 'Email is invalid';
     result.isValid = false;
+    console.log('the email is ',email)
   }
 
   // Password validation

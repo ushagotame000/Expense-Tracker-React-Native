@@ -10,5 +10,4 @@ DATABASE_NAME = os.getenv("DATABASE_NAME", "budget_buddy")
 client = AsyncIOMotorClient(MONGO_URI)
 db = client[DATABASE_NAME]
 
-todo_collection = db.todos
 user_collection = db.users
