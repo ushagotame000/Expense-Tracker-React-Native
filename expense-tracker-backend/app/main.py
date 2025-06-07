@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from .user.authRoute import router as authRoute, get_current_user
+from .accounts.accountRoute import router as accountRoute
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
@@ -16,7 +17,7 @@ app.add_middleware(
 )
 
 app.include_router(authRoute, prefix='/auth')
-
+app.include_router(accountRoute)
 @app.get("/")
 def read_root():
     return {"message": "Expense Tracker Backend Running 🚀","dotenv":  os.getenv("MONGO_URI")}
