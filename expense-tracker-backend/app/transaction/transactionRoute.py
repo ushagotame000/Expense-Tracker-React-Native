@@ -24,7 +24,6 @@ async def addTransaction(transaction: transactionCreate, classifier: NaiveBayesC
             "category": predicted_category,
             "type": predicted_type,
             "user_id": transaction.user_id,
-            "transaction_id": transaction.transaction_id,
         })
         
         return {"msg": "Transaction added successfully", "category": predicted_category, "type": predicted_type}
@@ -51,7 +50,7 @@ async def getTransaction(transaction_id: str):
     if not ObjectId.is_valid(transaction_id):
         raise HTTPException(status_code=400, detail="Invalid transaction ID")
     try:
-        transaction = await transaction_collection.find_one({"transaction_id": transaction_id})
+        transaction = await transaction_collection.find_one({"_id": transaction_id})
 
         if not transaction:
             raise HTTPException(status_code=404, detail="No transaction found for this transaction ID")
@@ -66,12 +65,11 @@ async def editTransaction(transaction_id: str, updated_transaction: transactionC
         raise HTTPException(status_code=400, detail="Invalid transaction ID")
     try:
         result = await transaction_collection.update_one(
-            {"transaction_id": transaction_id},
+            {"_id": transaction_id},
             {"$set": {
                 "description": updated_transaction.description,
                 "amount": updated_transaction.amount,
                 "user_id": updated_transaction.user_id,
-                "transaction_id": updated_transaction.transaction_id,
             }}
         )
 
@@ -87,7 +85,7 @@ async def deleteTransaction(transaction_id: str):
     if not ObjectId.is_valid(transaction_id):
         raise HTTPException(status_code=400, detail="Invalid transaction ID")
     try:
-        result = await transaction_collection.delete_one({"transaction_id": transaction_id})
+        result = await transaction_collection.delete_one({"_id": transaction_id})
 
         if result.deleted_count == 0:
             raise HTTPException(status_code=404, detail="Transaction not found")
