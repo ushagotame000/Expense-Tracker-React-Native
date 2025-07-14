@@ -12,3 +12,4 @@ db = client[DATABASE_NAME]
 
 user_collection = db.users
 account_collection = db.accounts
+transaction_collection = db.transactions
