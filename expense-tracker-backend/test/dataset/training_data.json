@@ -1,0 +1,3502 @@
+[
+  {
+    "description": "Received Present For Wedding payment",
+    "class": "income",
+    "category": "gift",
+    "amount": 5444.43,
+    "created_at": "2025-06-18T11:59:02.772619"
+  },
+  {
+    "description": "payment housing payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 91.75,
+    "created_at": "2025-06-17T11:59:02.772750"
+  },
+  {
+    "description": "Gfit To Friend Deopsit!!",
+    "class": "income",
+    "category": "gift",
+    "amount": 4676.58,
+    "created_at": "2025-06-11T11:59:02.772828"
+  },
+  {
+    "description": "received interest recieved payment",
+    "class": "income",
+    "category": "investment",
+    "amount": 954.73,
+    "created_at": "2025-06-20T11:59:02.772874"
+  },
+  {
+    "description": "morgage to friend received",
+    "class": "expense",
+    "category": "housing",
+    "amount": 1521.96,
+    "created_at": "2025-06-17T11:59:02.772916"
+  },
+  {
+    "description": "rnt payed from cinema",
+    "class": "income",
+    "category": "rental",
+    "amount": 1464.17,
+    "created_at": "2025-06-12T11:59:02.772955"
+  },
+  {
+    "description": "investment firm sallary deopsit",
+    "class": "income",
+    "category": "salary",
+    "amount": 12498.87,
+    "created_at": "2025-06-24T11:59:02.772992"
+  },
+  {
+    "description": "received mortgage payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 2316.16,
+    "created_at": "2025-06-07T11:59:02.773034"
+  },
+  {
+    "description": "bus deposit for city",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1591.96,
+    "created_at": "2025-06-05T11:59:02.773078"
+  },
+  {
+    "description": "return deposit from empoyer",
+    "class": "income",
+    "category": "investment",
+    "amount": 5751.88,
+    "created_at": "2025-06-05T11:59:02.773183"
+  },
+  {
+    "description": "SCHOLO WAGES PAID",
+    "class": "income",
+    "category": "salary",
+    "amount": 1425.91,
+    "created_at": "2025-06-19T11:59:02.773237"
+  },
+  {
+    "description": "recieved freelance from company",
+    "class": "income",
+    "category": "freelance",
+    "amount": 11411.81,
+    "created_at": "2025-05-30T11:59:02.773274"
+  },
+  {
+    "description": "PAID RENT TO HOSPITAL!!",
+    "class": "expense",
+    "category": "housing",
+    "amount": 1306.21,
+    "created_at": "2025-06-18T11:59:02.773315"
+  },
+  {
+    "description": "cash gift !! paid",
+    "class": "income",
+    "category": "gift",
+    "amount": 7756.82,
+    "created_at": "2025-06-20T11:59:02.773350"
+  },
+  {
+    "description": "housing paid for property",
+    "class": "expense",
+    "category": "housing",
+    "amount": 2609.9,
+    "created_at": "2025-06-23T11:59:02.773385"
+  },
+  {
+    "description": "paycheck payment for today",
+    "class": "income",
+    "category": "salary",
+    "amount": 151.26,
+    "created_at": "2025-06-16T11:59:02.773420"
+  },
+  {
+    "description": "payycheck sent via app payment",
+    "class": "income",
+    "category": "salary",
+    "amount": 6438.42,
+    "created_at": "2025-06-13T11:59:02.773457"
+  },
+  {
+    "description": "TRANSPORT PAID FOR DOWNTOWN!!",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2579.76,
+    "created_at": "2025-06-07T11:59:02.773498"
+  },
+  {
+    "description": "books payed for literature",
+    "class": "expense",
+    "category": "education",
+    "amount": 1859.3,
+    "created_at": "2025-06-22T11:59:02.773535"
+  },
+  {
+    "description": "Received Pressent For Weddng!! for groceries",
+    "class": "income",
+    "category": "gift",
+    "amount": 4242.1,
+    "created_at": "2025-06-01T11:59:02.773583"
+  },
+  {
+    "description": "paid for concert at supermrket",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 2313.97,
+    "created_at": "2025-06-01T11:59:02.773616"
+  },
+  {
+    "description": "monthly lease transfer",
+    "class": "income",
+    "category": "rental",
+    "amount": 11894.34,
+    "created_at": "2025-06-20T11:59:02.773650"
+  },
+  {
+    "description": "received for hospitl service",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 1733.66,
+    "created_at": "2025-06-04T11:59:02.773683"
+  },
+  {
+    "description": "REGULAR SALARY MONTHLY.",
+    "class": "income",
+    "category": "salary",
+    "amount": 12851.15,
+    "created_at": "2025-06-09T11:59:02.773721"
+  },
+  {
+    "description": "gig recieved for utilities",
+    "class": "income",
+    "category": "freelance",
+    "amount": 6177.83,
+    "created_at": "2025-06-15T11:59:02.773757"
+  },
+  {
+    "description": "dividend recieved from empoyer",
+    "class": "income",
+    "category": "investment",
+    "amount": 11339.17,
+    "created_at": "2025-06-19T11:59:02.773793"
+  },
+  {
+    "description": "bus cost now",
+    "class": "expense",
+    "category": "transport",
+    "amount": 670.83,
+    "created_at": "2025-06-26T11:59:02.773826"
+  },
+  {
+    "description": "DONATION FOR WEDDNG FAST",
+    "class": "income",
+    "category": "gift",
+    "amount": 12986.91,
+    "created_at": "2025-06-22T11:59:02.773863"
+  },
+  {
+    "description": "lease income from friend",
+    "class": "income",
+    "category": "rental",
+    "amount": 6622.62,
+    "created_at": "2025-06-16T11:59:02.773895"
+  },
+  {
+    "description": "meel deposit at supermrket!!",
+    "class": "expense",
+    "category": "food",
+    "amount": 1564.51,
+    "created_at": "2025-06-05T11:59:02.773933"
+  },
+  {
+    "description": "SENT PROFFIT ONLINE",
+    "class": "income",
+    "category": "investment",
+    "amount": 12723.48,
+    "created_at": "2025-06-05T11:59:02.773979"
+  },
+  {
+    "description": "paid meel misc",
+    "class": "expense",
+    "category": "food",
+    "amount": 930.63,
+    "created_at": "2025-06-09T11:59:02.774013"
+  },
+  {
+    "description": "conert payment transfer",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 1435.62,
+    "created_at": "2025-06-13T11:59:02.774051"
+  },
+  {
+    "description": "slary payment for groceries",
+    "class": "income",
+    "category": "salary",
+    "amount": 14425.09,
+    "created_at": "2025-06-08T11:59:02.774085"
+  },
+  {
+    "description": "GFIT PAYED FROM FAMILY for groceries",
+    "class": "income",
+    "category": "gift",
+    "amount": 6475.48,
+    "created_at": "2025-06-15T11:59:02.774122"
+  },
+  {
+    "description": "meal deopsit at pharmacy",
+    "class": "expense",
+    "category": "food",
+    "amount": 2607.33,
+    "created_at": "2025-06-03T11:59:02.774155"
+  },
+  {
+    "description": "housing fast received",
+    "class": "expense",
+    "category": "housing",
+    "amount": 408.41,
+    "created_at": "2025-06-12T11:59:02.774189"
+  },
+  {
+    "description": "One-Time Wages Olnine",
+    "class": "income",
+    "category": "salary",
+    "amount": 2842.44,
+    "created_at": "2025-06-03T11:59:02.774230"
+  },
+  {
+    "description": "employer paid contarct online",
+    "class": "income",
+    "category": "freelance",
+    "amount": 9165.61,
+    "created_at": "2025-06-12T11:59:02.774266"
+  },
+  {
+    "description": "side job recieved now",
+    "class": "income",
+    "category": "freelance",
+    "amount": 11151.3,
+    "created_at": "2025-06-22T11:59:02.774308"
+  },
+  {
+    "description": "sent intrest regular",
+    "class": "income",
+    "category": "investment",
+    "amount": 10064.15,
+    "created_at": "2025-06-23T11:59:02.774342"
+  },
+  {
+    "description": "CASHGFT  RECIEVED!",
+    "class": "income",
+    "category": "gift",
+    "amount": 9715.52,
+    "created_at": "2025-05-30T11:59:02.774389"
+  },
+  {
+    "description": "employer gfit sent",
+    "class": "income",
+    "category": "gift",
+    "amount": 1023.44,
+    "created_at": "2025-06-23T11:59:02.774432"
+  },
+  {
+    "description": "investment firm payycheck deopsit",
+    "class": "income",
+    "category": "salary",
+    "amount": 9981.7,
+    "created_at": "2025-06-25T11:59:02.774468"
+  },
+  {
+    "description": "deopsit game at store",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 1259.86,
+    "created_at": "2025-06-25T11:59:02.774502"
+  },
+  {
+    "description": "Recieved Contract From Store!!",
+    "class": "income",
+    "category": "freelance",
+    "amount": 1015.05,
+    "created_at": "2025-06-18T11:59:02.774573"
+  },
+  {
+    "description": "received profit received",
+    "class": "income",
+    "category": "investment",
+    "amount": 14486.7,
+    "created_at": "2025-06-07T11:59:02.774605"
+  },
+  {
+    "description": "dividend received from restaurant",
+    "class": "income",
+    "category": "investment",
+    "amount": 10908.92,
+    "created_at": "2025-06-03T11:59:02.774639"
+  },
+  {
+    "description": "SIDE JOB WORK RECIEVED",
+    "class": "income",
+    "category": "freelance",
+    "amount": 14296.63,
+    "created_at": "2025-06-20T11:59:02.774670"
+  },
+  {
+    "description": "Tenancy Received From Compny",
+    "class": "income",
+    "category": "rental",
+    "amount": 14404.34,
+    "created_at": "2025-05-31T11:59:02.774706"
+  },
+  {
+    "description": "deposit at faimly meel!!",
+    "class": "expense",
+    "category": "food",
+    "amount": 933.83,
+    "created_at": "2025-06-01T11:59:02.774750"
+  },
+  {
+    "description": "INTEREST FROM COMPANY ONLINE...",
+    "class": "income",
+    "category": "investment",
+    "amount": 10620.9,
+    "created_at": "2025-06-21T11:59:02.774789"
+  },
+  {
+    "description": "rent income from family",
+    "class": "income",
+    "category": "rental",
+    "amount": 2746.82,
+    "created_at": "2025-06-24T11:59:02.774822"
+  },
+  {
+    "description": "frrelance recieved !!",
+    "class": "income",
+    "category": "freelance",
+    "amount": 1767.27,
+    "created_at": "2025-05-29T11:59:02.774858"
+  },
+  {
+    "description": "mortgag cash deopsit",
+    "class": "expense",
+    "category": "housing",
+    "amount": 204.48,
+    "created_at": "2025-06-26T11:59:02.774890"
+  },
+  {
+    "description": "received intrest to friend!!",
+    "class": "income",
+    "category": "investment",
+    "amount": 13423.9,
+    "created_at": "2025-06-11T11:59:02.774927"
+  },
+  {
+    "description": "medical expense at investment firm",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 402.09,
+    "created_at": "2025-06-22T11:59:02.774957"
+  },
+  {
+    "description": "regular wage deposit from school",
+    "class": "income",
+    "category": "salary",
+    "amount": 8557.68,
+    "created_at": "2025-06-18T11:59:02.774995"
+  },
+  {
+    "description": "PAID PHARMCY BILL QUCIK",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 1419.83,
+    "created_at": "2025-06-02T11:59:02.775033"
+  },
+  {
+    "description": "interest from friend transfer for groceries",
+    "class": "income",
+    "category": "investment",
+    "amount": 5798.09,
+    "created_at": "2025-06-12T11:59:02.775072"
+  },
+  {
+    "description": "event expense now",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 1499.93,
+    "created_at": "2025-06-16T11:59:02.775103"
+  },
+  {
+    "description": "cashgft payed from family",
+    "class": "income",
+    "category": "gift",
+    "amount": 1347.8,
+    "created_at": "2025-06-20T11:59:02.775136"
+  },
+  {
+    "description": "investment firm pressent payment",
+    "class": "income",
+    "category": "gift",
+    "amount": 1539.73,
+    "created_at": "2025-06-22T11:59:02.775188"
+  },
+  {
+    "description": "food purchase fast",
+    "class": "expense",
+    "category": "food",
+    "amount": 2127.85,
+    "created_at": "2025-06-09T11:59:02.775223"
+  },
+  {
+    "description": "Received Rnt Payment Quick bill",
+    "class": "income",
+    "category": "rental",
+    "amount": 1561.48,
+    "created_at": "2025-06-19T11:59:02.775264"
+  },
+  {
+    "description": "paid housing to investment firm",
+    "class": "expense",
+    "category": "housing",
+    "amount": 285.39,
+    "created_at": "2025-06-11T11:59:02.775299"
+  },
+  {
+    "description": "received tenancy payment !!",
+    "class": "income",
+    "category": "rental",
+    "amount": 10398.85,
+    "created_at": "2025-05-29T11:59:02.775330"
+  },
+  {
+    "description": "paid at restaurant dinner",
+    "class": "expense",
+    "category": "food",
+    "amount": 2956.53,
+    "created_at": "2025-06-03T11:59:02.775364"
+  },
+  {
+    "description": "utilty bill cash",
+    "class": "expense",
+    "category": "bills",
+    "amount": 687.53,
+    "created_at": "2025-05-31T11:59:02.775395"
+  },
+  {
+    "description": "Paid Internet Bill For Store!! payment",
+    "class": "expense",
+    "category": "bills",
+    "amount": 298.31,
+    "created_at": "2025-05-29T11:59:02.775434"
+  },
+  {
+    "description": "medical received at cafe",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 1125.55,
+    "created_at": "2025-05-31T11:59:02.775468"
+  },
+  {
+    "description": "deposit divdend on bank",
+    "class": "income",
+    "category": "investment",
+    "amount": 900.63,
+    "created_at": "2025-06-06T11:59:02.775508"
+  },
+  {
+    "description": "payycheck recieved for Q2",
+    "class": "income",
+    "category": "salary",
+    "amount": 2228.71,
+    "created_at": "2025-05-30T11:59:02.775541"
+  },
+  {
+    "description": "taxxi cost payment",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2934.29,
+    "created_at": "2025-06-11T11:59:02.775578"
+  },
+  {
+    "description": "donation for celebration !!",
+    "class": "income",
+    "category": "gift",
+    "amount": 2423.28,
+    "created_at": "2025-06-17T11:59:02.775613"
+  },
+  {
+    "description": "FULE COST PAYMENT",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2992.0,
+    "created_at": "2025-06-13T11:59:02.775646"
+  },
+  {
+    "description": "paid for show at theater",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 1637.06,
+    "created_at": "2025-06-16T11:59:02.775676"
+  },
+  {
+    "description": "cours bill payment",
+    "class": "expense",
+    "category": "education",
+    "amount": 1943.07,
+    "created_at": "2025-06-25T11:59:02.775710"
+  },
+  {
+    "description": "Freelence Sent For Consultng",
+    "class": "income",
+    "category": "freelance",
+    "amount": 13684.55,
+    "created_at": "2025-06-19T11:59:02.775747"
+  },
+  {
+    "description": "empoyer payycheck recieved",
+    "class": "income",
+    "category": "salary",
+    "amount": 7378.46,
+    "created_at": "2025-05-27T11:59:02.775781"
+  },
+  {
+    "description": "divdend from resturant regular",
+    "class": "income",
+    "category": "investment",
+    "amount": 6411.17,
+    "created_at": "2025-06-25T11:59:02.775815"
+  },
+  {
+    "description": "RECEIVEDL EESE PAYMENT ONLINE",
+    "class": "income",
+    "category": "rental",
+    "amount": 6615.61,
+    "created_at": "2025-06-18T11:59:02.775852"
+  },
+  {
+    "description": "sallary received monthly",
+    "class": "income",
+    "category": "salary",
+    "amount": 8969.95,
+    "created_at": "2025-06-10T11:59:02.775885"
+  },
+  {
+    "description": "electricty bill urgent!!",
+    "class": "expense",
+    "category": "bills",
+    "amount": 230.72,
+    "created_at": "2025-06-03T11:59:02.775948"
+  },
+  {
+    "description": "pressent payed from utility company!!",
+    "class": "income",
+    "category": "gift",
+    "amount": 4306.22,
+    "created_at": "2025-06-14T11:59:02.775989"
+  },
+  {
+    "description": "received donation for weddign!",
+    "class": "income",
+    "category": "gift",
+    "amount": 6463.47,
+    "created_at": "2025-06-26T11:59:02.776029"
+  },
+  {
+    "description": "RENTEL DEOPSIT FROM FAMILY!! payment",
+    "class": "income",
+    "category": "rental",
+    "amount": 12393.24,
+    "created_at": "2025-06-07T11:59:02.776071"
+  },
+  {
+    "description": "return recieved from employer",
+    "class": "income",
+    "category": "investment",
+    "amount": 14148.65,
+    "created_at": "2025-05-30T11:59:02.776103"
+  },
+  {
+    "description": "frrelance paid fro consulting",
+    "class": "income",
+    "category": "freelance",
+    "amount": 3011.84,
+    "created_at": "2025-06-23T11:59:02.776142"
+  },
+  {
+    "description": "Gift Urgent Recieved",
+    "class": "income",
+    "category": "gift",
+    "amount": 4839.94,
+    "created_at": "2025-06-19T11:59:02.776178"
+  },
+  {
+    "description": "sent proffit on cinema",
+    "class": "income",
+    "category": "investment",
+    "amount": 9942.54,
+    "created_at": "2025-06-10T11:59:02.776218"
+  },
+  {
+    "description": "appartment paid for property",
+    "class": "expense",
+    "category": "housing",
+    "amount": 8.97,
+    "created_at": "2025-06-09T11:59:02.776253"
+  },
+  {
+    "description": "medcal transfer deposit",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 172.63,
+    "created_at": "2025-06-18T11:59:02.776287"
+  },
+  {
+    "description": "electricity payment monthly",
+    "class": "expense",
+    "category": "bills",
+    "amount": 605.45,
+    "created_at": "2025-05-30T11:59:02.776320"
+  },
+  {
+    "description": "sent dividend on bank",
+    "class": "income",
+    "category": "investment",
+    "amount": 13877.5,
+    "created_at": "2025-06-02T11:59:02.776352"
+  },
+  {
+    "description": "doctor expense at cinema cash",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 2980.14,
+    "created_at": "2025-05-27T11:59:02.776387"
+  },
+  {
+    "description": "payment game at resturant",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 2317.64,
+    "created_at": "2025-06-24T11:59:02.776420"
+  },
+  {
+    "description": "electricity bill deposit",
+    "class": "expense",
+    "category": "bills",
+    "amount": 310.63,
+    "created_at": "2025-06-03T11:59:02.776449"
+  },
+  {
+    "description": "sent taxi ticket",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1030.28,
+    "created_at": "2025-05-27T11:59:02.776480"
+  },
+  {
+    "description": "train cost online",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2631.0,
+    "created_at": "2025-06-10T11:59:02.776511"
+  },
+  {
+    "description": "pressent recieved from school!",
+    "class": "income",
+    "category": "gift",
+    "amount": 4012.15,
+    "created_at": "2025-06-05T11:59:02.776546"
+  },
+  {
+    "description": "recieved course fees",
+    "class": "expense",
+    "category": "education",
+    "amount": 1815.84,
+    "created_at": "2025-06-13T11:59:02.776579"
+  },
+  {
+    "description": "rnt inocme from bank to friend",
+    "class": "income",
+    "category": "rental",
+    "amount": 2098.52,
+    "created_at": "2025-06-20T11:59:02.776619"
+  },
+  {
+    "description": "annual tenancy !!",
+    "class": "income",
+    "category": "rental",
+    "amount": 12492.97,
+    "created_at": "2025-06-03T11:59:02.776663"
+  },
+  {
+    "description": "movie paid for concert",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 2412.22,
+    "created_at": "2025-06-06T11:59:02.776703"
+  },
+  {
+    "description": "contarct deopsit for consultng",
+    "class": "income",
+    "category": "freelance",
+    "amount": 1207.56,
+    "created_at": "2025-06-02T11:59:02.776738"
+  },
+  {
+    "description": "friend paid freelance for groceries",
+    "class": "income",
+    "category": "freelance",
+    "amount": 13527.83,
+    "created_at": "2025-06-13T11:59:02.776774"
+  },
+  {
+    "description": "biweekly payycheck urgent!!",
+    "class": "income",
+    "category": "salary",
+    "amount": 14072.37,
+    "created_at": "2025-06-11T11:59:02.776807"
+  },
+  {
+    "description": "wages recieved for",
+    "class": "income",
+    "category": "salary",
+    "amount": 1803.69,
+    "created_at": "2025-06-10T11:59:02.776841"
+  },
+  {
+    "description": "wag ereceived for Q2",
+    "class": "income",
+    "category": "salary",
+    "amount": 3454.08,
+    "created_at": "2025-06-21T11:59:02.776882"
+  },
+  {
+    "description": "Paid For Buss To Wokr!! for groceries",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1227.24,
+    "created_at": "2025-06-04T11:59:02.776927"
+  },
+  {
+    "description": "family payycheck deopsit",
+    "class": "income",
+    "category": "salary",
+    "amount": 7583.52,
+    "created_at": "2025-06-18T11:59:02.776960"
+  },
+  {
+    "description": "annual sallary for utilities",
+    "class": "income",
+    "category": "salary",
+    "amount": 11606.36,
+    "created_at": "2025-06-07T11:59:02.776993"
+  },
+  {
+    "description": "FOOD RECIEVED AT MARKET...",
+    "class": "expense",
+    "category": "food",
+    "amount": 778.16,
+    "created_at": "2025-06-12T11:59:02.777035"
+  },
+  {
+    "description": "mortgage received for appartment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 283.63,
+    "created_at": "2025-06-09T11:59:02.777071"
+  },
+  {
+    "description": "RECEVIED PRESSENT FOR WEDDING cash",
+    "class": "income",
+    "category": "gift",
+    "amount": 14177.42,
+    "created_at": "2025-06-10T11:59:02.777111"
+  },
+  {
+    "description": "return from bank trasnfer...",
+    "class": "income",
+    "category": "investment",
+    "amount": 13920.07,
+    "created_at": "2025-06-12T11:59:02.777148"
+  },
+  {
+    "description": "cash gift for wedding to friend!",
+    "class": "income",
+    "category": "gift",
+    "amount": 10735.49,
+    "created_at": "2025-06-22T11:59:02.777211"
+  },
+  {
+    "description": "phone payment tarsnfer.",
+    "class": "expense",
+    "category": "bills",
+    "amount": 2089.07,
+    "created_at": "2025-06-23T11:59:02.777253"
+  },
+  {
+    "description": "paid school fees",
+    "class": "expense",
+    "category": "education",
+    "amount": 2660.08,
+    "created_at": "2025-06-04T11:59:02.777284"
+  },
+  {
+    "description": "pharmcy deopsit at pharmacy",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 362.14,
+    "created_at": "2025-06-15T11:59:02.777348"
+  },
+  {
+    "description": "Present  Received",
+    "class": "income",
+    "category": "gift",
+    "amount": 6218.57,
+    "created_at": "2025-06-19T11:59:02.777388"
+  },
+  {
+    "description": "sallary paid for",
+    "class": "income",
+    "category": "salary",
+    "amount": 8187.25,
+    "created_at": "2025-06-18T11:59:02.777423"
+  },
+  {
+    "description": "Tenancy Income Fro mEmployer!",
+    "class": "income",
+    "category": "rental",
+    "amount": 1330.42,
+    "created_at": "2025-05-27T11:59:02.777464"
+  },
+  {
+    "description": "received lease payment !!",
+    "class": "income",
+    "category": "rental",
+    "amount": 7880.37,
+    "created_at": "2025-06-25T11:59:02.777496"
+  },
+  {
+    "description": "buss cost regular",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1346.77,
+    "created_at": "2025-06-06T11:59:02.777527"
+  },
+  {
+    "description": "paid for concert at theater",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 842.1,
+    "created_at": "2025-05-27T11:59:02.777558"
+  },
+  {
+    "description": "sent lease for house",
+    "class": "income",
+    "category": "rental",
+    "amount": 9997.92,
+    "created_at": "2025-06-16T11:59:02.777592"
+  },
+  {
+    "description": "deopsit conert at investment firm",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 2668.13,
+    "created_at": "2025-06-10T11:59:02.777625"
+  },
+  {
+    "description": "Rental Paid From Cinema!!",
+    "class": "income",
+    "category": "rental",
+    "amount": 13382.88,
+    "created_at": "2025-06-10T11:59:02.777666"
+  },
+  {
+    "description": "received cashgft for celebration.",
+    "class": "income",
+    "category": "gift",
+    "amount": 4612.65,
+    "created_at": "2025-06-07T11:59:02.777701"
+  },
+  {
+    "description": "PAID AT SCHOO LLUNCH! cash",
+    "class": "expense",
+    "category": "food",
+    "amount": 2342.56,
+    "created_at": "2025-06-24T11:59:02.777746"
+  },
+  {
+    "description": "company present recieved",
+    "class": "income",
+    "category": "gift",
+    "amount": 11537.38,
+    "created_at": "2025-06-09T11:59:02.777783"
+  },
+  {
+    "description": "Received Gift For Birthday",
+    "class": "income",
+    "category": "gift",
+    "amount": 839.04,
+    "created_at": "2025-06-10T11:59:02.777816"
+  },
+  {
+    "description": "tution fees bill",
+    "class": "expense",
+    "category": "education",
+    "amount": 2227.74,
+    "created_at": "2025-06-15T11:59:02.777861"
+  },
+  {
+    "description": "recieved profit trasnfer",
+    "class": "income",
+    "category": "investment",
+    "amount": 8118.34,
+    "created_at": "2025-06-03T11:59:02.777894"
+  },
+  {
+    "description": "received cash gift for celebration",
+    "class": "income",
+    "category": "gift",
+    "amount": 12781.47,
+    "created_at": "2025-06-15T11:59:02.777925"
+  },
+  {
+    "description": "GIFT DEOPSIT FROM FRIEND",
+    "class": "income",
+    "category": "gift",
+    "amount": 2319.53,
+    "created_at": "2025-06-11T11:59:02.777958"
+  },
+  {
+    "description": "concert recieved for movie nite",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 27.48,
+    "created_at": "2025-06-02T11:59:02.777999"
+  },
+  {
+    "description": "utilty bill",
+    "class": "expense",
+    "category": "bills",
+    "amount": 688.36,
+    "created_at": "2025-06-25T11:59:02.778031"
+  },
+  {
+    "description": "lease payment from employer",
+    "class": "income",
+    "category": "rental",
+    "amount": 343.79,
+    "created_at": "2025-06-03T11:59:02.778063"
+  },
+  {
+    "description": "payment foood transfer",
+    "class": "expense",
+    "category": "food",
+    "amount": 2988.03,
+    "created_at": "2025-06-26T11:59:02.778095"
+  },
+  {
+    "description": "medcal expense at investment firm",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 2470.84,
+    "created_at": "2025-05-27T11:59:02.778126"
+  },
+  {
+    "description": "deopsit return on cinema!",
+    "class": "income",
+    "category": "investment",
+    "amount": 1643.86,
+    "created_at": "2025-06-24T11:59:02.778163"
+  },
+  {
+    "description": "paid for course at restaurant",
+    "class": "expense",
+    "category": "education",
+    "amount": 1067.79,
+    "created_at": "2025-06-24T11:59:02.778194"
+  },
+  {
+    "description": "paid for concert at clinic",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 174.14,
+    "created_at": "2025-06-03T11:59:02.778225"
+  },
+  {
+    "description": "paid for evnt at supermrket",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 1876.6,
+    "created_at": "2025-06-10T11:59:02.778255"
+  },
+  {
+    "description": "mortgag received for house",
+    "class": "expense",
+    "category": "housing",
+    "amount": 696.72,
+    "created_at": "2025-06-02T11:59:02.778289"
+  },
+  {
+    "description": "medical exepnse at bank",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 310.06,
+    "created_at": "2025-06-11T11:59:02.778325"
+  },
+  {
+    "description": "MONTHLY RENTEL FAST... payment",
+    "class": "income",
+    "category": "rental",
+    "amount": 9096.07,
+    "created_at": "2025-06-26T11:59:02.778367"
+  },
+  {
+    "description": "paid for shcool at family",
+    "class": "expense",
+    "category": "education",
+    "amount": 637.07,
+    "created_at": "2025-06-25T11:59:02.778398"
+  },
+  {
+    "description": "sent divdend on cinema",
+    "class": "income",
+    "category": "investment",
+    "amount": 7012.0,
+    "created_at": "2025-06-15T11:59:02.778433"
+  },
+  {
+    "description": "paid for train to home",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1927.53,
+    "created_at": "2025-05-31T11:59:02.778464"
+  },
+  {
+    "description": "gfit recieved from utility company",
+    "class": "income",
+    "category": "gift",
+    "amount": 6416.23,
+    "created_at": "2025-05-30T11:59:02.778496"
+  },
+  {
+    "description": "family paid gig monthly to friend",
+    "class": "income",
+    "category": "freelance",
+    "amount": 12153.9,
+    "created_at": "2025-06-20T11:59:02.778534"
+  },
+  {
+    "description": "paid electricity bill for restaurant",
+    "class": "expense",
+    "category": "bills",
+    "amount": 87.47,
+    "created_at": "2025-06-12T11:59:02.778567"
+  },
+  {
+    "description": "paid for meel at company",
+    "class": "expense",
+    "category": "food",
+    "amount": 1006.32,
+    "created_at": "2025-06-09T11:59:02.778597"
+  },
+  {
+    "description": "Event Payed For Concert!",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 2795.17,
+    "created_at": "2025-06-07T11:59:02.778637"
+  },
+  {
+    "description": "RECEIVED MORTGAGE PAYMENT",
+    "class": "expense",
+    "category": "housing",
+    "amount": 2328.22,
+    "created_at": "2025-06-18T11:59:02.778676"
+  },
+  {
+    "description": "RECEIVED LEASE PAYMENT !!",
+    "class": "income",
+    "category": "rental",
+    "amount": 9229.79,
+    "created_at": "2025-06-09T11:59:02.778735"
+  },
+  {
+    "description": "deposit rnt for appartment bill",
+    "class": "income",
+    "category": "rental",
+    "amount": 1154.92,
+    "created_at": "2025-06-25T11:59:02.778773"
+  },
+  {
+    "description": "paid housing payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 2717.68,
+    "created_at": "2025-06-06T11:59:02.778802"
+  },
+  {
+    "description": "appartment transfer received",
+    "class": "expense",
+    "category": "housing",
+    "amount": 1647.42,
+    "created_at": "2025-06-21T11:59:02.778835"
+  },
+  {
+    "description": "electricity bill regular",
+    "class": "expense",
+    "category": "bills",
+    "amount": 2734.05,
+    "created_at": "2025-06-25T11:59:02.778876"
+  },
+  {
+    "description": "sent train ticket",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1176.61,
+    "created_at": "2025-06-05T11:59:02.778908"
+  },
+  {
+    "description": "taxi received for station",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2871.49,
+    "created_at": "2025-06-12T11:59:02.778943"
+  },
+  {
+    "description": "paid for meel at employer",
+    "class": "expense",
+    "category": "food",
+    "amount": 1023.79,
+    "created_at": "2025-06-09T11:59:02.778979"
+  },
+  {
+    "description": "WAGES DEPOSIT QUICK",
+    "class": "income",
+    "category": "salary",
+    "amount": 14904.31,
+    "created_at": "2025-05-27T11:59:02.779018"
+  },
+  {
+    "description": "rental income from resturant...",
+    "class": "income",
+    "category": "rental",
+    "amount": 14336.27,
+    "created_at": "2025-06-22T11:59:02.779058"
+  },
+  {
+    "description": "course deposit for math class.",
+    "class": "expense",
+    "category": "education",
+    "amount": 1470.2,
+    "created_at": "2025-06-08T11:59:02.779096"
+  },
+  {
+    "description": "gig paid cash",
+    "class": "income",
+    "category": "freelance",
+    "amount": 4381.52,
+    "created_at": "2025-06-07T11:59:02.779129"
+  },
+  {
+    "description": "taxi deposit for station",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2330.31,
+    "created_at": "2025-06-10T11:59:02.779163"
+  },
+  {
+    "description": "landlrod wage payment",
+    "class": "income",
+    "category": "salary",
+    "amount": 14705.45,
+    "created_at": "2025-06-07T11:59:02.779220"
+  },
+  {
+    "description": "one-time rent monthly",
+    "class": "income",
+    "category": "rental",
+    "amount": 14795.11,
+    "created_at": "2025-06-10T11:59:02.779258"
+  },
+  {
+    "description": "biweekly mortgag payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 1192.78,
+    "created_at": "2025-06-13T11:59:02.779289"
+  },
+  {
+    "description": "Paid Utilty Payment",
+    "class": "expense",
+    "category": "bills",
+    "amount": 889.86,
+    "created_at": "2025-06-02T11:59:02.779322"
+  },
+  {
+    "description": "pharmacy expense at investment firm... payment",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 592.77,
+    "created_at": "2025-06-01T11:59:02.779358"
+  },
+  {
+    "description": "donation received from employer",
+    "class": "income",
+    "category": "gift",
+    "amount": 11327.28,
+    "created_at": "2025-06-19T11:59:02.779392"
+  },
+  {
+    "description": "TUITION FOR GROCERIES PAYMENT.",
+    "class": "expense",
+    "category": "education",
+    "amount": 2455.53,
+    "created_at": "2025-06-18T11:59:02.779426"
+  },
+  {
+    "description": "Deopsit iDvdend Urgent!!",
+    "class": "income",
+    "category": "investment",
+    "amount": 946.2,
+    "created_at": "2025-06-21T11:59:02.779470"
+  },
+  {
+    "description": "utility bill payed!!",
+    "class": "expense",
+    "category": "bills",
+    "amount": 1276.1,
+    "created_at": "2025-06-15T11:59:02.779504"
+  },
+  {
+    "description": "pressent received from family",
+    "class": "income",
+    "category": "gift",
+    "amount": 1460.62,
+    "created_at": "2025-06-13T11:59:02.779538"
+  },
+  {
+    "description": "Course Misc Payment!! payment",
+    "class": "expense",
+    "category": "education",
+    "amount": 207.08,
+    "created_at": "2025-06-06T11:59:02.779574"
+  },
+  {
+    "description": "electricty payment cash",
+    "class": "expense",
+    "category": "bills",
+    "amount": 494.18,
+    "created_at": "2025-06-02T11:59:02.779606"
+  },
+  {
+    "description": "gift for holiday monthly",
+    "class": "income",
+    "category": "gift",
+    "amount": 4065.21,
+    "created_at": "2025-06-20T11:59:02.779642"
+  },
+  {
+    "description": "dividend from landlord via app",
+    "class": "income",
+    "category": "investment",
+    "amount": 3335.45,
+    "created_at": "2025-05-30T11:59:02.779675"
+  },
+  {
+    "description": "CoursT o Friend Payment",
+    "class": "expense",
+    "category": "education",
+    "amount": 1942.7,
+    "created_at": "2025-06-05T11:59:02.779743"
+  },
+  {
+    "description": "doctor expense at investment firm",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 2659.61,
+    "created_at": "2025-06-25T11:59:02.779780"
+  },
+  {
+    "description": "friend aslary paid...",
+    "class": "income",
+    "category": "salary",
+    "amount": 2402.9,
+    "created_at": "2025-06-22T11:59:02.779825"
+  },
+  {
+    "description": "lunch purchaes bill",
+    "class": "expense",
+    "category": "food",
+    "amount": 640.92,
+    "created_at": "2025-06-04T11:59:02.779863"
+  },
+  {
+    "description": "taxi deposit for airport",
+    "class": "expense",
+    "category": "transport",
+    "amount": 795.69,
+    "created_at": "2025-06-02T11:59:02.779899"
+  },
+  {
+    "description": "side job work deposit",
+    "class": "income",
+    "category": "freelance",
+    "amount": 11893.1,
+    "created_at": "2025-06-22T11:59:02.779931"
+  },
+  {
+    "description": "tution  payment",
+    "class": "expense",
+    "category": "education",
+    "amount": 2676.16,
+    "created_at": "2025-06-14T11:59:02.779961"
+  },
+  {
+    "description": "contract work sent",
+    "class": "income",
+    "category": "freelance",
+    "amount": 6560.83,
+    "created_at": "2025-06-02T11:59:02.779991"
+  },
+  {
+    "description": "paid tution fees",
+    "class": "expense",
+    "category": "education",
+    "amount": 936.73,
+    "created_at": "2025-06-16T11:59:02.780020"
+  },
+  {
+    "description": "paid electricity bill for restaurant.",
+    "class": "expense",
+    "category": "bills",
+    "amount": 2255.24,
+    "created_at": "2025-06-01T11:59:02.780056"
+  },
+  {
+    "description": "cashgft payment from cinema",
+    "class": "income",
+    "category": "gift",
+    "amount": 7155.37,
+    "created_at": "2025-06-23T11:59:02.780124"
+  },
+  {
+    "description": "doctor expense at investment firm",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 1145.77,
+    "created_at": "2025-06-21T11:59:02.780158"
+  },
+  {
+    "description": "taxxi deopsit for work.",
+    "class": "expense",
+    "category": "transport",
+    "amount": 434.0,
+    "created_at": "2025-06-19T11:59:02.780208"
+  },
+  {
+    "description": "regular payycheck received from compny",
+    "class": "income",
+    "category": "salary",
+    "amount": 6455.06,
+    "created_at": "2025-06-06T11:59:02.780246"
+  },
+  {
+    "description": "books online payment",
+    "class": "expense",
+    "category": "education",
+    "amount": 527.16,
+    "created_at": "2025-06-23T11:59:02.780276"
+  },
+  {
+    "description": "taxi sent to friend",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2884.27,
+    "created_at": "2025-06-13T11:59:02.780312"
+  },
+  {
+    "description": "wage paid for groceries",
+    "class": "income",
+    "category": "salary",
+    "amount": 10875.16,
+    "created_at": "2025-06-12T11:59:02.780345"
+  },
+  {
+    "description": "doctor urgnet!! recieved",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 20.57,
+    "created_at": "2025-06-14T11:59:02.780385"
+  },
+  {
+    "description": "PAYMENT TAXXI TICKET!!",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2360.43,
+    "created_at": "2025-06-15T11:59:02.780420"
+  },
+  {
+    "description": "gift for groceries deposit payment",
+    "class": "income",
+    "category": "gift",
+    "amount": 12716.41,
+    "created_at": "2025-05-30T11:59:02.780457"
+  },
+  {
+    "description": "paycheck deposit from restaurant",
+    "class": "income",
+    "category": "salary",
+    "amount": 13207.01,
+    "created_at": "2025-06-13T11:59:02.780495"
+  },
+  {
+    "description": "Concert Deposit Transfer!!",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 1342.59,
+    "created_at": "2025-06-13T11:59:02.780535"
+  },
+  {
+    "description": "paid mortgag to hospital",
+    "class": "expense",
+    "category": "housing",
+    "amount": 1360.04,
+    "created_at": "2025-06-01T11:59:02.780567"
+  },
+  {
+    "description": "Weekly Payycheck Bill!!",
+    "class": "income",
+    "category": "salary",
+    "amount": 13820.08,
+    "created_at": "2025-05-29T11:59:02.780607"
+  },
+  {
+    "description": "paid for shcool at compny",
+    "class": "expense",
+    "category": "education",
+    "amount": 2540.74,
+    "created_at": "2025-05-29T11:59:02.780639"
+  },
+  {
+    "description": "fuel received for station...",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1129.83,
+    "created_at": "2025-06-14T11:59:02.780676"
+  },
+  {
+    "description": "event sent via app",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 551.12,
+    "created_at": "2025-06-01T11:59:02.780711"
+  },
+  {
+    "description": "DOCTOR EXPENSE AT IVNESTMENT FIRM",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 2745.2,
+    "created_at": "2025-06-22T11:59:02.780748"
+  },
+  {
+    "description": "present for holdiay for utilities",
+    "class": "income",
+    "category": "gift",
+    "amount": 9130.68,
+    "created_at": "2025-06-17T11:59:02.780788"
+  },
+  {
+    "description": "received proffit deopsit",
+    "class": "income",
+    "category": "investment",
+    "amount": 10775.03,
+    "created_at": "2025-06-23T11:59:02.780820"
+  },
+  {
+    "description": "deposit books fees",
+    "class": "expense",
+    "category": "education",
+    "amount": 1919.43,
+    "created_at": "2025-06-24T11:59:02.780852"
+  },
+  {
+    "description": "REECIVED INTREST PAYED!!",
+    "class": "income",
+    "category": "investment",
+    "amount": 9810.02,
+    "created_at": "2025-06-16T11:59:02.780890"
+  },
+  {
+    "description": "paid for meel at friend",
+    "class": "expense",
+    "category": "food",
+    "amount": 61.94,
+    "created_at": "2025-06-03T11:59:02.780920"
+  },
+  {
+    "description": "one-time apartment payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 731.73,
+    "created_at": "2025-06-16T11:59:02.780952"
+  },
+  {
+    "description": "Deopsit Contract From Compny",
+    "class": "income",
+    "category": "freelance",
+    "amount": 11254.81,
+    "created_at": "2025-06-02T11:59:02.780993"
+  },
+  {
+    "description": "sent books fees",
+    "class": "expense",
+    "category": "education",
+    "amount": 429.52,
+    "created_at": "2025-06-21T11:59:02.781024"
+  },
+  {
+    "description": "employer cash gift received",
+    "class": "income",
+    "category": "gift",
+    "amount": 12213.77,
+    "created_at": "2025-06-01T11:59:02.781057"
+  },
+  {
+    "description": "deopsit taxxi ticket",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2126.36,
+    "created_at": "2025-06-07T11:59:02.781088"
+  },
+  {
+    "description": "school sent for math calss!!",
+    "class": "expense",
+    "category": "education",
+    "amount": 1759.55,
+    "created_at": "2025-06-16T11:59:02.781131"
+  },
+  {
+    "description": "fuel received for utilities",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2363.12,
+    "created_at": "2025-06-10T11:59:02.781165"
+  },
+  {
+    "description": "DIVIDEND ERCIEVED FROM EMPOYER",
+    "class": "income",
+    "category": "investment",
+    "amount": 8210.29,
+    "created_at": "2025-06-09T11:59:02.781204"
+  },
+  {
+    "description": "concert received for movie night",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 257.4,
+    "created_at": "2025-06-17T11:59:02.781272"
+  },
+  {
+    "description": "doctor to friend sent",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 1594.19,
+    "created_at": "2025-06-02T11:59:02.781307"
+  },
+  {
+    "description": "taxi cost for utilities",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1831.69,
+    "created_at": "2025-06-04T11:59:02.781338"
+  },
+  {
+    "description": "sdie job sent trasnfer",
+    "class": "income",
+    "category": "freelance",
+    "amount": 6143.95,
+    "created_at": "2025-05-27T11:59:02.781395"
+  },
+  {
+    "description": "received intrest now",
+    "class": "income",
+    "category": "investment",
+    "amount": 9640.18,
+    "created_at": "2025-06-14T11:59:02.781429"
+  },
+  {
+    "description": "store awge paid... cash",
+    "class": "income",
+    "category": "salary",
+    "amount": 3885.29,
+    "created_at": "2025-06-25T11:59:02.781472"
+  },
+  {
+    "description": "received intrest paid",
+    "class": "income",
+    "category": "investment",
+    "amount": 14213.89,
+    "created_at": "2025-06-06T11:59:02.781535"
+  },
+  {
+    "description": "pharmacy urgent!! received",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 545.71,
+    "created_at": "2025-06-06T11:59:02.781580"
+  },
+  {
+    "description": "employer cash gift recieved",
+    "class": "income",
+    "category": "gift",
+    "amount": 1883.3,
+    "created_at": "2025-05-27T11:59:02.781613"
+  },
+  {
+    "description": "sent concert at landlord",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 1178.04,
+    "created_at": "2025-06-14T11:59:02.781648"
+  },
+  {
+    "description": "electricity bill payment",
+    "class": "expense",
+    "category": "bills",
+    "amount": 2566.79,
+    "created_at": "2025-05-29T11:59:02.781679"
+  },
+  {
+    "description": "recieved tuition fees",
+    "class": "expense",
+    "category": "education",
+    "amount": 205.27,
+    "created_at": "2025-06-13T11:59:02.781709"
+  },
+  {
+    "description": "freelence paid monthly",
+    "class": "income",
+    "category": "freelance",
+    "amount": 1645.73,
+    "created_at": "2025-05-28T11:59:02.781741"
+  },
+  {
+    "description": "Sallary Paid To Friend!!",
+    "class": "income",
+    "category": "salary",
+    "amount": 14634.67,
+    "created_at": "2025-06-16T11:59:02.781781"
+  },
+  {
+    "description": "interest from resturant cash",
+    "class": "income",
+    "category": "investment",
+    "amount": 10046.51,
+    "created_at": "2025-06-03T11:59:02.781816"
+  },
+  {
+    "description": "school pressent received.",
+    "class": "income",
+    "category": "gift",
+    "amount": 9822.59,
+    "created_at": "2025-06-02T11:59:02.781852"
+  },
+  {
+    "description": "paid leese for condo",
+    "class": "income",
+    "category": "rental",
+    "amount": 5094.55,
+    "created_at": "2025-06-15T11:59:02.781888"
+  },
+  {
+    "description": "weekly rent quick",
+    "class": "income",
+    "category": "rental",
+    "amount": 12512.04,
+    "created_at": "2025-06-25T11:59:02.781921"
+  },
+  {
+    "description": "deposit game at friend",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 333.21,
+    "created_at": "2025-06-12T11:59:02.781954"
+  },
+  {
+    "description": "LANDLORD PAYCHECK PAYMENT... to friend",
+    "class": "income",
+    "category": "salary",
+    "amount": 6942.42,
+    "created_at": "2025-06-06T11:59:02.781994"
+  },
+  {
+    "description": "movie payed for game night",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 2868.73,
+    "created_at": "2025-06-16T11:59:02.782028"
+  },
+  {
+    "description": "proffit received from hospital",
+    "class": "income",
+    "category": "investment",
+    "amount": 14494.17,
+    "created_at": "2025-06-19T11:59:02.782061"
+  },
+  {
+    "description": "shcool paid for progrraming",
+    "class": "expense",
+    "category": "education",
+    "amount": 2478.49,
+    "created_at": "2025-06-22T11:59:02.782094"
+  },
+  {
+    "description": "Deposti Cours Fees!",
+    "class": "expense",
+    "category": "education",
+    "amount": 2458.79,
+    "created_at": "2025-06-20T11:59:02.782135"
+  },
+  {
+    "description": "Diviednd Payment From Investment Firm",
+    "class": "income",
+    "category": "investment",
+    "amount": 8352.67,
+    "created_at": "2025-05-27T11:59:02.782177"
+  },
+  {
+    "description": "taxi deopsit quick",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2586.88,
+    "created_at": "2025-05-29T11:59:02.782212"
+  },
+  {
+    "description": "frrelance deopsit for consultng",
+    "class": "income",
+    "category": "freelance",
+    "amount": 7997.5,
+    "created_at": "2025-06-06T11:59:02.782246"
+  },
+  {
+    "description": "biweelky rent via app!!",
+    "class": "income",
+    "category": "rental",
+    "amount": 10234.61,
+    "created_at": "2025-06-24T11:59:02.782287"
+  },
+  {
+    "description": "Paid Doctor Bill !!!!",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 455.05,
+    "created_at": "2025-06-11T11:59:02.782323"
+  },
+  {
+    "description": "Divdend From Landlord Monthly!! to friend",
+    "class": "income",
+    "category": "investment",
+    "amount": 934.47,
+    "created_at": "2025-05-30T11:59:02.782364"
+  },
+  {
+    "description": "paid rnt for property!",
+    "class": "income",
+    "category": "rental",
+    "amount": 9149.22,
+    "created_at": "2025-06-26T11:59:02.782402"
+  },
+  {
+    "description": "paid for dinner at landlord",
+    "class": "expense",
+    "category": "food",
+    "amount": 1960.89,
+    "created_at": "2025-05-29T11:59:02.782433"
+  },
+  {
+    "description": "meal sent at clinic",
+    "class": "expense",
+    "category": "food",
+    "amount": 2441.54,
+    "created_at": "2025-06-26T11:59:02.782466"
+  },
+  {
+    "description": "received profit on restaurant",
+    "class": "income",
+    "category": "investment",
+    "amount": 4339.21,
+    "created_at": "2025-05-27T11:59:02.782500"
+  },
+  {
+    "description": "housing payment sent",
+    "class": "expense",
+    "category": "housing",
+    "amount": 2461.16,
+    "created_at": "2025-06-25T11:59:02.782543"
+  },
+  {
+    "description": "lease income from utility company",
+    "class": "income",
+    "category": "rental",
+    "amount": 2159.12,
+    "created_at": "2025-05-29T11:59:02.782584"
+  },
+  {
+    "description": "paid for meel at empoyer",
+    "class": "expense",
+    "category": "food",
+    "amount": 959.5,
+    "created_at": "2025-06-16T11:59:02.782615"
+  },
+  {
+    "description": "gift deopsit from restaurant",
+    "class": "income",
+    "category": "gift",
+    "amount": 6074.59,
+    "created_at": "2025-06-02T11:59:02.782648"
+  },
+  {
+    "description": "cashgft for celebration",
+    "class": "income",
+    "category": "gift",
+    "amount": 11066.38,
+    "created_at": "2025-06-19T11:59:02.782684"
+  },
+  {
+    "description": "CONCERT DEPOSIT NOW bill",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 1997.98,
+    "created_at": "2025-06-22T11:59:02.782721"
+  },
+  {
+    "description": "cashgft for celebration for groceries",
+    "class": "income",
+    "category": "gift",
+    "amount": 5458.68,
+    "created_at": "2025-06-26T11:59:02.782755"
+  },
+  {
+    "description": "RENTEL INCOME FROM FRIEND!",
+    "class": "income",
+    "category": "rental",
+    "amount": 12150.71,
+    "created_at": "2025-06-03T11:59:02.782789"
+  },
+  {
+    "description": "payed contarct from landlord",
+    "class": "income",
+    "category": "freelance",
+    "amount": 3138.04,
+    "created_at": "2025-06-01T11:59:02.782826"
+  },
+  {
+    "description": "Income Recieved Via App!!",
+    "class": "income",
+    "category": "salary",
+    "amount": 9452.86,
+    "created_at": "2025-05-30T11:59:02.782864"
+  },
+  {
+    "description": "received donation for bday",
+    "class": "income",
+    "category": "gift",
+    "amount": 191.25,
+    "created_at": "2025-06-22T11:59:02.782924"
+  },
+  {
+    "description": "leese received from restaurant",
+    "class": "income",
+    "category": "rental",
+    "amount": 8792.53,
+    "created_at": "2025-05-27T11:59:02.782958"
+  },
+  {
+    "description": "electricity payment regular",
+    "class": "expense",
+    "category": "bills",
+    "amount": 2167.39,
+    "created_at": "2025-06-10T11:59:02.782988"
+  },
+  {
+    "description": "lunch purchase via pap",
+    "class": "expense",
+    "category": "food",
+    "amount": 2314.6,
+    "created_at": "2025-06-14T11:59:02.783025"
+  },
+  {
+    "description": "paid for lunch at employer",
+    "class": "expense",
+    "category": "food",
+    "amount": 1094.05,
+    "created_at": "2025-06-18T11:59:02.783056"
+  },
+  {
+    "description": "received proffit urgent",
+    "class": "income",
+    "category": "investment",
+    "amount": 4372.05,
+    "created_at": "2025-06-09T11:59:02.783089"
+  },
+  {
+    "description": "meal sent at market",
+    "class": "expense",
+    "category": "food",
+    "amount": 675.07,
+    "created_at": "2025-05-31T11:59:02.783132"
+  },
+  {
+    "description": "annual appartment payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 1625.44,
+    "created_at": "2025-06-18T11:59:02.783163"
+  },
+  {
+    "description": "PAID FOR COURS AT EMPLOYER",
+    "class": "expense",
+    "category": "education",
+    "amount": 2748.98,
+    "created_at": "2025-06-19T11:59:02.783195"
+  },
+  {
+    "description": "transport paid fro downtown",
+    "class": "expense",
+    "category": "transport",
+    "amount": 358.22,
+    "created_at": "2025-06-22T11:59:02.783252"
+  },
+  {
+    "description": "received dividend on bank",
+    "class": "income",
+    "category": "investment",
+    "amount": 4154.25,
+    "created_at": "2025-06-20T11:59:02.783289"
+  },
+  {
+    "description": "biweekly paycheck monthly",
+    "class": "income",
+    "category": "salary",
+    "amount": 4476.92,
+    "created_at": "2025-06-14T11:59:02.783322"
+  },
+  {
+    "description": "side job payed for client project",
+    "class": "income",
+    "category": "freelance",
+    "amount": 5891.02,
+    "created_at": "2025-06-04T11:59:02.783357"
+  },
+  {
+    "description": "internet billq uick",
+    "class": "expense",
+    "category": "bills",
+    "amount": 892.07,
+    "created_at": "2025-06-08T11:59:02.783393"
+  },
+  {
+    "description": "taxxi deopsit to friend",
+    "class": "expense",
+    "category": "transport",
+    "amount": 996.44,
+    "created_at": "2025-06-14T11:59:02.783441"
+  },
+  {
+    "description": "sallary deopsit for this month",
+    "class": "income",
+    "category": "salary",
+    "amount": 13576.47,
+    "created_at": "2025-06-14T11:59:02.783476"
+  },
+  {
+    "description": "Rental Received From Landlord",
+    "class": "income",
+    "category": "rental",
+    "amount": 13261.45,
+    "created_at": "2025-06-14T11:59:02.783512"
+  },
+  {
+    "description": "present payment deposit.",
+    "class": "income",
+    "category": "gift",
+    "amount": 3940.11,
+    "created_at": "2025-06-04T11:59:02.783548"
+  },
+  {
+    "description": "taxi sent for airport",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1942.11,
+    "created_at": "2025-05-31T11:59:02.783584"
+  },
+  {
+    "description": "paid for lunch at utility company",
+    "class": "expense",
+    "category": "food",
+    "amount": 104.71,
+    "created_at": "2025-06-18T11:59:02.783615"
+  },
+  {
+    "description": "deposit housing payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 635.81,
+    "created_at": "2025-06-26T11:59:02.783645"
+  },
+  {
+    "description": "cours payedf or literature!!",
+    "class": "expense",
+    "category": "education",
+    "amount": 2204.49,
+    "created_at": "2025-06-20T11:59:02.783698"
+  },
+  {
+    "description": "fule cost for utilities",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2617.41,
+    "created_at": "2025-06-13T11:59:02.783738"
+  },
+  {
+    "description": "present for bday for utilities",
+    "class": "income",
+    "category": "gift",
+    "amount": 4077.01,
+    "created_at": "2025-06-18T11:59:02.783772"
+  },
+  {
+    "description": "Payment At Compny Meel...",
+    "class": "expense",
+    "category": "food",
+    "amount": 2395.1,
+    "created_at": "2025-06-02T11:59:02.783811"
+  },
+  {
+    "description": "taxxi sent for city cash",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1695.22,
+    "created_at": "2025-06-15T11:59:02.783849"
+  },
+  {
+    "description": "payed appartment payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 2350.9,
+    "created_at": "2025-06-05T11:59:02.783878"
+  },
+  {
+    "description": "Tuition Fees For Utiltiies!!",
+    "class": "expense",
+    "category": "education",
+    "amount": 316.45,
+    "created_at": "2025-06-05T11:59:02.783921"
+  },
+  {
+    "description": "RECIEVED AT EMPLOYER FOOOD",
+    "class": "expense",
+    "category": "food",
+    "amount": 2546.08,
+    "created_at": "2025-06-05T11:59:02.783956"
+  },
+  {
+    "description": "books fees fast",
+    "class": "expense",
+    "category": "education",
+    "amount": 1708.6,
+    "created_at": "2025-06-21T11:59:02.783987"
+  },
+  {
+    "description": "fuel cost fast",
+    "class": "expense",
+    "category": "transport",
+    "amount": 516.66,
+    "created_at": "2025-06-19T11:59:02.784017"
+  },
+  {
+    "description": "received rentel payment fast",
+    "class": "income",
+    "category": "rental",
+    "amount": 7473.18,
+    "created_at": "2025-06-01T11:59:02.784048"
+  },
+  {
+    "description": "sent phne payment cash",
+    "class": "expense",
+    "category": "bills",
+    "amount": 2033.42,
+    "created_at": "2025-06-21T11:59:02.784081"
+  },
+  {
+    "description": "medical online deposit!",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 992.4,
+    "created_at": "2025-06-11T11:59:02.784122"
+  },
+  {
+    "description": "DEPOSIT FUEL TICKET",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1076.19,
+    "created_at": "2025-06-08T11:59:02.784154"
+  },
+  {
+    "description": "weekly tenancy trasnfer",
+    "class": "income",
+    "category": "rental",
+    "amount": 7934.9,
+    "created_at": "2025-06-04T11:59:02.784188"
+  },
+  {
+    "description": "SIDE JOB PYAMENT TO FRIEND",
+    "class": "income",
+    "category": "freelance",
+    "amount": 14245.15,
+    "created_at": "2025-06-11T11:59:02.784228"
+  },
+  {
+    "description": "utility company paid freelance to friend",
+    "class": "income",
+    "category": "freelance",
+    "amount": 866.51,
+    "created_at": "2025-06-06T11:59:02.784264"
+  },
+  {
+    "description": "slary payed for today",
+    "class": "income",
+    "category": "salary",
+    "amount": 8343.67,
+    "created_at": "2025-06-07T11:59:02.784328"
+  },
+  {
+    "description": "WATER BILL PAID",
+    "class": "expense",
+    "category": "bills",
+    "amount": 542.57,
+    "created_at": "2025-06-13T11:59:02.784362"
+  },
+  {
+    "description": "INTEREST FROM CSHOOL TRANSFER",
+    "class": "income",
+    "category": "investment",
+    "amount": 12697.46,
+    "created_at": "2025-06-03T11:59:02.784403"
+  },
+  {
+    "description": "friend cashgft paid",
+    "class": "income",
+    "category": "gift",
+    "amount": 9217.0,
+    "created_at": "2025-06-15T11:59:02.784437"
+  },
+  {
+    "description": "Rental Payed From Friend for groceries",
+    "class": "income",
+    "category": "rental",
+    "amount": 7864.03,
+    "created_at": "2025-06-03T11:59:02.784477"
+  },
+  {
+    "description": "mortgage quick payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 585.19,
+    "created_at": "2025-05-28T11:59:02.784512"
+  },
+  {
+    "description": "paid pharmacy bill monthly",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 1717.3,
+    "created_at": "2025-06-11T11:59:02.784543"
+  },
+  {
+    "description": "RECEIVED BUSS TICKET!",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2179.23,
+    "created_at": "2025-06-04T11:59:02.784582"
+  },
+  {
+    "description": "deposit at ban klunch",
+    "class": "expense",
+    "category": "food",
+    "amount": 1451.67,
+    "created_at": "2025-06-12T11:59:02.784620"
+  },
+  {
+    "description": "received intrest payment",
+    "class": "income",
+    "category": "investment",
+    "amount": 2170.27,
+    "created_at": "2025-06-07T11:59:02.784650"
+  },
+  {
+    "description": "electricity payment bill",
+    "class": "expense",
+    "category": "bills",
+    "amount": 433.58,
+    "created_at": "2025-06-24T11:59:02.784681"
+  },
+  {
+    "description": "annual payycheck deopsit from resturant",
+    "class": "income",
+    "category": "salary",
+    "amount": 10069.35,
+    "created_at": "2025-06-25T11:59:02.784719"
+  },
+  {
+    "description": "return from resturant fast",
+    "class": "income",
+    "category": "investment",
+    "amount": 13569.57,
+    "created_at": "2025-06-06T11:59:02.784754"
+  },
+  {
+    "description": "school recieved for programming course",
+    "class": "expense",
+    "category": "education",
+    "amount": 1532.79,
+    "created_at": "2025-06-03T11:59:02.784796"
+  },
+  {
+    "description": "company gift sent",
+    "class": "income",
+    "category": "gift",
+    "amount": 1409.12,
+    "created_at": "2025-06-11T11:59:02.784830"
+  },
+  {
+    "description": "paid for bus to downtown",
+    "class": "expense",
+    "category": "transport",
+    "amount": 671.98,
+    "created_at": "2025-06-19T11:59:02.784861"
+  },
+  {
+    "description": "recieved at friend lunch",
+    "class": "expense",
+    "category": "food",
+    "amount": 425.83,
+    "created_at": "2025-06-26T11:59:02.784910"
+  },
+  {
+    "description": "water bill paid. for groceries",
+    "class": "expense",
+    "category": "bills",
+    "amount": 2006.1,
+    "created_at": "2025-06-26T11:59:02.784946"
+  },
+  {
+    "description": "deposit mortgage payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 1622.8,
+    "created_at": "2025-06-03T11:59:02.784976"
+  },
+  {
+    "description": "income received from compny",
+    "class": "income",
+    "category": "salary",
+    "amount": 13415.6,
+    "created_at": "2025-06-03T11:59:02.785015"
+  },
+  {
+    "description": "payed movie at cinema",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 1077.2,
+    "created_at": "2025-06-20T11:59:02.785047"
+  },
+  {
+    "description": "RECEIVED PROFFIT SENT!! payment",
+    "class": "income",
+    "category": "investment",
+    "amount": 6322.78,
+    "created_at": "2025-06-20T11:59:02.785083"
+  },
+  {
+    "description": "recieved taxi ticket",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1206.17,
+    "created_at": "2025-06-10T11:59:02.785116"
+  },
+  {
+    "description": "game deposit payment",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 823.69,
+    "created_at": "2025-06-02T11:59:02.785151"
+  },
+  {
+    "description": "meel payed at restaurant!! cash",
+    "class": "expense",
+    "category": "food",
+    "amount": 278.04,
+    "created_at": "2025-06-11T11:59:02.785190"
+  },
+  {
+    "description": "Rentel Deopsit From Landlord",
+    "class": "income",
+    "category": "rental",
+    "amount": 12077.38,
+    "created_at": "2025-06-02T11:59:02.785226"
+  },
+  {
+    "description": "Frrelance Paid To Friend...",
+    "class": "income",
+    "category": "freelance",
+    "amount": 5698.29,
+    "created_at": "2025-06-11T11:59:02.785285"
+  },
+  {
+    "description": "Paid Electricity Bill For Cinema!! to friend",
+    "class": "expense",
+    "category": "bills",
+    "amount": 346.12,
+    "created_at": "2025-06-02T11:59:02.785325"
+  },
+  {
+    "description": "received gfit for wedding",
+    "class": "income",
+    "category": "gift",
+    "amount": 12123.77,
+    "created_at": "2025-06-23T11:59:02.785357"
+  },
+  {
+    "description": "paid for buss to",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2655.7,
+    "created_at": "2025-06-15T11:59:02.785389"
+  },
+  {
+    "description": "present deopsit from landlord",
+    "class": "income",
+    "category": "gift",
+    "amount": 9729.06,
+    "created_at": "2025-06-18T11:59:02.785423"
+  },
+  {
+    "description": "Payment Moovie At Friend.",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 806.79,
+    "created_at": "2025-06-18T11:59:02.785461"
+  },
+  {
+    "description": "rentel income from investment firm",
+    "class": "income",
+    "category": "rental",
+    "amount": 6976.05,
+    "created_at": "2025-06-26T11:59:02.785492"
+  },
+  {
+    "description": "profit payment from bank.",
+    "class": "income",
+    "category": "investment",
+    "amount": 7326.33,
+    "created_at": "2025-05-28T11:59:02.785527"
+  },
+  {
+    "description": "movie sent for",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 2481.23,
+    "created_at": "2025-06-15T11:59:02.785561"
+  },
+  {
+    "description": "received present for weddng bill",
+    "class": "income",
+    "category": "gift",
+    "amount": 7292.14,
+    "created_at": "2025-06-08T11:59:02.785595"
+  },
+  {
+    "description": "quarterly salary deposit from compny",
+    "class": "income",
+    "category": "salary",
+    "amount": 6327.23,
+    "created_at": "2025-06-07T11:59:02.785631"
+  },
+  {
+    "description": "paid apaprtment to resturant",
+    "class": "expense",
+    "category": "housing",
+    "amount": 103.76,
+    "created_at": "2025-06-01T11:59:02.785698"
+  },
+  {
+    "description": "paid for tution at restaurant",
+    "class": "expense",
+    "category": "education",
+    "amount": 2666.6,
+    "created_at": "2025-06-25T11:59:02.785732"
+  },
+  {
+    "description": "received intrest received",
+    "class": "income",
+    "category": "investment",
+    "amount": 8765.5,
+    "created_at": "2025-05-31T11:59:02.785762"
+  },
+  {
+    "description": "received proffit deposit",
+    "class": "income",
+    "category": "investment",
+    "amount": 10760.07,
+    "created_at": "2025-06-24T11:59:02.785792"
+  },
+  {
+    "description": "paid morgage payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 1136.27,
+    "created_at": "2025-06-13T11:59:02.785822"
+  },
+  {
+    "description": "side job sent cash",
+    "class": "income",
+    "category": "freelance",
+    "amount": 9085.07,
+    "created_at": "2025-06-16T11:59:02.785856"
+  },
+  {
+    "description": "received gift for bday",
+    "class": "income",
+    "category": "gift",
+    "amount": 12455.18,
+    "created_at": "2025-06-01T11:59:02.785886"
+  },
+  {
+    "description": "side jbo work sent. to friend",
+    "class": "income",
+    "category": "freelance",
+    "amount": 13100.78,
+    "created_at": "2025-06-09T11:59:02.785930"
+  },
+  {
+    "description": "morgage transfer paid! bill",
+    "class": "expense",
+    "category": "housing",
+    "amount": 1401.57,
+    "created_at": "2025-06-25T11:59:02.785968"
+  },
+  {
+    "description": "recieved food online",
+    "class": "expense",
+    "category": "food",
+    "amount": 2056.36,
+    "created_at": "2025-06-26T11:59:02.786010"
+  },
+  {
+    "description": "fule deopsit for work!! bill",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1572.14,
+    "created_at": "2025-06-02T11:59:02.786050"
+  },
+  {
+    "description": "deopsit rent payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 2157.13,
+    "created_at": "2025-06-06T11:59:02.786089"
+  },
+  {
+    "description": "paid electricty bill for family",
+    "class": "expense",
+    "category": "bills",
+    "amount": 665.95,
+    "created_at": "2025-06-25T11:59:02.786122"
+  },
+  {
+    "description": "PAID FOR TRAIN TO STATION",
+    "class": "expense",
+    "category": "transport",
+    "amount": 316.55,
+    "created_at": "2025-06-23T11:59:02.786155"
+  },
+  {
+    "description": "paid for tution at employer",
+    "class": "expense",
+    "category": "education",
+    "amount": 2580.9,
+    "created_at": "2025-06-16T11:59:02.786186"
+  },
+  {
+    "description": "side job work depoist",
+    "class": "income",
+    "category": "freelance",
+    "amount": 5934.26,
+    "created_at": "2025-06-19T11:59:02.786221"
+  },
+  {
+    "description": "SALARY PAYMENT FROM HOSPITAL cash",
+    "class": "income",
+    "category": "salary",
+    "amount": 12671.31,
+    "created_at": "2025-06-12T11:59:02.786265"
+  },
+  {
+    "description": "PHARMACY EXPENSE AT RESTURANT",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 1586.41,
+    "created_at": "2025-06-01T11:59:02.786297"
+  },
+  {
+    "description": "payed dividend on investment firm",
+    "class": "income",
+    "category": "investment",
+    "amount": 4373.39,
+    "created_at": "2025-06-24T11:59:02.786330"
+  },
+  {
+    "description": "shcool fees via app",
+    "class": "expense",
+    "category": "education",
+    "amount": 1876.32,
+    "created_at": "2025-06-23T11:59:02.786360"
+  },
+  {
+    "description": "cashgft sent from compny",
+    "class": "income",
+    "category": "gift",
+    "amount": 209.42,
+    "created_at": "2025-06-25T11:59:02.786394"
+  },
+  {
+    "description": "Paid Mortgage To Retsurant",
+    "class": "expense",
+    "category": "housing",
+    "amount": 357.59,
+    "created_at": "2025-06-20T11:59:02.786432"
+  },
+  {
+    "description": "paid housing to empoyer",
+    "class": "expense",
+    "category": "housing",
+    "amount": 1722.57,
+    "created_at": "2025-06-10T11:59:02.786462"
+  },
+  {
+    "description": "wages paid for June",
+    "class": "income",
+    "category": "salary",
+    "amount": 8183.83,
+    "created_at": "2025-06-07T11:59:02.786495"
+  },
+  {
+    "description": "depoist freelance from family",
+    "class": "income",
+    "category": "freelance",
+    "amount": 2605.28,
+    "created_at": "2025-06-04T11:59:02.786535"
+  },
+  {
+    "description": "Deopsit Return On Bank",
+    "class": "income",
+    "category": "investment",
+    "amount": 5035.82,
+    "created_at": "2025-06-14T11:59:02.786583"
+  },
+  {
+    "description": "side job work deposit.",
+    "class": "income",
+    "category": "freelance",
+    "amount": 7221.99,
+    "created_at": "2025-06-18T11:59:02.786616"
+  },
+  {
+    "description": "PAID FREELANCE FROM BANK to friend",
+    "class": "income",
+    "category": "freelance",
+    "amount": 4169.14,
+    "created_at": "2025-05-31T11:59:02.786653"
+  },
+  {
+    "description": "phne bill for utilities",
+    "class": "expense",
+    "category": "bills",
+    "amount": 2600.18,
+    "created_at": "2025-06-24T11:59:02.786684"
+  },
+  {
+    "description": "PAID FOR SHOCOL AT UTILITY COMPANY",
+    "class": "expense",
+    "category": "education",
+    "amount": 1705.77,
+    "created_at": "2025-05-27T11:59:02.786722"
+  },
+  {
+    "description": "deposit contract from store",
+    "class": "income",
+    "category": "freelance",
+    "amount": 14170.75,
+    "created_at": "2025-06-02T11:59:02.786755"
+  },
+  {
+    "description": "investment firm paycheck received",
+    "class": "income",
+    "category": "salary",
+    "amount": 3535.35,
+    "created_at": "2025-06-17T11:59:02.786788"
+  },
+  {
+    "description": "payment return regular",
+    "class": "income",
+    "category": "investment",
+    "amount": 7011.62,
+    "created_at": "2025-06-18T11:59:02.786821"
+  },
+  {
+    "description": "TUITION FOR UTILITIES PAYMENT",
+    "class": "expense",
+    "category": "education",
+    "amount": 1121.26,
+    "created_at": "2025-06-26T11:59:02.786853"
+  },
+  {
+    "description": "pressent received from utility company",
+    "class": "income",
+    "category": "gift",
+    "amount": 12166.31,
+    "created_at": "2025-06-21T11:59:02.786886"
+  },
+  {
+    "description": "deopsit divdend urgent",
+    "class": "income",
+    "category": "investment",
+    "amount": 12665.86,
+    "created_at": "2025-05-31T11:59:02.786918"
+  },
+  {
+    "description": "freelance recieved for projet",
+    "class": "income",
+    "category": "freelance",
+    "amount": 11665.83,
+    "created_at": "2025-06-19T11:59:02.786952"
+  },
+  {
+    "description": "Water BillR eceived",
+    "class": "expense",
+    "category": "bills",
+    "amount": 2112.82,
+    "created_at": "2025-06-13T11:59:02.786990"
+  },
+  {
+    "description": "gfit quick deopsit",
+    "class": "income",
+    "category": "gift",
+    "amount": 8873.6,
+    "created_at": "2025-06-18T11:59:02.787023"
+  },
+  {
+    "description": "hospital paycheck payment",
+    "class": "income",
+    "category": "salary",
+    "amount": 4792.76,
+    "created_at": "2025-06-21T11:59:02.787083"
+  },
+  {
+    "description": "rental received from restaurant",
+    "class": "income",
+    "category": "rental",
+    "amount": 14381.76,
+    "created_at": "2025-05-29T11:59:02.787117"
+  },
+  {
+    "description": "proffi tfrom store !!",
+    "class": "income",
+    "category": "investment",
+    "amount": 8387.2,
+    "created_at": "2025-06-16T11:59:02.787167"
+  },
+  {
+    "description": "lunch purchase via app",
+    "class": "expense",
+    "category": "food",
+    "amount": 673.17,
+    "created_at": "2025-05-29T11:59:02.787204"
+  },
+  {
+    "description": "side job work deposit",
+    "class": "income",
+    "category": "freelance",
+    "amount": 7131.82,
+    "created_at": "2025-06-10T11:59:02.787235"
+  },
+  {
+    "description": "taxi recieved for city... to friend",
+    "class": "expense",
+    "category": "transport",
+    "amount": 811.0,
+    "created_at": "2025-06-03T11:59:02.787295"
+  },
+  {
+    "description": "Recieved Rental For House",
+    "class": "income",
+    "category": "rental",
+    "amount": 13245.26,
+    "created_at": "2025-05-27T11:59:02.787334"
+  },
+  {
+    "description": "paycheck paid monthly bill",
+    "class": "income",
+    "category": "salary",
+    "amount": 11685.48,
+    "created_at": "2025-05-30T11:59:02.787370"
+  },
+  {
+    "description": "received present for hollday",
+    "class": "income",
+    "category": "gift",
+    "amount": 2806.9,
+    "created_at": "2025-06-03T11:59:02.787402"
+  },
+  {
+    "description": "course fees bill.",
+    "class": "expense",
+    "category": "education",
+    "amount": 294.08,
+    "created_at": "2025-06-13T11:59:02.787440"
+  },
+  {
+    "description": "water bill deopsit.",
+    "class": "expense",
+    "category": "bills",
+    "amount": 1539.07,
+    "created_at": "2025-06-12T11:59:02.787473"
+  },
+  {
+    "description": "housing !! payed",
+    "class": "expense",
+    "category": "housing",
+    "amount": 702.85,
+    "created_at": "2025-06-23T11:59:02.787506"
+  },
+  {
+    "description": "sent interets urgent!!",
+    "class": "income",
+    "category": "investment",
+    "amount": 11219.15,
+    "created_at": "2025-06-01T11:59:02.787544"
+  },
+  {
+    "description": "electricity bill sent",
+    "class": "expense",
+    "category": "bills",
+    "amount": 1438.33,
+    "created_at": "2025-06-05T11:59:02.787575"
+  },
+  {
+    "description": "store slary payment",
+    "class": "income",
+    "category": "salary",
+    "amount": 6181.24,
+    "created_at": "2025-06-24T11:59:02.787608"
+  },
+  {
+    "description": "QUARTERLY SLARY PAID FROM FRIEND!!",
+    "class": "income",
+    "category": "salary",
+    "amount": 6262.03,
+    "created_at": "2025-06-04T11:59:02.787650"
+  },
+  {
+    "description": "gift for hollday cash",
+    "class": "income",
+    "category": "gift",
+    "amount": 13973.26,
+    "created_at": "2025-06-18T11:59:02.787687"
+  },
+  {
+    "description": "Slray Recieved Urgent!!",
+    "class": "income",
+    "category": "salary",
+    "amount": 9977.15,
+    "created_at": "2025-06-14T11:59:02.787730"
+  },
+  {
+    "description": "shcool deposit for programming course",
+    "class": "expense",
+    "category": "education",
+    "amount": 683.18,
+    "created_at": "2025-06-02T11:59:02.787766"
+  },
+  {
+    "description": "Divdend From Investment Firm Urgent!!.",
+    "class": "income",
+    "category": "investment",
+    "amount": 1975.27,
+    "created_at": "2025-06-22T11:59:02.787805"
+  },
+  {
+    "description": "sent morgage payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 2872.46,
+    "created_at": "2025-06-21T11:59:02.787835"
+  },
+  {
+    "description": "paid for books at bank",
+    "class": "expense",
+    "category": "education",
+    "amount": 2602.71,
+    "created_at": "2025-06-15T11:59:02.787864"
+  },
+  {
+    "description": "payment contract from cinema",
+    "class": "income",
+    "category": "freelance",
+    "amount": 10078.5,
+    "created_at": "2025-06-18T11:59:02.787896"
+  },
+  {
+    "description": "regular sallary deposit from landlord",
+    "class": "income",
+    "category": "salary",
+    "amount": 60.66,
+    "created_at": "2025-06-01T11:59:02.787932"
+  },
+  {
+    "description": "utility company gfit deopsit",
+    "class": "income",
+    "category": "gift",
+    "amount": 5977.55,
+    "created_at": "2025-06-02T11:59:02.787966"
+  },
+  {
+    "description": "grocerries purchase online",
+    "class": "expense",
+    "category": "food",
+    "amount": 939.35,
+    "created_at": "2025-06-05T11:59:02.787997"
+  },
+  {
+    "description": "Lease Deopsit From Friend",
+    "class": "income",
+    "category": "rental",
+    "amount": 14569.49,
+    "created_at": "2025-05-30T11:59:02.788032"
+  },
+  {
+    "description": "rent recieved from resturant",
+    "class": "income",
+    "category": "rental",
+    "amount": 6171.96,
+    "created_at": "2025-06-22T11:59:02.788066"
+  },
+  {
+    "description": "received dividend payment",
+    "class": "income",
+    "category": "investment",
+    "amount": 9394.42,
+    "created_at": "2025-05-30T11:59:02.788107"
+  },
+  {
+    "description": "employer paycheck deposit",
+    "class": "income",
+    "category": "salary",
+    "amount": 14763.63,
+    "created_at": "2025-06-25T11:59:02.788147"
+  },
+  {
+    "description": "one-time wages for utilities",
+    "class": "income",
+    "category": "salary",
+    "amount": 14283.09,
+    "created_at": "2025-06-04T11:59:02.788182"
+  },
+  {
+    "description": "sallary sent urgent",
+    "class": "income",
+    "category": "salary",
+    "amount": 14462.93,
+    "created_at": "2025-06-21T11:59:02.788215"
+  },
+  {
+    "description": "grocerries sent at restaurent",
+    "class": "expense",
+    "category": "food",
+    "amount": 2523.34,
+    "created_at": "2025-06-08T11:59:02.788248"
+  },
+  {
+    "description": "rentel income from bank",
+    "class": "income",
+    "category": "rental",
+    "amount": 659.28,
+    "created_at": "2025-06-08T11:59:02.788279"
+  },
+  {
+    "description": "return from resturant misc",
+    "class": "income",
+    "category": "investment",
+    "amount": 1322.86,
+    "created_at": "2025-06-10T11:59:02.788313"
+  },
+  {
+    "description": "deposit foood now",
+    "class": "expense",
+    "category": "food",
+    "amount": 1290.92,
+    "created_at": "2025-06-18T11:59:02.788353"
+  },
+  {
+    "description": "Frrelance Pyaed To Friend cash",
+    "class": "income",
+    "category": "freelance",
+    "amount": 1628.63,
+    "created_at": "2025-06-11T11:59:02.788405"
+  },
+  {
+    "description": "MOOVI EDEPOSIT URGENT!!!! for groceries",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 1182.24,
+    "created_at": "2025-05-29T11:59:02.788453"
+  },
+  {
+    "description": "paid medcal bill via app",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 1806.16,
+    "created_at": "2025-06-20T11:59:02.788512"
+  },
+  {
+    "description": "freelance work received",
+    "class": "income",
+    "category": "freelance",
+    "amount": 11612.62,
+    "created_at": "2025-06-07T11:59:02.788543"
+  },
+  {
+    "description": "Doctor Expesne At Hospital",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 826.33,
+    "created_at": "2025-05-30T11:59:02.788582"
+  },
+  {
+    "description": "biweekly salary fast",
+    "class": "income",
+    "category": "salary",
+    "amount": 5063.24,
+    "created_at": "2025-06-02T11:59:02.788615"
+  },
+  {
+    "description": "contarct sent monthly",
+    "class": "income",
+    "category": "freelance",
+    "amount": 9980.01,
+    "created_at": "2025-06-16T11:59:02.788646"
+  },
+  {
+    "description": "lease income from bank!!",
+    "class": "income",
+    "category": "rental",
+    "amount": 7159.43,
+    "created_at": "2025-06-26T11:59:02.788683"
+  },
+  {
+    "description": "paid for foood at ivnestment firm",
+    "class": "expense",
+    "category": "food",
+    "amount": 413.69,
+    "created_at": "2025-05-28T11:59:02.788721"
+  },
+  {
+    "description": "paid for meal at family",
+    "class": "expense",
+    "category": "food",
+    "amount": 1510.0,
+    "created_at": "2025-05-27T11:59:02.788752"
+  },
+  {
+    "description": "Received Present For Holiday",
+    "class": "income",
+    "category": "gift",
+    "amount": 1065.47,
+    "created_at": "2025-06-16T11:59:02.788786"
+  },
+  {
+    "description": "annual payycheck bill",
+    "class": "income",
+    "category": "salary",
+    "amount": 11950.11,
+    "created_at": "2025-06-14T11:59:02.788820"
+  },
+  {
+    "description": "contract paid for consultng",
+    "class": "income",
+    "category": "freelance",
+    "amount": 12577.31,
+    "created_at": "2025-06-26T11:59:02.788853"
+  },
+  {
+    "description": "payed divdend on landlord",
+    "class": "income",
+    "category": "investment",
+    "amount": 10899.95,
+    "created_at": "2025-06-05T11:59:02.788886"
+  },
+  {
+    "description": "received leese for huse",
+    "class": "income",
+    "category": "rental",
+    "amount": 7314.42,
+    "created_at": "2025-06-03T11:59:02.788920"
+  },
+  {
+    "description": "received cashgft for celebration",
+    "class": "income",
+    "category": "gift",
+    "amount": 9820.28,
+    "created_at": "2025-06-26T11:59:02.788952"
+  },
+  {
+    "description": "freelence work paid",
+    "class": "income",
+    "category": "freelance",
+    "amount": 9288.62,
+    "created_at": "2025-05-29T11:59:02.788982"
+  },
+  {
+    "description": "bus deopsit for",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1912.82,
+    "created_at": "2025-06-10T11:59:02.789018"
+  },
+  {
+    "description": "gfit received from school",
+    "class": "income",
+    "category": "gift",
+    "amount": 2285.25,
+    "created_at": "2025-05-30T11:59:02.789607"
+  },
+  {
+    "description": "Evnet Sent Quick",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 160.44,
+    "created_at": "2025-06-01T11:59:02.789662"
+  },
+  {
+    "description": "Mortgage Sent For Condo",
+    "class": "expense",
+    "category": "housing",
+    "amount": 2640.25,
+    "created_at": "2025-06-10T11:59:02.789702"
+  },
+  {
+    "description": "sent return on family",
+    "class": "income",
+    "category": "investment",
+    "amount": 5650.91,
+    "created_at": "2025-06-11T11:59:02.789737"
+  },
+  {
+    "description": "Books Fees Trasnfer",
+    "class": "expense",
+    "category": "education",
+    "amount": 1142.73,
+    "created_at": "2025-05-29T11:59:02.789771"
+  },
+  {
+    "description": "paid phone bill for empoyer",
+    "class": "expense",
+    "category": "bills",
+    "amount": 1112.82,
+    "created_at": "2025-06-25T11:59:02.789802"
+  },
+  {
+    "description": "sent mortgage payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 1616.72,
+    "created_at": "2025-06-08T11:59:02.789832"
+  },
+  {
+    "description": "dividend from cinema to friend",
+    "class": "income",
+    "category": "investment",
+    "amount": 12051.49,
+    "created_at": "2025-06-03T11:59:02.789898"
+  },
+  {
+    "description": "compny pressent payment",
+    "class": "income",
+    "category": "gift",
+    "amount": 14007.19,
+    "created_at": "2025-05-27T11:59:02.789934"
+  },
+  {
+    "description": "electricity payment now",
+    "class": "expense",
+    "category": "bills",
+    "amount": 1602.06,
+    "created_at": "2025-05-28T11:59:02.789966"
+  },
+  {
+    "description": "rnt deposit from bank",
+    "class": "income",
+    "category": "rental",
+    "amount": 13914.03,
+    "created_at": "2025-05-30T11:59:02.790000"
+  },
+  {
+    "description": "phone bill paid",
+    "class": "expense",
+    "category": "bills",
+    "amount": 198.28,
+    "created_at": "2025-06-21T11:59:02.790031"
+  },
+  {
+    "description": "Payment Dividend Monthly!!",
+    "class": "income",
+    "category": "investment",
+    "amount": 5392.71,
+    "created_at": "2025-06-05T11:59:02.790072"
+  },
+  {
+    "description": "paid for tuition at family",
+    "class": "expense",
+    "category": "education",
+    "amount": 1503.28,
+    "created_at": "2025-06-23T11:59:02.790114"
+  },
+  {
+    "description": "payment apartment payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 1978.27,
+    "created_at": "2025-06-09T11:59:02.790164"
+  },
+  {
+    "description": "sallary paid now!!",
+    "class": "income",
+    "category": "salary",
+    "amount": 14662.87,
+    "created_at": "2025-06-16T11:59:02.790297"
+  },
+  {
+    "description": "payed fuel ticket to friend",
+    "class": "expense",
+    "category": "transport",
+    "amount": 1578.4,
+    "created_at": "2025-06-19T11:59:02.790350"
+  },
+  {
+    "description": "dividend deposit from hospital",
+    "class": "income",
+    "category": "investment",
+    "amount": 10347.65,
+    "created_at": "2025-06-23T11:59:02.790386"
+  },
+  {
+    "description": "received morgage payment",
+    "class": "expense",
+    "category": "housing",
+    "amount": 2962.49,
+    "created_at": "2025-06-25T11:59:02.790422"
+  },
+  {
+    "description": "paid meal for groceries",
+    "class": "expense",
+    "category": "food",
+    "amount": 414.34,
+    "created_at": "2025-06-18T11:59:02.790458"
+  },
+  {
+    "description": "rnt deopsit from investment firm",
+    "class": "income",
+    "category": "rental",
+    "amount": 6842.02,
+    "created_at": "2025-06-16T11:59:02.790491"
+  },
+  {
+    "description": "family pressent deopsit",
+    "class": "income",
+    "category": "gift",
+    "amount": 1490.01,
+    "created_at": "2025-06-10T11:59:02.790525"
+  },
+  {
+    "description": "sent intrest on friend",
+    "class": "income",
+    "category": "investment",
+    "amount": 3175.06,
+    "created_at": "2025-06-26T11:59:02.790557"
+  },
+  {
+    "description": "Employer Salary Deposit!",
+    "class": "income",
+    "category": "salary",
+    "amount": 14923.14,
+    "created_at": "2025-06-09T11:59:02.790597"
+  },
+  {
+    "description": "INTERNET PAYMENT !!",
+    "class": "expense",
+    "category": "bills",
+    "amount": 329.06,
+    "created_at": "2025-06-12T11:59:02.790632"
+  },
+  {
+    "description": "paid for buss to work",
+    "class": "expense",
+    "category": "transport",
+    "amount": 2288.52,
+    "created_at": "2025-06-11T11:59:02.790663"
+  },
+  {
+    "description": "Evnet Received Urgent!!",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 314.77,
+    "created_at": "2025-05-30T11:59:02.790706"
+  },
+  {
+    "description": "received rentel payment to friend",
+    "class": "income",
+    "category": "rental",
+    "amount": 5087.42,
+    "created_at": "2025-06-25T11:59:02.790739"
+  },
+  {
+    "description": "SLARY VIA APP",
+    "class": "income",
+    "category": "salary",
+    "amount": 12263.21,
+    "created_at": "2025-06-25T11:59:02.790776"
+  },
+  {
+    "description": "hospitl for groceries paid!!",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 397.86,
+    "created_at": "2025-06-10T11:59:02.790813"
+  },
+  {
+    "description": "contarct payed for design work",
+    "class": "income",
+    "category": "freelance",
+    "amount": 9931.12,
+    "created_at": "2025-06-05T11:59:02.790847"
+  },
+  {
+    "description": "salary olnine!!",
+    "class": "income",
+    "category": "salary",
+    "amount": 8842.41,
+    "created_at": "2025-06-04T11:59:02.790888"
+  },
+  {
+    "description": "side job sent for coding",
+    "class": "income",
+    "category": "freelance",
+    "amount": 5032.78,
+    "created_at": "2025-06-22T11:59:02.790922"
+  },
+  {
+    "description": "monthly wage paid from cinema",
+    "class": "income",
+    "category": "salary",
+    "amount": 7740.63,
+    "created_at": "2025-06-23T11:59:02.790958"
+  },
+  {
+    "description": "rental income from investment firm",
+    "class": "income",
+    "category": "rental",
+    "amount": 3359.64,
+    "created_at": "2025-06-21T11:59:02.790988"
+  },
+  {
+    "description": "pressent for bday to friend",
+    "class": "income",
+    "category": "gift",
+    "amount": 347.46,
+    "created_at": "2025-06-19T11:59:02.791022"
+  },
+  {
+    "description": "event deopsit to friend",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 2292.83,
+    "created_at": "2025-06-19T11:59:02.791056"
+  },
+  {
+    "description": "rnt depositf rom restaurant",
+    "class": "income",
+    "category": "rental",
+    "amount": 12507.27,
+    "created_at": "2025-06-22T11:59:02.791095"
+  },
+  {
+    "description": "meel paid at cafe",
+    "class": "expense",
+    "category": "food",
+    "amount": 2491.56,
+    "created_at": "2025-05-31T11:59:02.791130"
+  },
+  {
+    "description": "school urgent!! payment",
+    "class": "expense",
+    "category": "education",
+    "amount": 2814.46,
+    "created_at": "2025-06-04T11:59:02.791160"
+  },
+  {
+    "description": "received cash gift for wedding",
+    "class": "income",
+    "category": "gift",
+    "amount": 3802.24,
+    "created_at": "2025-06-07T11:59:02.791192"
+  },
+  {
+    "description": "family gfit payed",
+    "class": "income",
+    "category": "gift",
+    "amount": 12764.18,
+    "created_at": "2025-06-18T11:59:02.791225"
+  },
+  {
+    "description": "payment meal fast",
+    "class": "expense",
+    "category": "food",
+    "amount": 702.56,
+    "created_at": "2025-05-31T11:59:02.791259"
+  },
+  {
+    "description": "Paid Hospital Bill Cash! to friend",
+    "class": "expense",
+    "category": "healthcare",
+    "amount": 327.47,
+    "created_at": "2025-06-22T11:59:02.791354"
+  },
+  {
+    "description": "utility bill sent",
+    "class": "expense",
+    "category": "bills",
+    "amount": 2980.17,
+    "created_at": "2025-06-26T11:59:02.791388"
+  },
+  {
+    "description": "rent quick received",
+    "class": "expense",
+    "category": "housing",
+    "amount": 2460.72,
+    "created_at": "2025-06-02T11:59:02.791433"
+  },
+  {
+    "description": "regular payycheck regular",
+    "class": "income",
+    "category": "salary",
+    "amount": 6728.83,
+    "created_at": "2025-06-01T11:59:02.791467"
+  },
+  {
+    "description": "food deopsit at supermrket",
+    "class": "expense",
+    "category": "food",
+    "amount": 74.46,
+    "created_at": "2025-06-04T11:59:02.791499"
+  },
+  {
+    "description": "Empoyer Pressent Deopsit",
+    "class": "income",
+    "category": "gift",
+    "amount": 11259.76,
+    "created_at": "2025-06-21T11:59:02.791537"
+  },
+  {
+    "description": "appartment sent for condo",
+    "class": "expense",
+    "category": "housing",
+    "amount": 2746.61,
+    "created_at": "2025-06-24T11:59:02.791579"
+  },
+  {
+    "description": "received present for holiday.",
+    "class": "income",
+    "category": "gift",
+    "amount": 9166.6,
+    "created_at": "2025-06-02T11:59:02.791614"
+  },
+  {
+    "description": "cashgft for bday monthly",
+    "class": "income",
+    "category": "gift",
+    "amount": 5486.99,
+    "created_at": "2025-06-21T11:59:02.791648"
+  },
+  {
+    "description": "paid for taxi to airport",
+    "class": "expense",
+    "category": "transport",
+    "amount": 327.23,
+    "created_at": "2025-06-23T11:59:02.791680"
+  },
+  {
+    "description": "Contarct Received Payment!",
+    "class": "income",
+    "category": "freelance",
+    "amount": 2293.57,
+    "created_at": "2025-06-04T11:59:02.791718"
+  },
+  {
+    "description": "WAGE DEOPSIT FOR UTILITIES bill",
+    "class": "income",
+    "category": "salary",
+    "amount": 8477.89,
+    "created_at": "2025-06-26T11:59:02.791755"
+  },
+  {
+    "description": "present to friend payed",
+    "class": "income",
+    "category": "gift",
+    "amount": 5165.71,
+    "created_at": "2025-06-03T11:59:02.791788"
+  },
+  {
+    "description": "GFIT PAYED FROM BANK",
+    "class": "income",
+    "category": "gift",
+    "amount": 3951.57,
+    "created_at": "2025-05-30T11:59:02.791828"
+  },
+  {
+    "description": "show deposit to friend",
+    "class": "expense",
+    "category": "entertainment",
+    "amount": 731.23,
+    "created_at": "2025-06-15T11:59:02.791860"
+  },
+  {
+    "description": "internet payment regular!!",
+    "class": "expense",
+    "category": "bills",
+    "amount": 319.09,
+    "created_at": "2025-05-31T11:59:02.791896"
+  },
+  {
+    "description": "cash gift for weddng misc",
+    "class": "income",
+    "category": "gift",
+    "amount": 3781.78,
+    "created_at": "2025-06-19T11:59:02.791928"
+  },
+  {
+    "description": "RENT RECEIVED FROM INVESTMENT FIRM!",
+    "class": "income",
+    "category": "rental",
+    "amount": 13345.11,
+    "created_at": "2025-05-31T11:59:02.791965"
+  }
+]
