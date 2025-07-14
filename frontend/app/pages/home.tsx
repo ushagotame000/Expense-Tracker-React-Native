@@ -1,23 +1,99 @@
 import { icons } from "@/assets/images/assets";
-import { Feather, FontAwesome } from "@expo/vector-icons";
+import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { AccountData, getAllUserAccounts } from "../api/account";
 import {
+  ActivityIndicator,
   Dimensions,
   ImageBackground,
   Modal,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View
 } from "react-native";
+import { addAccount } from "../api/account";
+import { Picker } from "@react-native-picker/picker";
 
 const { height, width } = Dimensions.get("window");
 
 export default function HomePage() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalAccountVisible, setModalAccountVisible] = useState(false);
+  const [newAccountName, setNewAccountName] = useState("");
+  const [initialBalance, setInitialBalance] = useState("0");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [accounts, setAccounts] = useState<AccountData[]>([]);
+  const [expenseBalance, setExpenseBalance] = useState("0");
+  const [newExpanseName, setNewExpanseName] = useState("");
+  const [isExpenseModalVisible, setExpenseModelVisible] = useState(false);
+  const handleAddaccount = async () => {
+    if (!newAccountName.trim()) {
+      setError('Account name is required');
+      return;
+    }
+
+    const accountData: AccountData = {
+      user_id: "1",
+      name: newAccountName.trim(),
+      balance: parseFloat(initialBalance) || 0,
+    };
+    try {
+      setIsLoading(true);
+      setError("");
+      const response = await addAccount(accountData);
+      console.log('account added successfully:', response);
+      setModalAccountVisible(false);
+      setModalVisible(false);
+      setNewAccountName(""),
+        setInitialBalance("0");
+    }
+    catch (err) {
+      console.log("failed to add account:", err);
+      setError("failed to add account. Please try again.")
+    }
+    finally {
+      setIsLoading(false);
+    }
+  }
+
+  const user_id = '6872915d3bc52a80a2ca953c';
+  useEffect(() => {
+    const fetchUserAccount = async () => {
+      try {
+        const userAccounts = await getAllUserAccounts(user_id);
+        setAccounts(userAccounts);
+      } catch (err) {
+        setError('Failed to fetch accounts');
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    console.log("userid", user_id)
+
+    fetchUserAccount();
+  }, []);
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#4db078ff" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    );
+  }
 
 
   return (
@@ -75,7 +151,7 @@ export default function HomePage() {
           </View>
         </View>
         <TouchableOpacity
-          style={{backgroundColor:'black'}}
+          style={{ backgroundColor: 'black' }}
           onPress={() => setModalAccountVisible(true)}
         >
           <Feather name="plus" size={32} color="#fff" />
@@ -157,6 +233,7 @@ export default function HomePage() {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.modalButton, styles.expenseButton]}
+                  onPress={() => setExpenseModelVisible(true)}
                 >
                   <Link
                     href={{
@@ -166,6 +243,56 @@ export default function HomePage() {
                     <Text style={styles.modalButtonText}>Add Expense</Text>
                   </Link>
                 </TouchableOpacity>
+
+                {/* expense model */}
+                <Modal
+                  visible={isExpenseModalVisible}
+                  animationType="slide"
+                  transparent={true}
+                  onRequestClose={() => setExpenseModelVisible(false)}
+                >
+                  <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                      <Text style={styles.modalTitle}>Expense</Text>
+
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Expense Name"
+                        value={newExpanseName}
+                        onChangeText={setNewExpanseName}
+                      />
+
+                      <View style={styles.balanceContainer}>
+                        <TextInput
+                          style={[styles.input, { flex: 1 }]}
+                          placeholder="Balance"
+                          value={expenseBalance}
+                          onChangeText={setExpenseBalance}
+                          keyboardType="numeric"
+                        />
+                        
+                      </View>
+
+                      <View style={styles.buttonContainer}>
+                        <TouchableOpacity
+                          style={[styles.actionButton, styles.cancelButton]}
+                          onPress={() => setExpenseModelVisible(false)}
+                        >
+                          <Text style={styles.buttonText}>Cancel</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                          style={[styles.actionButton, styles.submitButton]}
+                          onPress={()=>console.log("expense button clicked!")}
+                        >
+                          <Text style={styles.buttonText}>Add</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                </Modal>
+                {/* end expanse modal */}
+
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -182,7 +309,94 @@ export default function HomePage() {
           <View style={styles.modalOverlay}>
             <TouchableWithoutFeedback>
               <View style={styles.modalView}>
-                <Text style={styles.modalTitle}>Add Accounts</Text>
+                <Text style={styles.modalTitle}>Select Accounts</Text>
+
+                {/* Account options */}
+                <View style={styles.container}>
+                  {accounts.length > 0 ? (
+                    accounts.map((account) => (
+                      <TouchableOpacity
+                        key={account.user_id}
+                        style={styles.accountOption}
+                        onPress={() => console.log('Selected account:', account.name)}
+                      >
+                        <Text style={styles.accountText}>{account.name}</Text>
+                      </TouchableOpacity>
+                    ))
+                  ) : (
+                    <Text>No accounts found</Text>
+                  )}
+                </View>
+                <TouchableOpacity style={styles.accountOption}>
+                  <Text style={styles.accountText}>Cash</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.addButton}
+                  onPress={() => setIsModalVisible(true)}
+                >
+                  <View style={styles.addButtonContent}>
+                    <Ionicons name="add" size={25} color="white" />
+                    <Text style={styles.addButtonText}>Add</Text>
+                  </View>
+                </TouchableOpacity>
+
+                {/* Add Account Modal */}
+                <Modal
+                  visible={isModalVisible}
+                  animationType="slide"
+                  transparent={true}
+                  onRequestClose={() => setIsModalVisible(false)}
+                >
+                  <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                      <Text style={styles.modalTitle}>Add New Account</Text>
+
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Account Name"
+                        value={newAccountName}
+                        onChangeText={setNewAccountName}
+                      />
+
+                      <View style={styles.balanceContainer}>
+                        <TextInput
+                          style={[styles.input, { flex: 1 }]}
+                          placeholder="Balance"
+                          value={initialBalance}
+                          onChangeText={setInitialBalance}
+                          keyboardType="numeric"
+                        />
+                        <Picker
+                          // selectedValue={}
+                          style={styles.currencyPicker}
+                        // onValueChange={(itemValue) => setCurrency(itemValue)}
+                        >
+                          <Picker.Item label="₹ INR" value="INR" />
+                          <Picker.Item label="$ USD" value="USD" />
+                          <Picker.Item label="€ EUR" value="EUR" />
+                          <Picker.Item label="£ GBP" value="GBP" />
+                        </Picker>
+                      </View>
+
+                      <View style={styles.buttonContainer}>
+                        <TouchableOpacity
+                          style={[styles.actionButton, styles.cancelButton]}
+                          onPress={() => setIsModalVisible(false)}
+                        >
+                          <Text style={styles.buttonText}>Cancel</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                          style={[styles.actionButton, styles.submitButton]}
+                          onPress={handleAddaccount}
+                        >
+                          <Text style={styles.buttonText}>Submit</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                </Modal>
 
               </View>
             </TouchableWithoutFeedback>
@@ -199,6 +413,83 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
 
+  },
+  addButton: {
+    backgroundColor: '#007AFF',
+    padding: 15,
+    borderRadius: 8,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  addButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  errorText: {
+    color: 'red'
+  },
+  addButtonText: {
+    color: 'white',
+    fontSize: 18,
+    marginLeft: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContent: {
+    width: '90%',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 12,
+    marginBottom: 15,
+  },
+  balanceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  currencyPicker: {
+    width: 120,
+    height: 50,
+    marginLeft: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  actionButton: {
+    padding: 10,
+    borderRadius: 5,
+    width: '48%',
+    alignItems: 'center',
+  },
+  cancelButton: {
+    backgroundColor: '#ccc',
+  },
+  submitButton: {
+    backgroundColor: '#17a34a',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontFamily: "Inter-Regular",
   },
   imageBackground: {
     height: height * 0.4,
@@ -318,29 +609,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 10,
   },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalView: {
-    width: "80%",
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 25,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontFamily: "Inter-SemiBold",
-    marginBottom: 15,
-  },
+
   modalButton: {
     backgroundColor: "#00712D",
     padding: 10,
@@ -353,7 +622,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#C20000",
   },
   modalButtonText: {
-    color: "#fff",
+    color: "#17a34a",
     fontSize: 16,
     fontFamily: "Inter-Regular",
   },
@@ -377,5 +646,60 @@ const styles = StyleSheet.create({
   accountScrollContainer: {
     padding: 0,
     height: 5
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalView: {
+    width: '80%',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    textAlign: 'center',
+    color: '#17a34a',
+    fontFamily: "Inter-Regular",
+  },
+  accountOption: {
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  accountText: {
+    fontSize: 16,
+    color: '#17a34a',
+    fontFamily: "Inter-Regular",
+  },
+  addButtonContent: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+    marginLeft: 5,
+  },
+  addButton: {
+    backgroundColor: 'green',
+    padding: 5,
+    borderRadius: 5,
+    shadowColor: 'gray',
   }
 });

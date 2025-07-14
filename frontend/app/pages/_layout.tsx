@@ -1,6 +1,6 @@
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import ProtectedRoute from "../components/protectedRoute";
+import ProtectedRoute from "../auth/protectedRoute";
 import { AuthProvider } from "../context/authContext";
 
 export default function PagesLayout() {
