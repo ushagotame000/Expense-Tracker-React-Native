@@ -112,7 +112,7 @@ export default function HomePage() {
                 >
                   <Link
                           href={{
-                            pathname: "/pages/[type]/[id]",
+                            pathname: "/screen/[type]/[id]",
                             params: { type: "Expense", id: 0 },
                           }}>
                   <Text style={styles.modalButtonText}>Add Expense</Text>

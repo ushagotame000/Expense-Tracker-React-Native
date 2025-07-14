@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginForm from '@/app/pages/login';
-import SignupForm from '@/app/pages/signup';
+import LoginForm from '@/app/auth/login';
+import SignupForm from '@/app/auth/signup';
 import HomePage from '@/app/pages/home';
 import { useAuth } from '@/app/context/authContext';
 

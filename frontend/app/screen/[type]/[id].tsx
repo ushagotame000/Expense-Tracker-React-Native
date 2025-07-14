@@ -1,7 +1,7 @@
 import { icons } from "@/assets/images/assets";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
   Dimensions,
@@ -14,6 +14,8 @@ import {
 import { TextInput } from "react-native-paper";
 import { DatePickerInput, TimePickerModal } from "react-native-paper-dates";
 import StyledInput from "../../../components/inputs/StyledInput";
+import { useAuth } from "@/app/context/authContext";
+import { addExpense } from "@/app/api/expese";
 const { height } = Dimensions.get("window");
 export default function AddPage() {
   const { type, id } = useLocalSearchParams();
@@ -22,18 +24,53 @@ export default function AddPage() {
   const [selectedAccount, setSelectedAccount] = useState();
   const [inputDate, setInputDate] = useState<any>();
   const [visible, setVisible] = React.useState(false);
+  const[isSubmitting,setIsSubmitting] = useState(false);
   const onDismiss = React.useCallback(() => {
     setVisible(false);
   }, [setVisible]);
 
-  const onConfirm = React.useCallback(
-    ({ hours, minutes }) => {
-      setVisible(false);
-      console.log({ hours, minutes });
-    },
-    [setVisible]
-  );
-
+ const onConfirm = React.useCallback(
+  ({ hours, minutes }: { hours: number; minutes: number }) => {
+    setVisible(false);
+    console.log({ hours, minutes });
+  },
+  [setVisible]
+);
+ const {user} = useAuth();
+const handleAdd =async()=>{
+ if(!typeName|| !amount || !selectedAccount){
+  alert('Please fill all fields');
+  return;
+ }
+ setIsSubmitting(true);
+ try{
+  const expenseData = {
+    user_id: user?.id || "usha",
+    name:typeName,
+    balance:parseFloat(amount),
+    account_type:selectedAccount,
+    date:inputDate?.toISOString()
+  }
+ 
+  console.log("add is clicked")
+const response = await addExpense(expenseData);
+    console.log('Expense added:', response);
+    
+    // Reset form after successful submission
+    setTypeName("");
+    setAmount("");
+    setSelectedAccount(undefined);
+    setInputDate(undefined);
+    
+    router.back();
+    // success.message("new account created")
+  } catch (error) {
+    console.error('Failed to add expense:', error);
+    alert('Failed to add expense. Please try again.');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -137,7 +174,7 @@ export default function AddPage() {
             style={{ justifyContent: "center", flex: 1, alignItems: "center" }}
           ></View>
 
-          <TouchableOpacity style={styles.submitBtn}>
+          <TouchableOpacity style={styles.submitBtn} onPress={handleAdd}>
             <Text style={[styles.name, { textAlign: "center" }]}>Add</Text>
           </TouchableOpacity>
         </View>
