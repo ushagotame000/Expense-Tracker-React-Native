@@ -13,12 +13,12 @@ export default function Index() {
       </View>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => router.navigate("/pages/home")}
+        onPress={() => router.navigate("/auth/login")}
       >
         <Text style={styles.btntext}>Get Started</Text>
       </TouchableOpacity>
      
-      <TouchableOpacity onPress={()=>router.navigate('/pages/login')}>
+      <TouchableOpacity onPress={()=>router.navigate('/auth/login')}>
         <Text style={styles.loginText}>
           Already Have Account? <Text style={styles.loginLink}>Log In</Text>
         </Text>

@@ -1,8 +1,12 @@
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import ProtectedRoute from "../components/protectedRoute";
+import { AuthProvider } from "../context/authContext";
 
 export default function PagesLayout() {
   return (
+    <AuthProvider>
+    <ProtectedRoute>
     <Tabs
       screenOptions={{
         headerShown: false,
@@ -48,5 +52,7 @@ export default function PagesLayout() {
         }}
       />
     </Tabs>
+    </ProtectedRoute>
+    </AuthProvider>
   );
 }

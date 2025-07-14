@@ -1,49 +1,61 @@
-import React, { createContext, useContext, useState } from 'react';
-import * as SecureStore from 'expo-secure-store';
-import { login as loginApi, register as registerApi } from '../api/auth';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-type User = { username: string; email: string };
-
-interface AuthContextType {
-  user: User | null;
-  token: string | null;
-  login: (username: string, password: string) => Promise<void>;
-  register: (username: string, email: string, password: string) => Promise<void>;
-  logout: () => void;
+type User ={
+  id: string;
 }
+type AuthContextType = {
+  token: string | null;
+  user: User |null;
+  isLoading: boolean;
+  login: (token: string) => Promise<void>;
+  logout: () => Promise<void>;
+};
 
-const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+const AuthContext = createContext<AuthContextType>({
+  token: null,
+  user:null,
+  isLoading: true,
+  login: async () => {},
+  logout: async () => {},
+});
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null); ;
 
-  const login = async (username: string, password: string) => {
-    const data = await loginApi(username, password);
-    if (data.token) {
-      setUser(data.user);
-      setToken(data.token);
-      await SecureStore.setItemAsync('token', data.token);
-    }
-  };
+  useEffect(() => {
+    const loadToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem('access_token');
+        if (storedToken) {
+          setToken(storedToken);
+        }
+      } catch (error) {
+        console.error('Failed to load token', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const register = async (username: string, email: string, password: string) => {
-    const data = await registerApi(username, email, password);
-    if (data.token) {
-      setUser(data.user);
-      setToken(data.token);
-      await SecureStore.setItemAsync('token', data.token);
-    }
+    loadToken();
+  }, []);
+
+  const login = async (newToken: string) => {
+    await AsyncStorage.setItem('access_token', newToken);
+    setToken(newToken);
+    setUser(user);
   };
 
   const logout = async () => {
-    setUser(null);
+    await AsyncStorage.removeItem('access_token');
     setToken(null);
-    await SecureStore.deleteItemAsync('token');
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, register, logout }}>
+    <AuthContext.Provider value={{ token, isLoading, login, logout,user, }}>
       {children}
     </AuthContext.Provider>
   );

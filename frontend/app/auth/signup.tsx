@@ -10,7 +10,8 @@ import {
   Platform,
   ImageBackground,
   Dimensions,
-  ScrollView
+  ScrollView,
+  ToastAndroid
 } from 'react-native';
 import { validateSignupForm } from '../utils/validationUtils';
 import { useRouter } from 'expo-router';
@@ -40,7 +41,15 @@ const SignupForm = () => {
 if(!validation.isValid) return;
 try{
   await register(username, email,password)
-   Alert.alert('Registration Successfull');
+   ToastAndroid.show('Registration Successful!', ToastAndroid.SHORT);
+   setUsername('');
+setEmail('');
+setPassword('');
+setTimeout(() => {
+  routers.navigate('/auth/login');
+}, 1000);
+
+
 }catch(err){
  Alert.alert('Registration failed', 'Please try again');
  console.log({username, email, password})
@@ -104,7 +113,7 @@ const router = useRouter();
             <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={()=>routers.navigate('/pages/login')} style={styles.loginButton}>
+          <TouchableOpacity onPress={()=>routers.navigate('/auth/login')} style={styles.loginButton}>
             <Text style={styles.loginText}>
               Already have an account? <Text style={styles.loginLink}>Log In</Text>
             </Text>
