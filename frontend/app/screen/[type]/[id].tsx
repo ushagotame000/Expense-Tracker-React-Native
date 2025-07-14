@@ -1,7 +1,9 @@
 import { icons } from "@/assets/images/assets";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from "@react-native-picker/picker";
-import { router, useLocalSearchParams } from "expo-router";
+
+import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
   Dimensions,
@@ -11,66 +13,36 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { TextInput } from "react-native-paper";
-import { DatePickerInput, TimePickerModal } from "react-native-paper-dates";
 import StyledInput from "../../../components/inputs/StyledInput";
-import { useAuth } from "@/app/context/authContext";
-import { addExpense } from "@/app/api/expese";
+
 const { height } = Dimensions.get("window");
+
 export default function AddPage() {
   const { type, id } = useLocalSearchParams();
   const [typeName, setTypeName] = useState("");
   const [amount, setAmount] = useState("");
   const [selectedAccount, setSelectedAccount] = useState();
-  const [inputDate, setInputDate] = useState<any>();
+  const [inputDate, setInputDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showTimePicker, setShowTimePicker] = useState(false);
   const [visible, setVisible] = React.useState(false);
-  const[isSubmitting,setIsSubmitting] = useState(false);
+  
   const onDismiss = React.useCallback(() => {
     setVisible(false);
   }, [setVisible]);
 
- const onConfirm = React.useCallback(
-  ({ hours, minutes }: { hours: number; minutes: number }) => {
-    setVisible(false);
-    console.log({ hours, minutes });
-  },
-  [setVisible]
-);
- const {user} = useAuth();
-const handleAdd =async()=>{
- if(!typeName|| !amount || !selectedAccount){
-  alert('Please fill all fields');
-  return;
- }
- setIsSubmitting(true);
- try{
-  const expenseData = {
-    user_id: user?.id || "usha",
-    name:typeName,
-    balance:parseFloat(amount),
-    account_type:selectedAccount,
-    date:inputDate?.toISOString()
-  }
- 
-  console.log("add is clicked")
-const response = await addExpense(expenseData);
-    console.log('Expense added:', response);
-    
-    // Reset form after successful submission
-    setTypeName("");
-    setAmount("");
-    setSelectedAccount(undefined);
-    setInputDate(undefined);
-    
-    router.back();
-    // success.message("new account created")
-  } catch (error) {
-    console.error('Failed to add expense:', error);
-    alert('Failed to add expense. Please try again.');
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  const onDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || inputDate;
+    setShowDatePicker(false);
+    setInputDate(currentDate);
+  };
+
+  const onTimeChange = (event, selectedTime) => {
+    const currentTime = selectedTime || inputDate;
+    setShowTimePicker(false);
+    setInputDate(currentTime);
+  };
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -100,7 +72,6 @@ const response = await addExpense(expenseData);
       >
         <View style={styles.form_container}>
           <Text style={styles.label}>Name</Text>
-
           <StyledInput
             value={typeName}
             onChangeText={setTypeName}
@@ -111,14 +82,13 @@ const response = await addExpense(expenseData);
           <Text style={styles.label}>Account</Text>
           <Picker
             selectedValue={selectedAccount}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedAccount(itemValue)
-            }
+            onValueChange={(itemValue) => setSelectedAccount(itemValue)}
             style={{ borderColor: "#DDDDDD", borderWidth: 2 }}
           >
             <Picker.Item label="Cash" value="Cash" />
             <Picker.Item label="Bank" value="Bank" />
           </Picker>
+
           <Text style={styles.label}>Amount</Text>
           <StyledInput
             value={amount}
@@ -126,53 +96,35 @@ const response = await addExpense(expenseData);
             placeholder="Enter amount"
             keyboardType="numeric"
             style={{ marginTop: 16 }}
-          ></StyledInput>
+          />
+
           <Text style={styles.label}>Date</Text>
-          <View
-            style={{
-              justifyContent: "space-between",
-              flex: 1,
-              alignItems: "center",
-              flexDirection: "row",
-              width:'100%'
-            }}
-          >
-            <DatePickerInput
-              locale="en"
-              label="Date"
+          <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.datePicker}>
+            <Text>{inputDate.toLocaleDateString()}</Text>
+          </TouchableOpacity>
+
+          {showDatePicker && (
+            <DateTimePicker
               value={inputDate}
-              onChange={(d) => setInputDate(d)}
-              inputMode="start"
-              inputEnabled={false}
-              style={{width:1}}
-              presentationStyle='pageSheet'
+              mode="date"
+              display="default"
+              onChange={onDateChange}
             />
-            <View>
-              {/* <Button
-                onPress={() => setVisible(true)}
-                uppercase={false}
-                mode="outlined"
-              >
-                Pick time
-              </Button> */}
-              <View
-                style={{ flex: 1, flexDirection: "row", alignItems: "center",width:100, marginLeft:'5%', paddingHorizontal:5 }}
-              >
-                <TextInput placeholder="12"  /> <Text>:</Text>
-                <TextInput placeholder="12"  />
-              </View>
-              <TimePickerModal
-                visible={visible}
-                onDismiss={onDismiss}
-                onConfirm={onConfirm}
-                hours={12}
-                minutes={14}
-              />
-            </View>
-          </View>
-          <View
-            style={{ justifyContent: "center", flex: 1, alignItems: "center" }}
-          ></View>
+          )}
+
+          <Text style={styles.label}>Time</Text>
+          <TouchableOpacity onPress={() => setShowTimePicker(true)} style={styles.datePicker}>
+            <Text>{inputDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+          </TouchableOpacity>
+
+          {showTimePicker && (
+            <DateTimePicker
+              value={inputDate}
+              mode="time"
+              display="default"
+              onChange={onTimeChange}
+            />
+          )}
 
           <TouchableOpacity style={styles.submitBtn} onPress={handleAdd}>
             <Text style={[styles.name, { textAlign: "center" }]}>Add</Text>
@@ -198,11 +150,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "baseline",
   },
-  greeting: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "400",
-  },
   name: {
     color: "#fff",
     fontSize: 20,
@@ -212,69 +159,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 255, 255, 0.2)",
     padding: 8,
     borderRadius: 10,
-  },
-  body: {
-    flex: 1,
-    padding: 20,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  card: {
-    backgroundColor: "#25A969",
-    borderRadius: 10,
-    padding: 20,
-  },
-  ellipsis: {
-    padding: 8,
-    borderRadius: 10,
-  },
-  cardHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  cardTitle: {
-    fontSize: 14,
-    color: "#ffffff",
-    fontFamily: "Inter-SemiBold",
-    lineHeight: 30,
-  },
-  balance: {
-    fontSize: 30,
-    color: "#ffffff",
-    fontFamily: "Inter-Bold",
-    lineHeight: 40,
-  },
-  expenses: {
-    fontSize: 15,
-    color: "#ffffff",
-    fontFamily: "Inter-Regular",
-    marginTop: 10,
-  },
-  expensesBalance: {
-    fontSize: 20,
-    color: "#ffffff",
-    fontFamily: "Inter-SemiBold",
-  },
-  arrowIcon: {
-    width: 5,
-    marginLeft: "-2%",
-  },
-  label: {
-    color: "#666666",
-    fontSize: 15,
-    fontWeight: "bold",
-    fontFamily: "Inter-Bold",
-    padding: 5,
-    marginHorizontal: 5,
-  },
-  form_control: {
-    borderWidth: 2,
-    padding: 5,
-    borderRadius: 5,
-    borderColor: "#DDDDDD",
-    margin: 5,
   },
   form_container: {
     backgroundColor: "#ffffff",
@@ -289,7 +173,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    position:'static'
   },
   submitBtn: {
     width: "100%",
@@ -297,5 +180,20 @@ const styles = StyleSheet.create({
     margin: 5,
     padding: 8,
     borderRadius: 8,
+  },
+  label: {
+    color: "#666666",
+    fontSize: 15,
+    fontWeight: "bold",
+    padding: 5,
+    marginHorizontal: 5,
+  },
+  datePicker: {
+    borderColor: "#DDDDDD",
+    borderWidth: 2,
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 16,
+    alignItems: "center",
   },
 });

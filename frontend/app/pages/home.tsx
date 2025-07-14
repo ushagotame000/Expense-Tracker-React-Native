@@ -1,22 +1,24 @@
 import { icons } from "@/assets/images/assets";
-import React, { useState } from "react";
 import { Feather, FontAwesome } from "@expo/vector-icons";
-import {
-  View,
-  Text,
-  ImageBackground,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  Modal,
-  TouchableWithoutFeedback,
-} from "react-native";
 import { Link } from "expo-router";
+import React, { useState } from "react";
+import {
+  Dimensions,
+  ImageBackground,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
+} from "react-native";
 
 const { height, width } = Dimensions.get("window");
 
 export default function HomePage() {
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalAccountVisible, setModalAccountVisible] = useState(false);
+
 
   return (
     <View style={styles.container}>
@@ -43,10 +45,12 @@ export default function HomePage() {
               Total Balance {"\n"}
               <Text style={styles.balance}>$2,548.00</Text>
             </Text>
+
             <TouchableOpacity style={styles.ellipsis}>
               <FontAwesome name="ellipsis-h" size={20} color="#ffffff" />
             </TouchableOpacity>
           </View>
+
           <View style={styles.cardHeader}>
             <Text style={styles.expenses}>
               <Feather
@@ -70,7 +74,51 @@ export default function HomePage() {
             </Text>
           </View>
         </View>
+        <TouchableOpacity
+          style={{backgroundColor:'black'}}
+          onPress={() => setModalAccountVisible(true)}
+        >
+          <Feather name="plus" size={32} color="#fff" />
+        </TouchableOpacity>
+        {/* <ScrollView horizontal style={styles.accountScrollContainer} > */}
+        <View style={styles.accountContainer}>
+          <View style={styles.accountCard}>
+            <Text>Ac Name</Text>
+            <Text>Rs 100000</Text>
+            <Text>5 Transactions</Text>
 
+
+          </View>
+          <View style={styles.accountCard}>
+            <Text>Ac Name</Text>
+            <Text>Rs 100000</Text>
+            <Text>5 Transactions</Text>
+
+
+          </View>
+          <View style={styles.accountCard}>
+            <Text>Ac Name</Text>
+            <Text>Rs 100000</Text>
+            <Text>5 Transactions</Text>
+
+
+          </View>
+          <View style={styles.accountCard}>
+            <Text>Ac Name</Text>
+            <Text>Rs 100000</Text>
+            <Text>5 Transactions</Text>
+
+
+          </View>
+          <View style={styles.accountCard}>
+            <Text>Ac Name</Text>
+            <Text>Rs 100000</Text>
+            <Text>5 Transactions</Text>
+
+
+          </View>
+        </View>
+        {/* </ScrollView> */}
         <View style={styles.transactionHeader}>
           <Text style={styles.transactionTitle}>Transaction History</Text>
           <Text style={styles.semiTitle}>See all</Text>
@@ -111,13 +159,31 @@ export default function HomePage() {
                   style={[styles.modalButton, styles.expenseButton]}
                 >
                   <Link
-                          href={{
-                            pathname: "/screen/[type]/[id]",
-                            params: { type: "Expense", id: 0 },
-                          }}>
-                  <Text style={styles.modalButtonText}>Add Expense</Text>
-                     </Link>
+                    href={{
+                      pathname: "/pages/[type]/[id]",
+                      params: { type: "Expense", id: 0 },
+                    }}>
+                    <Text style={styles.modalButtonText}>Add Expense</Text>
+                  </Link>
                 </TouchableOpacity>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalAccountVisible}
+        onRequestClose={() => setModalAccountVisible(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setModalAccountVisible(false)}>
+          <View style={styles.modalOverlay}>
+            <TouchableWithoutFeedback>
+              <View style={styles.modalView}>
+                <Text style={styles.modalTitle}>Add Accounts</Text>
+
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -128,9 +194,11 @@ export default function HomePage() {
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     backgroundColor: "#fff",
+
   },
   imageBackground: {
     height: height * 0.4,
@@ -188,6 +256,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter-SemiBold",
     lineHeight: 30,
   },
+
   balance: {
     fontSize: 30,
     color: "#ffffff",
@@ -288,4 +357,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Inter-Regular",
   },
+  accountContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderStyle: "solid",
+    marginVertical: 12,
+    width: "100%",
+    height: 90
+  },
+
+  accountCard: {
+    backgroundColor: 'green',
+    margin: 2,
+    height: 80,
+    padding: 5
+  },
+  accountScrollContainer: {
+    padding: 0,
+    height: 5
+  }
 });

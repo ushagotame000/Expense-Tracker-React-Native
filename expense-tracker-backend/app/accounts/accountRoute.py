@@ -58,3 +58,17 @@ async def getUserAccounts(user_id:str):
         return {"msg": "Account fetched successfully","accounts": accounts}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch account: {e}")
+    
+@router.get('/get-user-account/{account_id}',response_model=AccountResponse)
+async def getUserAccounts(account_id:str):
+    if not ObjectId.is_valid(account_id):
+        raise HTTPException(status_code=400, detail="Invalid account ID")
+    try:
+        accounts = await account_collection.find_one({"_id": account_id})
+
+        if not accounts:
+            raise HTTPException(status_code=404, detail="No accounts found for this user ID")
+
+        return {"msg": "Account fetched successfully","accounts": accounts}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch account: {e}")
