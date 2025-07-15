@@ -17,6 +17,7 @@ import {
 } from "react-native";
 import { addAccount } from "../api/account";
 import { Picker } from "@react-native-picker/picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { height, width } = Dimensions.get("window");
 
@@ -37,13 +38,19 @@ export default function HomePage() {
       setError('Account name is required');
       return;
     }
-
-    const accountData: AccountData = {
-      user_id: "1",
-      name: newAccountName.trim(),
-      balance: parseFloat(initialBalance) || 0,
-    };
     try {
+      const userId = await AsyncStorage.getItem('user_id');
+      console.log("userid is", userId)
+
+      if (!userId) {
+        setError('User not authenticated');
+        return;
+      }
+      const accountData: AccountData = {
+        user_id: userId,
+        name: newAccountName.trim(),
+        balance: parseFloat(initialBalance) || 0,
+      };
       setIsLoading(true);
       setError("");
       const response = await addAccount(accountData);
@@ -62,12 +69,16 @@ export default function HomePage() {
     }
   }
 
-  const user_id = '6872915d3bc52a80a2ca953c';
+  const userId = AsyncStorage.getItem('user_id');
   useEffect(() => {
     const fetchUserAccount = async () => {
       try {
-        const userAccounts = await getAllUserAccounts(user_id);
-        setAccounts(userAccounts);
+        const userId = await AsyncStorage.getItem('user_id');
+        if (userId) {
+          const userAccounts = await getAllUserAccounts(userId);
+          console.log('fetched accout:', userAccounts)
+          setAccounts(userAccounts);
+        }
       } catch (err) {
         setError('Failed to fetch accounts');
         console.error(err);
@@ -75,10 +86,13 @@ export default function HomePage() {
         setIsLoading(false);
       }
     };
-    console.log("userid", user_id)
+    console.log("userid is from fetch", userId);
 
     fetchUserAccount();
   }, []);
+
+
+
   if (isLoading) {
     return (
       <View style={styles.container}>
@@ -270,7 +284,7 @@ export default function HomePage() {
                           onChangeText={setExpenseBalance}
                           keyboardType="numeric"
                         />
-                        
+
                       </View>
 
                       <View style={styles.buttonContainer}>
@@ -283,7 +297,7 @@ export default function HomePage() {
 
                         <TouchableOpacity
                           style={[styles.actionButton, styles.submitButton]}
-                          onPress={()=>console.log("expense button clicked!")}
+                          onPress={() => console.log("expense button clicked!")}
                         >
                           <Text style={styles.buttonText}>Add</Text>
                         </TouchableOpacity>
@@ -315,13 +329,11 @@ export default function HomePage() {
                 <View style={styles.container}>
                   {accounts.length > 0 ? (
                     accounts.map((account) => (
-                      <TouchableOpacity
-                        key={account.user_id}
-                        style={styles.accountOption}
-                        onPress={() => console.log('Selected account:', account.name)}
-                      >
-                        <Text style={styles.accountText}>{account.name}</Text>
-                      </TouchableOpacity>
+                      <View key={`${account.user_id}-${account.name}`} style={styles.accountCard}>
+                        <Text>{account.name}</Text>
+                        <Text>Rs {account.balance.toFixed(2)}</Text>
+                        <Text>0 Transactions</Text>
+                      </View>
                     ))
                   ) : (
                     <Text>No accounts found</Text>
