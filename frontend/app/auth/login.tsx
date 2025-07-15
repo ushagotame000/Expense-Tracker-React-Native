@@ -42,6 +42,7 @@ const LoginForm = () => {
     try {
       const response = await login(username, password);
       await AsyncStorage.setItem('access_token', response.access_token);
+      await AsyncStorage.setItem('user_id',response.user_id);
       
       // Show toast (Android only)
       if (Platform.OS === 'android') {
