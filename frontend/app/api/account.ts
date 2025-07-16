@@ -44,7 +44,7 @@ export const getAllUserAccounts = async (user_id: string): Promise<AccountData[]
       throw new Error(data.detail || 'Failed to fetch accounts');
     }
 
-    return data as AccountData[];
+    return data.accounts as AccountData[];
   } catch (error) {
     console.error('API Error:', error);
     return []; 
