@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
+import { BASE_URL } from "../config/config";
 
-const BASE_URL = 'http://127.0.0.1:8000';
 
 export const register = async (username: string, email: string, password: string) => {
   const res = await fetch(`${BASE_URL}/auth/register`, {

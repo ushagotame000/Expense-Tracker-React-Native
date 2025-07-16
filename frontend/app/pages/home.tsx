@@ -329,7 +329,7 @@ export default function HomePage() {
                 <View style={styles.container}>
                   {accounts.length > 0 ? (
                     accounts.map((account) => (
-                      <View key={`${account.user_id}-${account.name}`} style={styles.accountCard}>
+                      <View key={`${account.user_id}`} style={styles.accountCard}>
                         <Text>{account.name}</Text>
                         <Text>Rs {account.balance.toFixed(2)}</Text>
                         <Text>0 Transactions</Text>

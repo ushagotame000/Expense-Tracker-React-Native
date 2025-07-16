@@ -1,6 +1,6 @@
 import { router } from "expo-router";
+import { BASE_URL } from "../config/config";
 
-const BASE_URL = 'http://127.0.0.1:8000';
 
  export interface AccountData {
   user_id: string;
@@ -30,7 +30,7 @@ export const addAccount = async (data: AccountData) => {
 
 export const getAllUserAccounts = async (user_id: string): Promise<AccountData[]> => {
   try {
-    const response = await fetch(`http://127.0.0.1:8000/get-user-accounts/${user_id}`, {
+    const response = await fetch(`${BASE_URL}/get-user-accounts/${user_id}`, {
       method: 'GET',
 
     });
