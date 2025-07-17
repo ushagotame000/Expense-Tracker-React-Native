@@ -6,6 +6,7 @@ import { BASE_URL } from "../config/config";
   user_id: string;
   name: string;
   balance: number;
+  account_id:string;
 }
 
 export const addAccount = async (data: AccountData) => {

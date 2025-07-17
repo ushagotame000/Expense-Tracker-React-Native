@@ -1,6 +1,6 @@
 import { icons } from "@/assets/images/assets";
 import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { AccountData, getAllUserAccounts } from "../api/account";
 import {
@@ -8,6 +8,7 @@ import {
   Dimensions,
   ImageBackground,
   Modal,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -18,6 +19,9 @@ import {
 import { addAccount } from "../api/account";
 import { Picker } from "@react-native-picker/picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { addTransaction, TransactionData } from "../api/transaction";
+import { logout } from "../api/auth";
+import { Greeting } from "../constant/greeting";
 
 const { height, width } = Dimensions.get("window");
 
@@ -30,9 +34,52 @@ export default function HomePage() {
   const [error, setError] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [accounts, setAccounts] = useState<AccountData[]>([]);
-  const [expenseBalance, setExpenseBalance] = useState("0");
-  const [newExpanseName, setNewExpanseName] = useState("");
-  const [isExpenseModalVisible, setExpenseModelVisible] = useState(false);
+  const [isTransactionModalVisible, setTransactionModelVisible] = useState(false);
+  const [description, setNewDescription] = useState("");
+  const [transactionAmount, setTransactionAmount] = useState("0");
+  const [transactionType, setTransactionType] = useState("");
+  const [selectedAccount, setSelectedAccount] = useState(null);
+  const router = useRouter();
+
+  const handleAddTransaction = async () => {
+    if (!description && !transactionAmount) {
+      setError('Fields is required');
+      return;
+    }
+    try {
+      const userId = await AsyncStorage.getItem('user_id');
+      console.log("userid is", userId)
+
+      if (!userId) {
+        setError('User not authenticated');
+        return;
+      }
+      const TransactionData: TransactionData = {
+        user_id: userId,
+        description: description.trim(),
+        amount: parseFloat(transactionAmount) || 0,
+        type: transactionType,
+        // account_id: accounts._id;
+      };
+      setIsLoading(true);
+      setError("");
+      const response = await addTransaction(TransactionData);
+      console.log('transaction added successfully:', response);
+      setModalAccountVisible(false);
+      setModalVisible(false);
+      setNewDescription(""),
+        setTransactionAmount("0");
+    }
+    catch (err) {
+      console.log("failed to add transaction:", err);
+      setError("failed to add transaction. Please try again.")
+    }
+    finally {
+      setIsLoading(false);
+    }
+  }
+
+
   const handleAddaccount = async () => {
     if (!newAccountName.trim()) {
       setError('Account name is required');
@@ -46,10 +93,12 @@ export default function HomePage() {
         setError('User not authenticated');
         return;
       }
+      const account_id = accounts[0]?.account_id || "1";
       const accountData: AccountData = {
         user_id: userId,
         name: newAccountName.trim(),
         balance: parseFloat(initialBalance) || 0,
+        account_id: account_id||"1",
       };
       setIsLoading(true);
       setError("");
@@ -119,7 +168,7 @@ export default function HomePage() {
       >
         <View style={styles.header}>
           <View>
-            <Text style={styles.greeting}>Good afternoon,</Text>
+            <Text style={styles.greeting}>{Greeting()},</Text>
             <Text style={styles.name}>Usha Gotame</Text>
           </View>
           <TouchableOpacity style={styles.bellIcon}>
@@ -127,7 +176,7 @@ export default function HomePage() {
           </TouchableOpacity>
         </View>
       </ImageBackground>
-
+      {/* main card */}
       <View style={styles.body}>
         <View style={styles.card}>
           <View style={styles.cardHeader}>
@@ -136,11 +185,11 @@ export default function HomePage() {
               <Text style={styles.balance}>$2,548.00</Text>
             </Text>
 
-            <TouchableOpacity style={styles.ellipsis}>
+            <TouchableOpacity style={styles.ellipsis} onPress={logout}>
               <FontAwesome name="ellipsis-h" size={20} color="#ffffff" />
             </TouchableOpacity>
           </View>
-
+          {/* end card */}
           <View style={styles.cardHeader}>
             <Text style={styles.expenses}>
               <Feather
@@ -169,45 +218,47 @@ export default function HomePage() {
           onPress={() => setModalAccountVisible(true)}
         >
           <Feather name="plus" size={32} color="#fff" />
+          <Text>Add Account</Text>
         </TouchableOpacity>
         {/* <ScrollView horizontal style={styles.accountScrollContainer} > */}
-        <View style={styles.accountContainer}>
-          <View style={styles.accountCard}>
-            <Text>Ac Name</Text>
-            <Text>Rs 100000</Text>
-            <Text>5 Transactions</Text>
+        <View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.horizontalScrollContainer}
+            contentContainerStyle={styles.scrollContentContainer}
+          >
+            {accounts.length > 0 ? (
+              accounts.map((account) => (
+                <TouchableOpacity
+                  key={`${account.user_id}`}
+                  style={styles.accountCard}
+                  onPress={() => {
 
+                    console.log('Account pressed:', account.user_id)
+                    console.log('New Account Name:', account.name);
+                    console.log('Account id:', account.account_id)
+                  }
+                  }
 
-          </View>
-          <View style={styles.accountCard}>
-            <Text>Ac Name</Text>
-            <Text>Rs 100000</Text>
-            <Text>5 Transactions</Text>
-
-
-          </View>
-          <View style={styles.accountCard}>
-            <Text>Ac Name</Text>
-            <Text>Rs 100000</Text>
-            <Text>5 Transactions</Text>
-
-
-          </View>
-          <View style={styles.accountCard}>
-            <Text>Ac Name</Text>
-            <Text>Rs 100000</Text>
-            <Text>5 Transactions</Text>
-
-
-          </View>
-          <View style={styles.accountCard}>
-            <Text>Ac Name</Text>
-            <Text>Rs 100000</Text>
-            <Text>5 Transactions</Text>
-
-
-          </View>
+                >
+                  <View style={styles.accountPing} />
+                  <Text
+                    style={styles.accountName}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  > {account.name}
+                  </Text>
+                  <Text style={styles.accountBalance}>Rs {account.balance.toFixed(2)}</Text>
+                  <Text style={styles.accountTransactions}>0 Transactions</Text>
+                </TouchableOpacity>
+              ))
+            ) : (
+              <Text >No accounts found</Text>
+            )}
+          </ScrollView>
         </View>
+
         {/* </ScrollView> */}
         <View style={styles.transactionHeader}>
           <Text style={styles.transactionTitle}>Transaction History</Text>
@@ -241,63 +292,98 @@ export default function HomePage() {
           <View style={styles.modalOverlay}>
             <TouchableWithoutFeedback>
               <View style={styles.modalView}>
-                <Text style={styles.modalTitle}>Add Transaction</Text>
-                <TouchableOpacity style={styles.modalButton}>
+                <Text style={styles.modalTitle}></Text>
+
+                <TouchableOpacity
+                  style={styles.modalButton}
+                  onPress={() => {
+                    setTransactionType("Income");
+                    setTransactionModelVisible(true);
+
+                    // 2. Navigate and pass params (optional, if you still need navigation)
+                    router.push({
+                      pathname: "/screen/[type]/[id]",
+                      params: { type: "Income", id: 0 },
+                    });
+                  }}
+                >
                   <Text style={styles.modalButtonText}>Add Income</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.modalButton, styles.expenseButton]}
-                  onPress={() => setExpenseModelVisible(true)}
+                  onPress={() => {
+                    setTransactionType("Expense");
+                    setTransactionModelVisible(true);
+                  }}
                 >
                   <Link
                     href={{
-                      pathname: "/pages/[type]/[id]",
+                      pathname: "/screen/[type]/[id]",
                       params: { type: "Expense", id: 0 },
                     }}>
                     <Text style={styles.modalButtonText}>Add Expense</Text>
                   </Link>
                 </TouchableOpacity>
 
-                {/* expense model */}
+                {/* transaction model */}
                 <Modal
-                  visible={isExpenseModalVisible}
+                  visible={isTransactionModalVisible}
                   animationType="slide"
                   transparent={true}
-                  onRequestClose={() => setExpenseModelVisible(false)}
+                  onRequestClose={() => setTransactionModelVisible(false)}
                 >
                   <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                      <Text style={styles.modalTitle}>Expense</Text>
+                      <Text style={styles.modalTitle}>Add Transaction</Text>
 
                       <TextInput
                         style={styles.input}
-                        placeholder="Expense Name"
-                        value={newExpanseName}
-                        onChangeText={setNewExpanseName}
+                        placeholder="Transaction Name"
+                        value={description}
+                        onChangeText={setNewDescription}
                       />
 
                       <View style={styles.balanceContainer}>
                         <TextInput
                           style={[styles.input, { flex: 1 }]}
                           placeholder="Balance"
-                          value={expenseBalance}
-                          onChangeText={setExpenseBalance}
+                          value={transactionAmount}
+                          onChangeText={setTransactionAmount}
                           keyboardType="numeric"
                         />
 
                       </View>
-
+                      {/* dropdown */}
+                      <View style={styles.dropdownContainer}>
+                        {accounts.length > 0 ? (
+                          <Picker
+                            style={styles.pickerText}
+                            selectedValue={selectedAccount}
+                            onValueChange={(itemValue) => setSelectedAccount(itemValue)}
+                          >
+                            {accounts.map((account) => (
+                              <Picker.Item
+                                key={account.user_id}
+                                label={account.name}
+                                value={account.user_id}
+                              />
+                            ))}
+                          </Picker>
+                        ) : (
+                          <Text style={styles.noAccountsText}>No accounts available</Text>
+                        )}
+                      </View>
                       <View style={styles.buttonContainer}>
                         <TouchableOpacity
                           style={[styles.actionButton, styles.cancelButton]}
-                          onPress={() => setExpenseModelVisible(false)}
+                          onPress={() => setTransactionModelVisible(false)}
                         >
                           <Text style={styles.buttonText}>Cancel</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                           style={[styles.actionButton, styles.submitButton]}
-                          onPress={() => console.log("expense button clicked!")}
+                          onPress={handleAddTransaction}
                         >
                           <Text style={styles.buttonText}>Add</Text>
                         </TouchableOpacity>
@@ -329,19 +415,18 @@ export default function HomePage() {
                 <View style={styles.container}>
                   {accounts.length > 0 ? (
                     accounts.map((account) => (
-                      <View key={`${account.user_id}`} style={styles.accountCard}>
-                        <Text>{account.name}</Text>
-                        <Text>Rs {account.balance.toFixed(2)}</Text>
-                        <Text>0 Transactions</Text>
+                      <View key={`${account.user_id}`} >
+                        <TouchableOpacity style={styles.accountOption}>
+                          <Text style={styles.accountText}>{account.name}</Text>
+                        </TouchableOpacity>
+                        {/* <Text>Rs {account.balance.toFixed(2)}</Text>
+                        <Text>0 Transactions</Text> */}
                       </View>
                     ))
                   ) : (
                     <Text>No accounts found</Text>
                   )}
                 </View>
-                <TouchableOpacity style={styles.accountOption}>
-                  <Text style={styles.accountText}>Cash</Text>
-                </TouchableOpacity>
 
                 <TouchableOpacity
                   style={styles.addButton}
@@ -409,7 +494,7 @@ export default function HomePage() {
                     </View>
                   </View>
                 </Modal>
-
+                {/* end account modal */}
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -516,8 +601,10 @@ const styles = StyleSheet.create({
   },
   greeting: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "400",
+    paddingBottom: 5,
+    fontFamily: "Inter-Regular",
   },
   name: {
     color: "#fff",
@@ -623,7 +710,7 @@ const styles = StyleSheet.create({
   },
 
   modalButton: {
-    backgroundColor: "#00712D",
+    backgroundColor: "#17a34a",
     padding: 10,
     marginVertical: 8,
     borderRadius: 13,
@@ -631,10 +718,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   expenseButton: {
-    backgroundColor: "#C20000",
+    backgroundColor: "#d43030ff",
   },
   modalButtonText: {
-    color: "#17a34a",
+    color: "white",
     fontSize: 16,
     fontFamily: "Inter-Regular",
   },
@@ -647,17 +734,6 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     width: "100%",
     height: 90
-  },
-
-  accountCard: {
-    backgroundColor: 'green',
-    margin: 2,
-    height: 80,
-    padding: 5
-  },
-  accountScrollContainer: {
-    padding: 0,
-    height: 5
   },
   modalOverlay: {
     flex: 1,
@@ -713,5 +789,80 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
     shadowColor: 'gray',
+  },
+  horizontalScrollContainer: {
+    width: '100%',
+    marginVertical: 12,
+  },
+
+  scrollContentContainer: {
+    paddingHorizontal: 16,
+    height: '100%'
+  },
+
+  accountCard: {
+    backgroundColor: '#ffffff',
+    marginRight: 12,
+    padding: 16,
+    borderRadius: 12,
+    width: 160,
+    height: 'auto',
+    borderWidth: 1,
+    borderColor: '#000000',
+    // Enhanced shadow
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 4,
+    // For absolute positioning of ping
+    overflow: 'hidden',
+    position: 'relative',
+  },
+
+  accountName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#38a169',  // Green text color
+    marginBottom: 4,
+  },
+
+  accountBalance: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#2f855a',  // Darker green
+    marginBottom: 2,
+  },
+
+  accountTransactions: {
+    fontSize: 12,
+    color: '#718096',  // Gray text
+    opacity: 0.9,
+  },
+
+  // New style for the green ping indicator
+  accountPing: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#48bb78',  // Vibrant green
+  },
+  dropdownContainer: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 4,
+    marginVertical: 8,
+  },
+  pickerText: {
+    height: 50,
+    width: '100%',
+  },
+  noAccountsText: {
+    padding: 10,
+    color: '#999',
   }
+
 });

@@ -23,4 +23,4 @@ app.include_router(accountRoute)
 app.include_router(transactionRoute)
 @app.get("/")
 def read_root():
-    return {"message": "Expense Tracker Backend Running 🚀","dotenv":  os.getenv("MONGO_URI")}
+    return {"message": "Expense Tracker Backend Running 🚀"}

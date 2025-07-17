@@ -28,7 +28,8 @@ export const login = async(username:string, password:string)=>{
   
   return res.json();
 };
-const logout = async () => {
+ export const logout = async () => {
   await AsyncStorage.removeItem('access_token');
+  await AsyncStorage.removeItem('user_id');
   router.replace('/auth/login'); 
 };

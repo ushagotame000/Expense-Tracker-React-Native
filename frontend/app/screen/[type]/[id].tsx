@@ -43,6 +43,9 @@ export default function AddPage() {
     setInputDate(currentTime);
   };
 
+  const handleAdd=()=>{
+    console.log("button add clicked")
+  }
   return (
     <View style={styles.container}>
       <ImageBackground
