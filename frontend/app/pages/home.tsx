@@ -1,6 +1,6 @@
 import { icons } from "@/assets/images/assets";
 import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { AccountData, getAllUserAccounts } from "../api/account";
 import {
@@ -37,6 +37,10 @@ export default function HomePage() {
   const [isTransactionModalVisible, setTransactionModelVisible] = useState(false);
   const [description, setNewDescription] = useState("");
   const [transactionAmount, setTransactionAmount] = useState("0");
+  const [transactionType, setTransactionType] = useState("");
+  const [selectedAccount, setSelectedAccount] = useState(null);
+  const router = useRouter();
+
   const handleAddTransaction = async () => {
     if (!description && !transactionAmount) {
       setError('Fields is required');
@@ -54,6 +58,8 @@ export default function HomePage() {
         user_id: userId,
         description: description.trim(),
         amount: parseFloat(transactionAmount) || 0,
+        type: transactionType,
+        // account_id: accounts._id;
       };
       setIsLoading(true);
       setError("");
@@ -87,10 +93,12 @@ export default function HomePage() {
         setError('User not authenticated');
         return;
       }
+      const account_id = accounts[0]?.account_id || "1";
       const accountData: AccountData = {
         user_id: userId,
         name: newAccountName.trim(),
         balance: parseFloat(initialBalance) || 0,
+        account_id: account_id||"1",
       };
       setIsLoading(true);
       setError("");
@@ -225,7 +233,14 @@ export default function HomePage() {
                 <TouchableOpacity
                   key={`${account.user_id}`}
                   style={styles.accountCard}
-                  onPress={() => console.log('Account pressed:', account.user_id)}
+                  onPress={() => {
+
+                    console.log('Account pressed:', account.user_id)
+                    console.log('New Account Name:', account.name);
+                    console.log('Account id:', account.account_id)
+                  }
+                  }
+
                 >
                   <View style={styles.accountPing} />
                   <Text
@@ -278,24 +293,32 @@ export default function HomePage() {
             <TouchableWithoutFeedback>
               <View style={styles.modalView}>
                 <Text style={styles.modalTitle}></Text>
-                <TouchableOpacity style={styles.modalButton}
-                  onPress={() => setTransactionModelVisible(true)}
-                >
-                  <Link
-                    href={{
-                      pathname: "/pages/[type]/[id]",
+
+                <TouchableOpacity
+                  style={styles.modalButton}
+                  onPress={() => {
+                    setTransactionType("Income");
+                    setTransactionModelVisible(true);
+
+                    // 2. Navigate and pass params (optional, if you still need navigation)
+                    router.push({
+                      pathname: "/screen/[type]/[id]",
                       params: { type: "Income", id: 0 },
-                    }}>
-                    <Text style={styles.modalButtonText}>Add Income</Text>
-                  </Link>
+                    });
+                  }}
+                >
+                  <Text style={styles.modalButtonText}>Add Income</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.modalButton, styles.expenseButton]}
-                  onPress={() => setTransactionModelVisible(true)}
+                  onPress={() => {
+                    setTransactionType("Expense");
+                    setTransactionModelVisible(true);
+                  }}
                 >
                   <Link
                     href={{
-                      pathname: "/pages/[type]/[id]",
+                      pathname: "/screen/[type]/[id]",
                       params: { type: "Expense", id: 0 },
                     }}>
                     <Text style={styles.modalButtonText}>Add Expense</Text>
@@ -330,7 +353,26 @@ export default function HomePage() {
                         />
 
                       </View>
-
+                      {/* dropdown */}
+                      <View style={styles.dropdownContainer}>
+                        {accounts.length > 0 ? (
+                          <Picker
+                            style={styles.pickerText}
+                            selectedValue={selectedAccount}
+                            onValueChange={(itemValue) => setSelectedAccount(itemValue)}
+                          >
+                            {accounts.map((account) => (
+                              <Picker.Item
+                                key={account.user_id}
+                                label={account.name}
+                                value={account.user_id}
+                              />
+                            ))}
+                          </Picker>
+                        ) : (
+                          <Text style={styles.noAccountsText}>No accounts available</Text>
+                        )}
+                      </View>
                       <View style={styles.buttonContainer}>
                         <TouchableOpacity
                           style={[styles.actionButton, styles.cancelButton]}
@@ -561,8 +603,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
     fontWeight: "400",
-    paddingBottom:5,
-     fontFamily: "Inter-Regular",
+    paddingBottom: 5,
+    fontFamily: "Inter-Regular",
   },
   name: {
     color: "#fff",
@@ -808,4 +850,19 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '#48bb78',  // Vibrant green
   },
+  dropdownContainer: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 4,
+    marginVertical: 8,
+  },
+  pickerText: {
+    height: 50,
+    width: '100%',
+  },
+  noAccountsText: {
+    padding: 10,
+    color: '#999',
+  }
+
 });

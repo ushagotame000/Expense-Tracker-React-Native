@@ -10,7 +10,7 @@ class transaction(BaseModel):
     account_id: str
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
-    
+    _id:str
 class transactionCreate(BaseModel):
     description: str
     amount: float

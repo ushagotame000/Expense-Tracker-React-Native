@@ -4,6 +4,8 @@ export interface TransactionData{
     description: string;
     amount: number;
     user_id: string;
+    type: string;
+    // account_id:string;
 }
 
 export const addTransaction = async(data:TransactionData)=>{
