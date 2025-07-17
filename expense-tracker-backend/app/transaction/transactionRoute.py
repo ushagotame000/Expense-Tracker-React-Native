@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from .transactionModel import transaction, transactionCreate
-from app.mongo import transaction_collection
+from app.mongo import transaction_collection,account_collection
 from bson.objectid import ObjectId
 from fastapi.encoders import jsonable_encoder
 from ..services.classifier import NaiveBayesClassifier
@@ -22,10 +22,21 @@ async def addTransaction(transaction: transactionCreate, classifier: NaiveBayesC
             "description": transaction.description,
             "amount": transaction.amount,
             "category": predicted_category,
-            "type": predicted_type,
-            "user_id": transaction.user_id,
-        })
-        
+            "type": transaction.type,
+            "account_id": transaction.account_id,
+            "user_id": transaction.user_id })
+        account = await account_collection.find_one({"user_id": transaction.user_id})
+        if not account:
+            raise HTTPException(status_code=404, detail="Account not found")
+
+        new_balance = account["balance"]
+        if predicted_type.lower() == "income":
+            new_balance += transaction.amount
+        elif predicted_type.lower() == "expense":
+            new_balance -= transaction.amount
+        else:
+            raise HTTPException(status_code=400, detail="Invalid transaction type")
+
         return {"msg": "Transaction added successfully", "category": predicted_category, "type": predicted_type}
         
     except Exception as e:
