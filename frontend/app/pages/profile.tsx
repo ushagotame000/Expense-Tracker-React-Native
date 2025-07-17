@@ -10,10 +10,17 @@ import {
 } from "react-native";
 import { icons } from "@/assets/images/assets";
 import ListItem from "../components/ListItem";
+import { logout } from "../api/auth";
+import { useNavigation } from "expo-router";
 
 const { height } = Dimensions.get("window");
 
 export default function Profile() {
+  const logout = () => {
+     alert('Logout pressed'); // Test if this logs
+     // Your actual logout logic here
+   };
+   const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -22,7 +29,7 @@ export default function Profile() {
         resizeMode="cover"
       >
         <View style={styles.header}>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity style={styles.iconButton} onPress={() => navigation.goBack()}>
             <FontAwesome name="arrow-left" size={20} color="#ffffff" />
           </TouchableOpacity>
 
@@ -50,6 +57,9 @@ export default function Profile() {
           <ListItem icon="envelope" text="Message center" />
           <ListItem icon="shield" text="Login and security" />
           <ListItem icon="lock" text="Data and privacy" />
+         <TouchableOpacity onPress={logout}>
+          <ListItem icon="arrow-left" text="Logout" />
+         </TouchableOpacity>
         </View>
       </View>
     </View>
