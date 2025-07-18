@@ -2,7 +2,6 @@ import { icons } from "@/assets/images/assets";
 import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { AccountData, getAllUserAccounts } from "../api/account";
 import {
   ActivityIndicator,
   Dimensions,
@@ -16,11 +15,12 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
-import { addAccount } from "../api/account";
-import { Picker } from "@react-native-picker/picker";
+import { AccountData, addAccount, getAllUserAccounts } from "../api/account";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { addTransaction, TransactionData } from "../api/transaction";
+import { Picker } from "@react-native-picker/picker";
 import { logout } from "../api/auth";
+import { addTransaction, getAllTransaction, TransactionData, TransactionDataFetch } from "../api/transaction";
 import { Greeting } from "../constant/greeting";
 
 const { height, width } = Dimensions.get("window");
@@ -38,7 +38,8 @@ export default function HomePage() {
   const [description, setNewDescription] = useState("");
   const [transactionAmount, setTransactionAmount] = useState("0");
   const [transactionType, setTransactionType] = useState("");
-  const [selectedAccount, setSelectedAccount] = useState(null);
+  const [selectedAccount, setSelectedAccount] = useState<string | null>(null);
+  const [transactionAccount, setTransactionAccount] = useState<TransactionDataFetch[]>([]);
   const router = useRouter();
 
   const handleAddTransaction = async () => {
@@ -59,6 +60,7 @@ export default function HomePage() {
         description: description.trim(),
         amount: parseFloat(transactionAmount) || 0,
         type: transactionType,
+        account_id: selectedAccount!,
       };
       setIsLoading(true);
       setError("");
@@ -78,6 +80,25 @@ export default function HomePage() {
     }
   }
 
+  useEffect(() => {
+    const fetchAllTransaction = async () => {
+      try {
+        const userId = await AsyncStorage.getItem('user_id');
+        if (userId) {
+          const transactionAccount = await getAllTransaction(userId);
+          setTransactionAccount(transactionAccount);
+        }
+      } catch (err) {
+        setError('Failed to fetch transaction');
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    console.log("transaction account", transactionAccount);
+
+    fetchAllTransaction();
+  }, []);
 
   const handleAddaccount = async () => {
     if (!newAccountName.trim()) {
@@ -92,7 +113,7 @@ export default function HomePage() {
         setError('User not authenticated');
         return;
       }
-      const accountData: AccountData = {
+      const accountData = {
         user_id: userId,
         name: newAccountName.trim(),
         balance: parseFloat(initialBalance) || 0,
@@ -122,7 +143,7 @@ export default function HomePage() {
         const userId = await AsyncStorage.getItem('user_id');
         if (userId) {
           const userAccounts = await getAllUserAccounts(userId);
-          console.log('fetched accout:', userAccounts)
+          // console.log('fetched accout:', userAccounts)
           setAccounts(userAccounts);
         }
       } catch (err) {
@@ -132,7 +153,7 @@ export default function HomePage() {
         setIsLoading(false);
       }
     };
-    console.log("userid is from fetch", userId);
+    console.log("account", accounts);
 
     fetchUserAccount();
   }, []);
@@ -228,13 +249,12 @@ export default function HomePage() {
             {accounts.length > 0 ? (
               accounts.map((account) => (
                 <TouchableOpacity
-                  key={`${account.user_id}`}
+                  key={`${account._id}`}
                   style={styles.accountCard}
                   onPress={() => {
 
                     console.log('Account pressed:', account.user_id)
                     console.log('New Account Name:', account.name);
-                    console.log('Account id:', account._id)
                   }
                   }
 
@@ -257,20 +277,41 @@ export default function HomePage() {
         </View>
 
         {/* </ScrollView> */}
+
+        {/* transaction history layout */}
         <View style={styles.transactionHeader}>
           <Text style={styles.transactionTitle}>Transaction History</Text>
           <Text style={styles.semiTitle}>See all</Text>
         </View>
+
         <View>
-          <View style={styles.items}>
-            <Text style={styles.sectionTitle}>
-              Upwork {"\n"}
-              <Text style={styles.semiTitle}>Today</Text>
-            </Text>
-            <Text style={styles.transactionBalance}>+$850.00</Text>
-          </View>
+          {transactionAccount.length > 0 ? (
+            transactionAccount.map((transaction) => (
+              <View key={transaction._id} style={styles.items}>
+                <Text style={styles.sectionTitle}>
+                  {transaction.description}
+                  {"\n"}
+                  <Text style={styles.semiTitle}>
+                    {transaction.created_at ? new Date(transaction.created_at).toLocaleDateString() : 'N/A'}
+                  </Text>
+                </Text>
+
+                <Text
+                  style={[
+                    styles.transactionBalance,
+                    transaction.type === 'expense' ? styles.expense : styles.income
+                  ]}
+                >
+                  {transaction.type === 'expense' ? '-' : '+'}${transaction.amount.toFixed(2)}
+                </Text>
+              </View>
+            ))
+          ) : (
+            <Text>No accounts found</Text>
+          )}
         </View>
       </View>
+      {/* end transaction history */}
 
       <TouchableOpacity
         style={styles.floatingButton}
@@ -297,11 +338,11 @@ export default function HomePage() {
                     setTransactionType("Income");
                     setTransactionModelVisible(true);
 
-                    // 2. Navigate and pass params (optional, if you still need navigation)
-                    router.push({
-                      pathname: "/screen/[type]/[id]",
-                      params: { type: "Income", id: 0 },
-                    });
+                    // // 2. Navigate and pass params (optional, if you still need navigation)
+                    // router.push({
+                    //   pathname: "/screen/[type]/[id]",
+                    //   params: { type: "Income", id: 0 },
+                    // });
                   }}
                 >
                   <Text style={styles.modalButtonText}>Add Income</Text>
@@ -313,14 +354,9 @@ export default function HomePage() {
                     setTransactionModelVisible(true);
                   }}
                 >
-                  <Link
-                    href={{
-                      pathname: "/screen/[type]/[id]",
-                      params: { type: "Expense", id: 0 },
-                    }}>
-                    <Text style={styles.modalButtonText}>Add Expense</Text>
-                  </Link>
+                  <Text style={styles.modalButtonText}>Add Expense</Text>
                 </TouchableOpacity>
+                {/* add expnse end */}
 
                 {/* transaction model */}
                 <Modal
@@ -360,9 +396,9 @@ export default function HomePage() {
                           >
                             {accounts.map((account) => (
                               <Picker.Item
-                                key={account.user_id}
+                                key={account._id}
                                 label={account.name}
-                                value={account.user_id}
+                                value={account._id}
                               />
                             ))}
                           </Picker>
@@ -406,11 +442,13 @@ export default function HomePage() {
           <View style={styles.modalOverlay}>
             <TouchableWithoutFeedback>
               <View style={styles.modalView}>
-                <Text style={styles.modalTitle}>Select Accounts</Text>
-
+                <Text style={styles.modalTitle}>Create Account</Text>
+                <Text> {accounts.length > 0 ? "lot of acocunts" : "No accounts found"}
+                </Text>
                 {/* Account options */}
                 <View style={styles.container}>
                   {accounts.length > 0 ? (
+
                     accounts.map((account) => (
                       <View key={`${account._id}`} >
                         <TouchableOpacity style={styles.accountOption}>
@@ -860,6 +898,17 @@ const styles = StyleSheet.create({
   noAccountsText: {
     padding: 10,
     color: '#999',
-  }
+  },
+   income: {
+    color: '#4CAF50',  // Green for income
+    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+    paddingHorizontal: 8,
+    borderRadius: 4,
+  },
+  expense: {
+    color: '#F44336',  // Red for expenses
+    // Optional additional styling:
+    backgroundColor: 'rgba(244, 67, 54, 0.1)',
+  },
 
 });
