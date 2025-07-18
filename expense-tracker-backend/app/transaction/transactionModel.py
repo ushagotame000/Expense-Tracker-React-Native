@@ -15,3 +15,5 @@ class transactionCreate(BaseModel):
     description: str
     amount: float
     user_id: str
+    type:str
+    account_id: str

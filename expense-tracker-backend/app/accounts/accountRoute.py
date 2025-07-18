@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
-from .accountModel import account,AccountResponse
+from .accountModel import Account,AccountResponse,SingleAccountResponse
 from app.mongo import account_collection
 from bson.objectid import ObjectId
 from fastapi.encoders import jsonable_encoder
@@ -7,7 +7,7 @@ from fastapi.encoders import jsonable_encoder
 router = APIRouter()
 
 @router.post("/add-account")
-async def addAccount(account: account):
+async def addAccount(account: Account):
     try:
         await account_collection.insert_one({"user_id": account.user_id, "name": account.name,"balance": account.balance})
         return {"msg": "Account added successfully"}
@@ -15,7 +15,7 @@ async def addAccount(account: account):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to add account: {e}")
 @router.put('/edit-account/{account_id}')
-async def editAccount(account_id: str,account:account):
+async def editAccount(account_id: str,account:Account):
     if not ObjectId.is_valid(account_id):
         raise HTTPException(status_code=400, detail="Invalid account ID")
     account_data = {
@@ -45,30 +45,34 @@ async def deleteAccount(account_id:str):
         raise HTTPException(status_code=500, detail=f"Failed to delete account: {e}")
 
 
-@router.get('/get-user-accounts/{user_id}',response_model=AccountResponse)
-async def getUserAccounts(user_id:str):
+# Get All Accounts for a User
+@router.get('/get-user-accounts/{user_id}', response_model=AccountResponse)
+async def getUserAccounts(user_id: str):
     if not ObjectId.is_valid(user_id):
-        raise HTTPException(status_code=400, detail="Invalid account ID")
+        raise HTTPException(status_code=400, detail="Invalid user ID")
     try:
         accounts = await account_collection.find({"user_id": user_id}).to_list(length=None)
-
         if not accounts:
             raise HTTPException(status_code=404, detail="No accounts found for this user ID")
-
-        return {"msg": "Account fetched successfully","accounts": accounts}
+        # Convert _id to string before creating Account model instances
+        account_list = [Account(**{**account, "_id": str(account["_id"])}) for account in accounts]
+        return {"msg": "Accounts fetched successfully", "accounts": account_list}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to fetch account: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch accounts: {str(e)}")
+
     
-@router.get('/get-user-account/{account_id}',response_model=AccountResponse)
+    
+    
+@router.get('/get-user-account/{account_id}',response_model=SingleAccountResponse)
 async def getUserAccounts(account_id:str):
     if not ObjectId.is_valid(account_id):
         raise HTTPException(status_code=400, detail="Invalid account ID")
     try:
-        accounts = await account_collection.find_one({"_id": account_id})
-
-        if not accounts:
+        account = await account_collection.find_one({"_id": ObjectId(account_id)})
+        account_model = Account(**{**account, "_id": str(account["_id"])})
+        if not account:
             raise HTTPException(status_code=404, detail="No accounts found for this user ID")
 
-        return {"msg": "Account fetched successfully","accounts": accounts}
+        return {"msg": "Account fetched successfully","account": account_model}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch account: {e}")

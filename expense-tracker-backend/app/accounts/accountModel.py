@@ -3,18 +3,23 @@ from bson import ObjectId
 from typing import List, Optional
 from datetime import datetime
 
-class account(BaseModel):
-    _id:str
+class Account(BaseModel):
+    id: Optional[str] = Field(alias="_id", default=None)
     user_id: str
     name: str
     balance: float
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
-class Config:
-    json_encoders = {
-        ObjectId: str  # Automatically convert ObjectId to string
-    }
+    class Config:
+        populate_by_name = True 
+        json_encoders = {
+            ObjectId: str  # Automatically convert ObjectId to string
+        }
+        arbitrary_types_allowed = True 
     
 class AccountResponse(BaseModel):
     msg: str
-    accounts: List[account]
+    accounts: List[Account]
+class SingleAccountResponse(BaseModel):
+    msg: str
+    account: Account
