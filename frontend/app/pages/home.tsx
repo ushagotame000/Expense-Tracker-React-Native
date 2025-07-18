@@ -446,7 +446,8 @@ export default function HomePage() {
                 <Text> {accounts.length > 0 ? "lot of acocunts" : "No accounts found"}
                 </Text>
                 {/* Account options */}
-                <View style={styles.container}>
+                <View>
+
                   {accounts.length > 0 ? (
 
                     accounts.map((account) => (
