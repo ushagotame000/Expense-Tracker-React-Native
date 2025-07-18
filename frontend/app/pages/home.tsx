@@ -59,7 +59,6 @@ export default function HomePage() {
         description: description.trim(),
         amount: parseFloat(transactionAmount) || 0,
         type: transactionType,
-        // account_id: accounts._id;
       };
       setIsLoading(true);
       setError("");
@@ -93,12 +92,10 @@ export default function HomePage() {
         setError('User not authenticated');
         return;
       }
-      const account_id = accounts[0]?.account_id || "1";
       const accountData: AccountData = {
         user_id: userId,
         name: newAccountName.trim(),
         balance: parseFloat(initialBalance) || 0,
-        account_id: account_id||"1",
       };
       setIsLoading(true);
       setError("");
@@ -237,7 +234,7 @@ export default function HomePage() {
 
                     console.log('Account pressed:', account.user_id)
                     console.log('New Account Name:', account.name);
-                    console.log('Account id:', account.account_id)
+                    console.log('Account id:', account._id)
                   }
                   }
 
@@ -415,7 +412,7 @@ export default function HomePage() {
                 <View style={styles.container}>
                   {accounts.length > 0 ? (
                     accounts.map((account) => (
-                      <View key={`${account.user_id}`} >
+                      <View key={`${account._id}`} >
                         <TouchableOpacity style={styles.accountOption}>
                           <Text style={styles.accountText}>{account.name}</Text>
                         </TouchableOpacity>

@@ -5,7 +5,7 @@ export interface TransactionData{
     amount: number;
     user_id: string;
     type: string;
-    // account_id:string;
+    account_id:string;
 }
 
 export const addTransaction = async(data:TransactionData)=>{
