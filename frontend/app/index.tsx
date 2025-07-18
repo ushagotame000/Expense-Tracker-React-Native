@@ -1,10 +1,22 @@
-import { Link, useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { icons } from "../assets/images/assets"; 
+import { icons } from "../assets/images/assets";
 
 export default function Index() {
+
   const router = useRouter();
+  const handleGetStarted = async () => {
+    const token = await AsyncStorage.getItem('access_token');
+
+    if (token && token.trim() !== '') {
+      router.replace("/pages/home")
+    }
+    else {
+      router.push("/auth/login")
+    }
+  }
   return (
     <View style={styles.container}>
       <Image source={icons.Man} style={styles.image} resizeMode="contain" />
@@ -13,12 +25,12 @@ export default function Index() {
       </View>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => router.navigate("/auth/login")}
+        onPress={handleGetStarted}
       >
         <Text style={styles.btntext}>Get Started</Text>
       </TouchableOpacity>
-     
-      <TouchableOpacity onPress={()=>router.navigate('/auth/login')}>
+
+      <TouchableOpacity onPress={handleGetStarted}>
         <Text style={styles.loginText}>
           Already Have Account? <Text style={styles.loginLink}>Log In</Text>
         </Text>
