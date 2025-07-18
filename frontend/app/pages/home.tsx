@@ -407,10 +407,10 @@ export default function HomePage() {
             <TouchableWithoutFeedback>
               <View style={styles.modalView}>
                 <Text style={styles.modalTitle}>Create Account</Text>
-                <Text> {accounts.length > 0 ? "lot of acocunts": "No accounts found"}
-</Text>
+            
                 {/* Account options */}
-                <View style={styles.container}>
+                <View>
+
                   {accounts.length > 0 ? (
         
                     accounts.map((account) => (
