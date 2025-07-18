@@ -48,6 +48,7 @@ async def getTransactions(user_id: str):
         raise HTTPException(status_code=400, detail="Invalid user ID")
     try:
         transactions = await transaction_collection.find({"user_id": user_id}).to_list(length=None)
+        transactions = [transactions(**{**transaction, "_id": str(transaction["_id"])}) for transaction in transactions]
 
         if not transactions:
             raise HTTPException(status_code=404, detail="No transactions found for this user ID")
@@ -62,6 +63,7 @@ async def getTransaction(transaction_id: str):
         raise HTTPException(status_code=400, detail="Invalid transaction ID")
     try:
         transaction = await transaction_collection.find_one({"_id": transaction_id})
+        transaction = transaction(**{**transaction, "_id": str(transaction["_id"])})
 
         if not transaction:
             raise HTTPException(status_code=404, detail="No transaction found for this transaction ID")
