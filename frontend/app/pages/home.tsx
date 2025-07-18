@@ -2,7 +2,6 @@ import { icons } from "@/assets/images/assets";
 import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { AccountData, getAllUserAccounts } from "../api/account";
 import {
   ActivityIndicator,
   Dimensions,
@@ -16,11 +15,12 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
-import { addAccount } from "../api/account";
-import { Picker } from "@react-native-picker/picker";
+import { AccountData, addAccount, getAllUserAccounts } from "../api/account";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { addTransaction, TransactionData } from "../api/transaction";
+import { Picker } from "@react-native-picker/picker";
 import { logout } from "../api/auth";
+import { addTransaction, TransactionData } from "../api/transaction";
 import { Greeting } from "../constant/greeting";
 
 const { height, width } = Dimensions.get("window");
@@ -93,12 +93,10 @@ export default function HomePage() {
         setError('User not authenticated');
         return;
       }
-      const account_id = accounts[0]?.account_id || "1";
-      const accountData: AccountData = {
+      const accountData = {
         user_id: userId,
         name: newAccountName.trim(),
         balance: parseFloat(initialBalance) || 0,
-        account_id: account_id||"1",
       };
       setIsLoading(true);
       setError("");
@@ -125,7 +123,7 @@ export default function HomePage() {
         const userId = await AsyncStorage.getItem('user_id');
         if (userId) {
           const userAccounts = await getAllUserAccounts(userId);
-          console.log('fetched accout:', userAccounts)
+          // console.log('fetched accout:', userAccounts)
           setAccounts(userAccounts);
         }
       } catch (err) {
@@ -135,7 +133,7 @@ export default function HomePage() {
         setIsLoading(false);
       }
     };
-    console.log("userid is from fetch", userId);
+    console.log("account", accounts);
 
     fetchUserAccount();
   }, []);
@@ -231,13 +229,12 @@ export default function HomePage() {
             {accounts.length > 0 ? (
               accounts.map((account) => (
                 <TouchableOpacity
-                  key={`${account.user_id}`}
+                  key={`${account._id}`}
                   style={styles.accountCard}
                   onPress={() => {
 
                     console.log('Account pressed:', account.user_id)
                     console.log('New Account Name:', account.name);
-                    console.log('Account id:', account.account_id)
                   }
                   }
 
@@ -409,13 +406,15 @@ export default function HomePage() {
           <View style={styles.modalOverlay}>
             <TouchableWithoutFeedback>
               <View style={styles.modalView}>
-                <Text style={styles.modalTitle}>Select Accounts</Text>
-
+                <Text style={styles.modalTitle}>Create Account</Text>
+                <Text> {accounts.length > 0 ? "lot of acocunts": "No accounts found"}
+</Text>
                 {/* Account options */}
                 <View style={styles.container}>
                   {accounts.length > 0 ? (
+        
                     accounts.map((account) => (
-                      <View key={`${account.user_id}`} >
+                      <View key={`${account._id}`} >
                         <TouchableOpacity style={styles.accountOption}>
                           <Text style={styles.accountText}>{account.name}</Text>
                         </TouchableOpacity>

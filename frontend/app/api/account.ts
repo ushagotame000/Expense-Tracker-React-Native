@@ -1,4 +1,3 @@
-import { router } from "expo-router";
 import { BASE_URL } from "../config/config";
 
 
@@ -6,10 +5,16 @@ import { BASE_URL } from "../config/config";
   user_id: string;
   name: string;
   balance: number;
-  account_id:string;
+  _id:string;
 }
 
-export const addAccount = async (data: AccountData) => {
+export interface IAccountCreate{
+    user_id: string;
+  name: string;
+  balance: number;
+}
+
+export const addAccount = async (data: IAccountCreate) => {
   try {
     const res = await fetch(`${BASE_URL}/add-account`, {
       method: 'POST',
