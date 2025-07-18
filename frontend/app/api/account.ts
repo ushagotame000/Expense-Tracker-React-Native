@@ -6,6 +6,7 @@ import { BASE_URL } from "../config/config";
   name: string;
   balance: number;
   _id:string;
+
 }
 
 export interface IAccountCreate{
