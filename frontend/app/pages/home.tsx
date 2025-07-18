@@ -911,5 +911,4 @@ const styles = StyleSheet.create({
     // Optional additional styling:
     backgroundColor: 'rgba(244, 67, 54, 0.1)',
   },
-
 });
