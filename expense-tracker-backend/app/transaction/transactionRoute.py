@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
-from .transactionModel import transaction, transactionCreate
+from .transactionModel import Transaction, TransactionCreate, TransactionResponse
 from app.mongo import transaction_collection,account_collection
 from bson.objectid import ObjectId
 from fastapi.encoders import jsonable_encoder
@@ -14,7 +14,7 @@ def get_classifier():
     return classifier
 
 @router.post("/add-transaction")
-async def addTransaction(transaction: transactionCreate, classifier: NaiveBayesClassifier = Depends(get_classifier)):
+async def addTransaction(transaction: TransactionCreate, classifier: NaiveBayesClassifier = Depends(get_classifier)):
     try:
         predicted_type, predicted_category, _, _ = classifier.classify(transaction.description)
         # return classifier.classify(transaction.description)
@@ -48,12 +48,12 @@ async def getTransactions(user_id: str):
         raise HTTPException(status_code=400, detail="Invalid user ID")
     try:
         transactions = await transaction_collection.find({"user_id": user_id}).to_list(length=None)
-        transactions = [transactions(**{**transaction, "_id": str(transaction["_id"])}) for transaction in transactions]
+        transaction_list = [Transaction(**{**tr, "_id": str(tr["_id"])}) for tr in transactions]
 
         if not transactions:
             raise HTTPException(status_code=404, detail="No transactions found for this user ID")
 
-        return {"msg": "Transactions fetched successfully", "transactions": transactions}
+        return {"msg": "Transactions fetched successfully", "transactions": transaction_list}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch transactions: {e}")
 
@@ -62,9 +62,9 @@ async def getTransaction(transaction_id: str):
     if not ObjectId.is_valid(transaction_id):
         raise HTTPException(status_code=400, detail="Invalid transaction ID")
     try:
-        transaction = await transaction_collection.find_one({"_id": transaction_id})
-        transaction = transaction(**{**transaction, "_id": str(transaction["_id"])})
-
+        transaction = await transaction_collection.find_one({"_id": ObjectId(transaction_id)})
+        # return transaction
+        transaction = Transaction(**{**transaction,"_id":str(transaction["_id"])}) 
         if not transaction:
             raise HTTPException(status_code=404, detail="No transaction found for this transaction ID")
 
@@ -73,7 +73,7 @@ async def getTransaction(transaction_id: str):
         raise HTTPException(status_code=500, detail=f"Failed to fetch transaction: {e}")
 
 @router.put('/edit-transaction/{transaction_id}')
-async def editTransaction(transaction_id: str, updated_transaction: transactionCreate):
+async def editTransaction(transaction_id: str, updated_transaction: TransactionCreate):
     if not ObjectId.is_valid(transaction_id):
         raise HTTPException(status_code=400, detail="Invalid transaction ID")
     try:
