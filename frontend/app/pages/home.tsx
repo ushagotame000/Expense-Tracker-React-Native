@@ -1,6 +1,6 @@
 import { icons } from "@/assets/images/assets";
 import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,

@@ -14,38 +14,41 @@ def get_classifier():
 @router.post("/add-transaction")
 async def addTransaction(transaction: TransactionCreate, classifier: NaiveBayesClassifier = Depends(get_classifier)):
     try:
-        predicted_type, predicted_category, _, _ = classifier.classify(transaction.description)
+        # predicted_type, predicted_category, _, _ = classifier.classify(transaction.description, transaction.type)
+        prediction = classifier.predict_category(transaction.description, transaction.type)
+        predicted_category = prediction["predicted_category"]
 
+        # return predicted_category
         await transaction_collection.insert_one({
             "description": transaction.description,
             "amount": transaction.amount,
             "category": predicted_category,
-            "type": predicted_type,
+            "type": transaction.type,
             "account_id": transaction.account_id,
             "user_id": transaction.user_id
         })
 
-        account = await account_collection.find_one({"user_id": transaction.user_id})
+        account = await account_collection.find_one({"_id": ObjectId(transaction.account_id)})
         if not account:
             raise HTTPException(status_code=404, detail="Account not found")
 
         new_balance = account["balance"]
-        if predicted_type.lower() == "income":
+        if transaction.type.lower() == "income":
             new_balance += transaction.amount
-        elif predicted_type.lower() == "expense":
+        elif transaction.type.lower() == "expense":
             new_balance -= transaction.amount
         else:
             raise HTTPException(status_code=400, detail="Invalid transaction type")
 
         await account_collection.update_one(
-            {"user_id": transaction.user_id},
+            {"_id": ObjectId(transaction.account_id)},
             {"$set": {"balance": new_balance}}
         )
 
         return {
             "msg": "Transaction added successfully",
             "category": predicted_category,
-            "type": predicted_type
+            "type": transaction.type
         }
 
     except Exception as e:
@@ -98,7 +101,7 @@ async def editTransaction(transaction_id: str, updated_transaction: TransactionC
             raise HTTPException(status_code=404, detail="Original transaction not found")
 
         # Fetch account
-        account = await account_collection.find_one({"user_id": existing["user_id"]})
+        account = await account_collection.find_one({"account_id": ObjectId(updated_transaction.account_id)})
         if not account:
             raise HTTPException(status_code=404, detail="Account not found")
 

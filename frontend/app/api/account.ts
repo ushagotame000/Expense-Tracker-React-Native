@@ -13,14 +13,17 @@ export interface AccountWithTransactions {
   account: AccountData;
   transaction_count: number;
   transactions: TransactionData[];
-  total_balance: number;
 }
 export interface IAccountCreate{
     user_id: string;
   name: string;
   balance: number;
 }
-
+export interface IAccountResponse {
+  msg: string;
+  total_balance: number;  
+  accounts: AccountWithTransactions[];
+}
 export const addAccount = async (data: IAccountCreate) => {
   try {
     const res = await fetch(`${BASE_URL}/add-account`, {
