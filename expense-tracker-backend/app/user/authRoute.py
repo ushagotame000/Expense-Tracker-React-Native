@@ -22,9 +22,10 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     user = await user_collection.find_one({"email": form_data.username})
     if not user or not verify_password(form_data.password, user["password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
-
+    user.pop("password", None)
+    user["_id"] = str(user["_id"])
     access_token = create_access_token(data={"sub": str(user["_id"])})
-    return {"access_token": access_token, "token_type": "bearer","user_id": str(user["_id"]),"user_name":str(user["username"]) }
+    return {"access_token": access_token, "token_type": "bearer","user_id": str(user["_id"]),"user":user }
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):

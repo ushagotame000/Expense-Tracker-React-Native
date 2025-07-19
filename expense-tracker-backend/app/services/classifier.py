@@ -100,7 +100,7 @@ class NaiveBayesClassifier:
         self.classes = ['income', 'expense']
         self.categories = {
             'income': ['salary', 'investment', 'gift', 'freelance', 'rental', 'income'],
-            'expense': ['food', 'transport', 'bills', 'entertainment', 'housing', 'healthcare', 'education']
+            'expense': ['food', 'transport', 'bills', 'entertainment','shopping', 'housing', 'healthcare', 'education']
         }
 
     def preprocess(self, text):

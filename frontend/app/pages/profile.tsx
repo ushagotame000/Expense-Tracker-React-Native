@@ -1,5 +1,5 @@
 import { FontAwesome } from "@expo/vector-icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -12,10 +12,26 @@ import { icons } from "@/assets/images/assets";
 import ListItem from "../components/ListItem";
 import { logout } from "../api/auth";
 import { useNavigation } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { height } = Dimensions.get("window");
 
 export default function Profile() {
+  const [user, setUser] = useState<any>();
+    useEffect(()=>{
+      const loadUserData = async() => {
+        try{
+          const userData = await AsyncStorage.getItem('user')
+             if (userData !== null) {
+            setUser(JSON.parse(userData));
+          }
+        }
+        catch (e) {
+          console.log("Failed to load user data", e);
+        }
+      }
+     loadUserData();
+    }, []);
   const logout = () => {
      alert('Logout pressed'); // Test if this logs
      // Your actual logout logic here
@@ -46,8 +62,8 @@ export default function Profile() {
           <FontAwesome name="user" size={150} color="#00712D" />
         </View>
         <View style={styles.info}>
-          <Text style={styles.name}>Usha Gotame</Text>
-          <Text style={styles.email}>@Usha Gotame</Text>
+          <Text style={styles.name}>{user?.username}</Text>
+          <Text style={styles.email}>{user?.email}</Text>
         </View>
 
         <View style={styles.listContainer}>

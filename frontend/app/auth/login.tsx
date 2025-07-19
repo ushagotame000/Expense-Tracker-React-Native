@@ -41,9 +41,10 @@ const LoginForm = () => {
     setIsLoading(true);
     try {
       const response = await login(username, password);
+      console.log(response.user)
       await AsyncStorage.setItem('access_token', response.access_token);
       await AsyncStorage.setItem('user_id',response.user_id);
-      
+      await AsyncStorage.setItem('user',JSON.stringify(response.user))
       // Show toast (Android only)
       if (Platform.OS === 'android') {
         ToastAndroid.show('Login Successful', ToastAndroid.SHORT);
