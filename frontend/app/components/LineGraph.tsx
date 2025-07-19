@@ -1,171 +1,132 @@
-import React, { useRef, useState } from "react";
-import {
-  View,
-  Dimensions,
-  Text,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
-import { LineChart } from "react-native-chart-kit";
-
-type DataPoint = {
-  index: number;
-  value: number;
-  dataset: {
-    data: number[];
-    [key: string]: any;
-  };
-  x: number;
-  y: number;
-  getColor: (opacity: number) => string;
-};
-
-type SelectedPoint = {
-  month: string;
-  value: string;
-  x: number;
-  y: number;
-};
+import React from "react";
+import { Dimensions, View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { PieChart } from "react-native-chart-kit";
 
 const screenWidth = Dimensions.get("window").width;
-const chartWidth = screenWidth * 2;
 
-const LineGraph: React.FC = () => {
-  const scrollViewRef = useRef<ScrollView>(null);
-  const [selectedPoint, setSelectedPoint] = useState<SelectedPoint | null>(null);
+// Define types for our data
+interface CategoryData {
+  name: string;
+  amount: number;
+  color: string;
+}
 
-  const data = {
-    labels: [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    ],
-    datasets: [
-      {
-        data: [800, 900, 1000, 950, 1100, 1050, 1200, 1150, 1230, 1300, 1250, 1400],
-      },
-    ],
-  };
+interface ChartSegment {
+  name: string;
+  population: number;
+  color: string;
+  legendFontColor: string;
+  legendFontSize: number;
+}
 
-  const handlePointPress = (dataPoint: DataPoint) => {
-    const monthIndex = dataPoint.index;
-    const month = data.labels[monthIndex];
-    setSelectedPoint({
-      month,
-      value: `$${dataPoint.value.toLocaleString()}`,
-      x: dataPoint.x,
-      y: dataPoint.y,
-    });
-  };
+interface PieChartProps {
+  categoryData: CategoryData[];
+  onSegmentPress?: (segment: ChartSegment) => void;
+}
+
+const ChartPie: React.FC<PieChartProps> = ({ categoryData, onSegmentPress }) => {
+  // Prepare data for the pie chart with proper typing
+  const chartData: ChartSegment[] = categoryData.map(item => ({
+    name: item.name,
+    population: item.amount,
+    color: item.color,
+    legendFontColor: '#7F7F7F',
+    legendFontSize: 12
+  }));
+
+  // Calculate total for percentages
+  const totalAmount = chartData.reduce((sum, item) => sum + item.population, 0);
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        ref={scrollViewRef}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.scrollViewContent}
-      >
-        <View style={{ position: "relative" }}>
-          <LineChart
-            data={data}
-            width={chartWidth}
-            height={220}
-            withDots={true}
-            withShadow={false}
-            withInnerLines={false}
-            withOuterLines={false}
-            withVerticalLines={false}
-            withHorizontalLines={true}
-            withVerticalLabels={true} 
-            withHorizontalLabels={false} 
-            onDataPointClick={handlePointPress}
-            chartConfig={{
-              backgroundColor: "#ffffff",
-              backgroundGradientFrom: "#ffffff",
-              backgroundGradientTo: "#ffffff",
-              decimalPlaces: 0,
-              color: (opacity = 1) => `rgba(0, 113, 45, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-              propsForDots: {
-                r: "5",
-                strokeWidth: "2",
-                stroke: "#00712D",
-                fill: "#ffffff",
-              },
-            }}
-            bezier
-            style={styles.chartStyle}
-          />
+      {/* Pie Chart */}
+      <View style={styles.chartContainer}>
+        <PieChart
+          data={chartData}
+          width={screenWidth * 0.90}  
+          height={220}
+          chartConfig={{
+            backgroundColor: "#ffffff",
+            backgroundGradientFrom: "#ffffff",
+            backgroundGradientTo: "#ffffff",
+            decimalPlaces: 2,
+            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+          }}
+          accessor="population"
+          backgroundColor="transparent"
+          paddingLeft="0"  // Changed from 15 to 0
+          absolute
+          hasLegend={false}
+          style={styles.chartStyle}
+        />
+      </View>
 
-          {selectedPoint && (
-            <View
-              style={[
-                styles.verticalLine,
-                {
-                  left: selectedPoint.x,
-                  top: selectedPoint.y,
-                  height: 220 - selectedPoint.y, // from dot to bottom of chart
-                },
-              ]}
-            />
-          )}
-        </View>
-      </ScrollView>
-
-      {selectedPoint && (
-        <View
-          style={[
-            styles.tooltip,
-            {
-              left: selectedPoint.x - 75,
-              top: selectedPoint.y - 60,
-            },
-          ]}
-        >
-          <Text style={styles.tooltipText}>{selectedPoint.month}</Text>
-          <Text style={styles.tooltipText}>{selectedPoint.value}</Text>
-        </View>
-      )}
+      {/* Category Legend - Right Column */}
+      <View style={styles.legendContainer}>
+        {chartData.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.legendItem}
+            onPress={() => onSegmentPress?.(item)}
+          >
+            <View style={[styles.colorBox, { backgroundColor: item.color }]} />
+            <View style={styles.legendTextContainer}>
+              <Text style={styles.categoryName} numberOfLines={1}>
+                {item.name}
+              </Text>
+              <Text style={styles.categoryValue}>
+                Rs {item.population.toFixed(2)} ({(totalAmount > 0 ? 
+                  ((item.population / totalAmount) * 100).toFixed(1) : 0)}%)
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 10,
+ container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: -10,
+    paddingHorizontal: 10,  
   },
-  scrollViewContent: {
-    paddingRight: 16,
+  chartContainer: {
+    width: '65%',  
+  },
+  legendContainer: {
+    width: '35%',  
+    paddingLeft: 5, 
   },
   chartStyle: {
-    marginVertical: 8,
     borderRadius: 16,
   },
-  tooltip: {
-    position: "absolute",
-    backgroundColor: "white",
-    padding: 5,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#00712D",
-    zIndex: 100,
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
   },
-  tooltipText: {
-    color: "#00712D",
-    fontWeight: "semibold",
-    fontFamily:"Inter-SemiBold",
-    textAlign: "center",
+  colorBox: {
+    width: 12,
+    height: 12,
+    borderRadius: 2,
+    marginRight: 8,
   },
-  verticalLine: {
-    position: "absolute",
-    width: 1.5,
-    backgroundColor: "#00712D",
-    borderStyle: "dotted",
-    borderWidth: 0,
-    borderColor: "#00712D",
-    zIndex: 50,
+  legendTextContainer: {
+    flex: 1,
+  },
+  categoryName: {
+    fontSize: 12,
+    color: '#333',
+    fontWeight: '500',
+  },
+  categoryValue: {
+    fontSize: 11,
+    color: '#666',
   },
 });
 
-export default LineGraph;
+export default ChartPie;

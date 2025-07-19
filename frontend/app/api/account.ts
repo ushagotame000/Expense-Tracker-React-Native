@@ -1,20 +1,29 @@
 import { BASE_URL } from "../config/config";
+import { TransactionData } from "./transaction";
 
 
  export interface AccountData {
+   _id:string;
   user_id: string;
   name: string;
   balance: number;
-  _id:string;
 
 }
-
+export interface AccountWithTransactions {
+  account: AccountData;
+  transaction_count: number;
+  transactions: TransactionData[];
+}
 export interface IAccountCreate{
     user_id: string;
   name: string;
   balance: number;
 }
-
+export interface IAccountResponse {
+  msg: string;
+  total_balance: number;  
+  accounts: AccountWithTransactions[];
+}
 export const addAccount = async (data: IAccountCreate) => {
   try {
     const res = await fetch(`${BASE_URL}/add-account`, {
@@ -35,23 +44,20 @@ export const addAccount = async (data: IAccountCreate) => {
 };
 
 
-export const getAllUserAccounts = async (user_id: string): Promise<AccountData[]> => {
+export const getAllUserAccounts = async (user_id: string): Promise<AccountWithTransactions[]> => {
   try {
     const response = await fetch(`${BASE_URL}/get-user-accounts/${user_id}`, {
       method: 'GET',
 
     });
-
     const data = await response.json();
-    
     if (!response.ok) {
       if (response.status === 404) {
         return []; 
       }
       throw new Error(data.detail || 'Failed to fetch accounts');
     }
-
-    return data.accounts as AccountData[];
+    return data.accounts as AccountWithTransactions[];
   } catch (error) {
     console.error('API Error:', error);
     return []; 

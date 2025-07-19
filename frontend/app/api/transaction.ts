@@ -13,12 +13,13 @@ export interface TransactionDataFetch {
   user_id: string;
   type: string;
   _id?: string;
-  created_at?: string;
+  created_at: string;
   updated_at?: string;
   category:string;
   account_id?:string;
 
 }
+
 
 export const addTransaction = async (data: TransactionData) => {
   try {
