@@ -141,7 +141,7 @@ async def editTransaction(transaction_id: str, updated_transaction: TransactionC
 
         # Update balance
         await account_collection.update_one(
-            {"user_id": updated_transaction.user_id},
+            {"_id": ObjectId(updated_transaction.account_id)},
             {"$set": {"balance": balance}}
         )
 
