@@ -15,7 +15,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
-import { AccountData, AccountWithTransactions, addAccount, getAllUserAccounts } from "../api/account";
+import { AccountData, AccountWithTransactions, addAccount, getAllUserAccounts, ITotalBalances } from "../api/account";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
@@ -42,6 +42,7 @@ export default function HomePage() {
   const [transactionType, setTransactionType] = useState("");
   const [selectedAccount, setSelectedAccount] = useState<string | null>(null);
   const [transactionAccount, setTransactionAccount] = useState<TransactionDataFetch[]>([]);
+  const [totalBalances, setTotalBalances] = useState<ITotalBalances | null>(null);
   const router = useRouter();
 
   const handleAddTransaction = async () => {
@@ -97,7 +98,6 @@ export default function HomePage() {
         setIsLoading(false);
       }
     };
-    console.log("transaction account", transactionAccount);
 
     fetchAllTransaction();
   }, []);
@@ -144,8 +144,10 @@ export default function HomePage() {
         const userId = await AsyncStorage.getItem('user_id');
         if (userId) {
           const userAccounts = await getAllUserAccounts(userId);
-          // console.log('fetched accout:', userAccounts)
-          setAccounts(userAccounts);
+          // console.log("Hello",userAccounts)
+          // console.log('fetched accout:', userAccounts.total_balances)
+          setTotalBalances(userAccounts.total_balances)
+          setAccounts(userAccounts.accounts);
         }
       } catch (err) {
         setError('Failed to fetch accounts');
@@ -202,13 +204,13 @@ export default function HomePage() {
               <Text style={styles.cardTitle}>
                 Total Balance {"\n"}
                 <Text style={styles.balance}>
-                  Rs {accounts[0]?.total_balance?.toLocaleString('en-IN', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                  })}
+                  Rs {totalBalances?.total_balance ?? 0}
                 </Text>
               </Text>
-
+ {/* {accounts[0]?.total_balances?.toLocaleString('en-IN', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  })} */}
               <TouchableOpacity style={styles.ellipsis} onPress={logout}>
                 <FontAwesome name="ellipsis-h" size={20} color="#ffffff" />
               </TouchableOpacity>
@@ -223,7 +225,7 @@ export default function HomePage() {
                   style={styles.arrowIcon}
                 />
                 Income {"\n"}
-                <Text style={styles.expensesBalance}>$1840.00</Text>
+                <Text style={styles.expensesBalance}>Rs {totalBalances?.total_income ?? 0}</Text>
               </Text>
               <Text style={styles.expenses}>
                 <Feather
@@ -233,7 +235,7 @@ export default function HomePage() {
                   style={styles.arrowIcon}
                 />
                 Expenses {"\n"}
-                <Text style={styles.expensesBalance}>$1840.00</Text>
+                <Text style={styles.expensesBalance}>Rs {totalBalances?.total_expense}</Text>
               </Text>
             </View>
           </View>

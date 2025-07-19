@@ -3,6 +3,7 @@ from .transactionModel import Transaction, TransactionCreate
 from app.mongo import transaction_collection, account_collection
 from bson.objectid import ObjectId
 from ..services.classifier import NaiveBayesClassifier
+from datetime import datetime
 
 router = APIRouter()
 
@@ -25,7 +26,9 @@ async def addTransaction(transaction: TransactionCreate, classifier: NaiveBayesC
             "category": predicted_category,
             "type": transaction.type,
             "account_id": transaction.account_id,
-            "user_id": transaction.user_id
+            "user_id": transaction.user_id,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
         })
 
         account = await account_collection.find_one({"_id": ObjectId(transaction.account_id)})

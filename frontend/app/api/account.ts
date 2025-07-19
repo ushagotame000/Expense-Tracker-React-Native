@@ -1,3 +1,4 @@
+import { Float } from "react-native/Libraries/Types/CodegenTypes";
 import { BASE_URL } from "../config/config";
 import { TransactionData } from "./transaction";
 
@@ -19,9 +20,14 @@ export interface IAccountCreate{
   name: string;
   balance: number;
 }
+export interface ITotalBalances{
+  total_balance: number,
+  total_income: number,
+  total_expense: number,
+}
 export interface IAccountResponse {
   msg: string;
-  total_balance: number;  
+  total_balances: ITotalBalances;  
   accounts: AccountWithTransactions[];
 }
 export const addAccount = async (data: IAccountCreate) => {
@@ -44,7 +50,7 @@ export const addAccount = async (data: IAccountCreate) => {
 };
 
 
-export const getAllUserAccounts = async (user_id: string): Promise<AccountWithTransactions[]> => {
+export const getAllUserAccounts = async (user_id: string): Promise<IAccountResponse> => {
   try {
     const response = await fetch(`${BASE_URL}/get-user-accounts/${user_id}`, {
       method: 'GET',
@@ -53,13 +59,35 @@ export const getAllUserAccounts = async (user_id: string): Promise<AccountWithTr
     const data = await response.json();
     if (!response.ok) {
       if (response.status === 404) {
-        return []; 
+        return {
+          msg:"No data found",
+             total_balances: {
+            total_balance: 0,
+            total_income: 0,
+            total_expense: 0,
+          },
+          accounts: [],
+        } 
       }
       throw new Error(data.detail || 'Failed to fetch accounts');
     }
-    return data.accounts as AccountWithTransactions[];
+     const responseData: IAccountResponse = {
+      msg: data.msg || 'Success',
+      total_balances: data.total_balances, 
+      accounts: data.accounts,
+    };
+    // return data.accounts as AccountWithTransactions[];
+    return responseData
   } catch (error) {
     console.error('API Error:', error);
-    return []; 
+   return {
+          msg:"error",
+             total_balances: {
+            total_balance: 0,
+            total_income: 0,
+            total_expense: 0,
+          },
+          accounts: [],
+        } 
   }
 };

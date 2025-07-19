@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
-from .accountModel import Account,AccountResponse,SingleAccountResponse,AccountWithTransactions
+from .accountModel import Account,AccountResponse,SingleAccountResponse,AccountWithTransactions,TotalBalances
 from app.mongo import account_collection,transaction_collection
 from bson.objectid import ObjectId
 from fastapi.encoders import jsonable_encoder
@@ -45,40 +45,65 @@ async def deleteAccount(account_id:str):
         raise HTTPException(status_code=500, detail=f"Failed to delete account: {e}")
 
 
-# Get All Accounts for a User
 @router.get('/get-user-accounts/{user_id}')
-async def getUserAccounts(user_id: str):
+async def get_user_accounts(user_id: str):
     if not ObjectId.is_valid(user_id):
         raise HTTPException(status_code=400, detail="Invalid user ID")
+
     try:
-        # accounts = await account_collection.find({"user_id": user_id}).to_list(length=None)
-        # if not accounts:
-        #     raise HTTPException(status_code=404, detail="No accounts found for this user ID")
-        # # Convert _id to string before creating Account model instances
-        # account_list = [Account(**{**account, "_id": str(account["_id"])}) for account in accounts]
-        # return {"msg": "Accounts fetched successfully", "accounts": account_list}
+        # Fetch all accounts
         accounts = await account_collection.find({"user_id": user_id}).to_list(length=None)
         if not accounts:
             raise HTTPException(status_code=404, detail="No accounts found for this user ID")
-        
+
+        # Total balance across all accounts
+        total_balance = sum(account['balance'] for account in accounts)
+
+        # Get all account IDs
+        account_ids = [str(account["_id"]) for account in accounts]
+
+        # Fetch all transactions across all user's accounts
+        transactions_raw = await transaction_collection.find({
+            "account_id": {"$in": account_ids}
+        }).to_list(length=None)
+
+        # Calculate total income and expense from transactions
+        total_income = sum(tx["amount"] for tx in transactions_raw if tx["type"] == "income")
+        total_expense = sum(tx["amount"] for tx in transactions_raw if tx["type"] == "expense")
+
+        # Prepare full account with transaction lists
         results = []
         for account in accounts:
             account_id_str = str(account["_id"])
             account_model = Account(**{**account, "_id": account_id_str})
 
-            # Fetch transactions for this account
-            transactions_raw = await transaction_collection.find({"account_id": account_id_str}).to_list(length=None)
-            transactions = [Transaction(**{**tx, "_id": str(tx["_id"])}) for tx in transactions_raw]
+            # Transactions for this specific account
+            account_transactions = [
+                Transaction(**{**tx, "_id": str(tx["_id"])})
+                for tx in transactions_raw
+                if tx["account_id"] == account_id_str
+            ]
+
             results.append(AccountWithTransactions(
                 account=account_model,
-                transaction_count=len(transactions),
-                transactions=transactions
+                transaction_count=len(account_transactions),
+                transactions=account_transactions
             ))
-        return {"msg": "Accounts and transactions fetched successfully", "accounts": results}
+
+        total_balances = TotalBalances(
+            total_balance=total_balance,
+            total_income=total_income,
+            total_expense=total_expense
+        )
+
+        return {
+            "msg": "Accounts and transactions fetched successfully",
+            "total_balances": total_balances,
+            "accounts": results
+        }
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch accounts: {str(e)}")
-
     
     
     

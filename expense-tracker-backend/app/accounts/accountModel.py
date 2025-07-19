@@ -20,9 +20,13 @@ class AccountWithTransactions(BaseModel):
     account: Account
     transaction_count: int
     transactions: List[Transaction]
-     
+class TotalBalances(BaseModel):
+    total_balance: float
+    total_income: float
+    total_expense: float
 class AccountResponse(BaseModel):
     msg: str
+    total_balances: TotalBalances
     accounts: List[AccountWithTransactions]
 class SingleAccountResponse(BaseModel):
     msg: str
