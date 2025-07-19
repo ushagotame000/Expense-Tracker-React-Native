@@ -80,7 +80,7 @@ async def getTransaction(transaction_id: str):
             raise HTTPException(status_code=404, detail="No transaction found for this ID")
 
         transaction = Transaction(**{**transaction, "_id": str(transaction["_id"])})
-
+        # print(transaction)
         return {"msg": "Transaction fetched successfully", "transaction": transaction}
 
     except Exception as e:
