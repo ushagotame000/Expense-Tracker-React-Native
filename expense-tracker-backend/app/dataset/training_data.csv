@@ -462,6 +462,9 @@ Quarterly Appartment Payment,expense,housing,1591.82,2025-06-08T11:59:30.222987
 grocerries purchase for utilities,expense,food,2605.22,2025-06-18T11:59:30.223015
 DEPOSIT RENT PAYMENT.,expense,housing,634.67,2025-06-15T11:59:30.223047
 paid doctor bill monthly,expense,healthcare,2525.94,2025-06-11T11:59:30.223074
+paid for medecine monthly,expense,healthcare,2525.94,2025-06-11T11:59:30.223074
+paid for medication monthly,expense,healthcare,2525.94,2025-06-11T11:59:30.223074
+paid for cold medecine monthly,expense,healthcare,2525.94,2025-06-11T11:59:30.223074
 movie received for game night,expense,entertainment,2239.02,2025-05-29T11:59:30.223105
 recieved event at friend,expense,entertainment,1255.24,2025-06-24T11:59:30.223144
 Landlord Paid Freelence Trasnfer,income,freelance,5209.29,2025-06-25T11:59:30.223179
@@ -499,11 +502,9 @@ wage deposit from company,income,salary,1351.5,2025-06-11T11:59:30.224236
 profit recieved from company,income,investment,557.6,2025-06-11T11:59:30.224266
 mortgage urgent recieved,expense,housing,2504.82,2025-06-18T11:59:30.224300
 donation payment fromr esturant,income,gift,2714.55,2025-06-04T11:59:30.224336
-description,class,category,amount,created_at
-snacks direct deposit at university,expense,food,,
-rental agency wages deposit,income,salary,,
+snacks direct deposit at university,expense,food,2714.55,2025-06-04T11:59:30.224336
+rental agency wages deposit,income,salary,2714.55,2025-06-04T11:59:30.224336
 SNAK PURCHASE AT COPNY,expense,food,,
-description,class,category,amount,created_at
 wagez tranfered for yesterday,income,salary,,
 recieved streaming at Lyft,expense,entertainment,,
 meel purchase at rental agency,expense,food,,
@@ -586,6 +587,7 @@ sEmI-MoNtHly GIVT received,income,gift,,
 adhoc textboks fees to friend,expense,education,,
 Target evnt purchase,expense,entertainment,,
 depOsiT for MedICatIOn sERVICE !!,expense,healthcare,,
+depOsiT for medecine sERVICE !!,expense,healthcare,,
 STaRbckS TRAIn $50.99,expense,transport,,
 Payment Divdend On {Investment_Type},income,investment,,
 Uber tickt purchase,expense,entertainment,,

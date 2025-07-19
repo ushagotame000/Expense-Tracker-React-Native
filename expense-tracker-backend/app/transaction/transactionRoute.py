@@ -19,7 +19,7 @@ async def addTransaction(transaction: TransactionCreate, classifier: NaiveBayesC
         prediction = classifier.predict_category(transaction.description, transaction.type)
         predicted_category = prediction["predicted_category"]
 
-        # return predicted_category
+        return prediction
         await transaction_collection.insert_one({
             "description": transaction.description,
             "amount": transaction.amount,
@@ -180,7 +180,7 @@ async def deleteTransaction(transaction_id: str):
 
         # Update balance
         await account_collection.update_one(
-            {"user_id": transaction["user_id"]},
+            {"_id": transaction["account_id"]},
             {"$set": {"balance": balance}}
         )
 
