@@ -1,6 +1,6 @@
 import { icons } from "@/assets/images/assets";
 import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -262,8 +262,7 @@ export default function HomePage() {
                     ellipsizeMode="tail"
                   > {account.name}
                   </Text>
-                  <Text style={styles.accountBalance}>Rs {account.balance.toFixed(2)}</Text>
-                  <Text style={styles.accountTransactions}>0 Transactions</Text>
+<Text style={styles.accountBalance}>Rs {account.balance != null ? account.balance.toFixed(2) : '0.00'}</Text>                  <Text style={styles.accountTransactions}>0 Transactions</Text>
                 </TouchableOpacity>
               ))
             ) : (

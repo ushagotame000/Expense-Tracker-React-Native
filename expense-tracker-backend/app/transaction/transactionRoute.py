@@ -25,7 +25,7 @@ async def addTransaction(transaction: TransactionCreate, classifier: NaiveBayesC
             "user_id": transaction.user_id
         })
 
-        account = await account_collection.find_one({"user_id": transaction.user_id})
+        account = await account_collection.find_one({"_id": ObjectId(transaction.account_id)})
         if not account:
             raise HTTPException(status_code=404, detail="Account not found")
 
@@ -38,7 +38,7 @@ async def addTransaction(transaction: TransactionCreate, classifier: NaiveBayesC
             raise HTTPException(status_code=400, detail="Invalid transaction type")
 
         await account_collection.update_one(
-            {"user_id": transaction.user_id},
+            {"_id": ObjectId(transaction.account_id)},
             {"$set": {"balance": new_balance}}
         )
 
@@ -98,7 +98,7 @@ async def editTransaction(transaction_id: str, updated_transaction: TransactionC
             raise HTTPException(status_code=404, detail="Original transaction not found")
 
         # Fetch account
-        account = await account_collection.find_one({"user_id": existing["user_id"]})
+        account = await account_collection.find_one({"account_id": ObjectId(updated_transaction.account_id)})
         if not account:
             raise HTTPException(status_code=404, detail="Account not found")
 
