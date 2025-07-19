@@ -2,3 +2,13 @@
 ./.env
 venv/
 __pycache__/
+
+
+# Ignore Python bytecode files
+*.pyc
+
+# Ignore __pycache__ directories
+__pycache__/
+
+# Optionally, ignore all .pyc files in any directory
+**/__pycache__/
