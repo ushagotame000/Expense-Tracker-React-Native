@@ -19,7 +19,7 @@ async def addTransaction(transaction: TransactionCreate, classifier: NaiveBayesC
         prediction = classifier.predict_category(transaction.description, transaction.type)
         predicted_category = prediction["predicted_category"]
 
-        return prediction
+        # return prediction
         await transaction_collection.insert_one({
             "description": transaction.description,
             "amount": transaction.amount,
