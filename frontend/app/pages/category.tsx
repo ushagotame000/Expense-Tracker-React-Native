@@ -139,6 +139,7 @@ export default function Category() {
           <Text style={styles.categoryType}>
             {item.total > 0 ? ' (Income)' : ' (Expense)'}
           </Text>
+          
         </Text>
       </View>
     </TouchableOpacity>

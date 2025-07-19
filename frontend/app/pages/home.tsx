@@ -233,7 +233,7 @@ export default function HomePage() {
                   style={styles.arrowIcon}
                 />
                 Expenses {"\n"}
-                <Text style={styles.expensesBalance}>Rs {totalBalances?.total_expense}</Text>
+                <Text style={styles.expensesBalance2}>Rs {totalBalances?.total_expense}</Text>
               </Text>
             </View>
           </View>
