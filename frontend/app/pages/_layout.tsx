@@ -31,7 +31,7 @@ export default function PagesLayout() {
         }}
       />
       <Tabs.Screen
-        name="stock"
+        name="category"
         options={{
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
