@@ -43,9 +43,8 @@ export default function HomePage() {
   const [selectedAccount, setSelectedAccount] = useState<string | null>(null);
   const [transactionAccount, setTransactionAccount] = useState<TransactionDataFetch[]>([]);
   const [totalBalances, setTotalBalances] = useState<ITotalBalances | null>(null);
-  const [user, setUser] =  useState<any>()
   const router = useRouter();
- 
+
   const handleAddTransaction = async () => {
     if (!description && !transactionAmount) {
       setError('Fields is required');
@@ -69,7 +68,7 @@ export default function HomePage() {
       setIsLoading(true);
       setError("");
       const response = await addTransaction(TransactionData);
-      // console.log('transaction added successfully:', response);
+      console.log('transaction added successfully:', response);
       setModalAccountVisible(false);
       setModalVisible(false);
       setNewDescription(""),
@@ -83,20 +82,6 @@ export default function HomePage() {
       setIsLoading(false);
     }
   }
-  useEffect(()=>{
-    const loadUserData = async() => {
-      try{
-        const userData = await AsyncStorage.getItem('user')
-           if (userData !== null) {
-          setUser(JSON.parse(userData));
-        }
-      }
-      catch (e) {
-        console.log("Failed to load user data", e);
-      }
-    }
-   loadUserData();
-  }, []);
 
   useEffect(() => {
     const fetchAllTransaction = async () => {
@@ -206,7 +191,7 @@ export default function HomePage() {
           <View style={styles.header}>
             <View>
               <Text style={styles.greeting}>{Greeting()},</Text>
-              <Text style={styles.name}>{user?.username}</Text>
+              <Text style={styles.name}>Usha Gotame</Text>
             </View>
             <TouchableOpacity style={styles.bellIcon}>
               <FontAwesome name="bell" size={20} color="#ffffff" />
@@ -248,7 +233,7 @@ export default function HomePage() {
                   style={styles.arrowIcon}
                 />
                 Expenses {"\n"}
-                <Text style={styles.expensesBalance2}>Rs {totalBalances?.total_expense}</Text>
+                <Text style={styles.expensesBalance}>Rs {totalBalances?.total_expense}</Text>
               </Text>
             </View>
           </View>

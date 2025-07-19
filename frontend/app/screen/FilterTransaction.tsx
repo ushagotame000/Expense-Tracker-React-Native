@@ -279,9 +279,9 @@ const styles = StyleSheet.create({
   },
   category: {
     fontSize: 12,
-    // color: '#888',
     fontStyle: 'italic',
          color: '#4c7aafff',
+         marginTop:-20,
 
   },
   amount: {

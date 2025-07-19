@@ -1,5 +1,5 @@
-import { StyleSheet, TouchableOpacity, View, ActivityIndicator, ScrollView, ImageBackground } from "react-native";
-import React, { useState, useEffect } from "react";
+import { StyleSheet, TouchableOpacity, View, ActivityIndicator, ScrollView, ImageBackground, Dimensions } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { LineChart } from "react-native-chart-kit";
@@ -11,10 +11,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAllTransaction } from "../api/transaction";
 import ChartPie from "../components/LineGraph";
 import { icons } from "@/assets/images/assets";
-import { Dimensions } from "react-native";
+
 const { height, width } = Dimensions.get("window");
 
-// Helper functions (copy from FilterTransaction)
+// Helper functions (unchanged)
 const formatTransactionDate = (dateString: string) => {
   const date = new Date(dateString);
   const today = new Date();
@@ -84,6 +84,7 @@ export default function Transaction() {
   const [selectedSegment, setSelectedSegment] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const categoryColors = [
     '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
@@ -105,10 +106,17 @@ export default function Transaction() {
 
         setTransactions(sortedTransactions);
         calculateMonthlyData(sortedTransactions);
-        calculateCategoryData(sortedTransactions.filter(transaction => {
+        
+        // Filter for current month by default
+        const currentMonth = new Date().getMonth();
+        const currentMonthTransactions = sortedTransactions.filter(transaction => {
           const date = new Date(transaction.created_at);
-          return date.getMonth() === new Date().getMonth();
-        }));
+          return date.getMonth() === currentMonth;
+        });
+        
+        setFilteredTransactions(currentMonthTransactions);
+        calculateCategoryData(currentMonthTransactions);
+        
       } catch (err) {
         console.error('Failed to fetch transactions:', err);
       } finally {
@@ -118,6 +126,16 @@ export default function Transaction() {
 
     loadTransactions();
   }, []);
+
+  useEffect(() => {
+    if (monthlyData.length > 0 && scrollViewRef.current) {
+      const currentMonthIndex = new Date().getMonth();
+      const scrollPosition = currentMonthIndex * 70 - (width / 2 - 35);
+      setTimeout(() => {
+        scrollViewRef.current?.scrollTo({ x: scrollPosition, animated: false });
+      }, 100);
+    }
+  }, [monthlyData]);
 
   const calculateMonthlyData = (transactions: any[]) => {
     const months = [
@@ -167,7 +185,6 @@ export default function Transaction() {
 
     setCategoryData(sortedCategories);
   };
-
   const handleTabFilter = (type: 'all' | 'income' | 'expense') => {
     setActiveTab(type);
     if (type === 'all') {
@@ -230,61 +247,66 @@ export default function Transaction() {
   return (
     <ScrollContainer>
       <View style={styles.container}>
-         <ImageBackground
-                  source={icons.Upperhalf}
-                  style={styles.imageBackground}
-                  resizeMode="cover"
-                >
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.iconButton}
-            onPress={() => navigation.goBack()}
-          >
-            <FontAwesome name="angle-left" size={30} color="#b5f2ccff" />
-          </TouchableOpacity>
+        <ImageBackground
+          source={icons.Upperhalf}
+          style={styles.imageBackground}
+          resizeMode="cover"
+        >
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.iconButton}
+              onPress={() => navigation.goBack()}
+            >
+              <FontAwesome name="angle-left" size={30} color="#b5f2ccff" />
+            </TouchableOpacity>
 
-          <Text variant="displayMedium" style={{ color: '#ffffff' }}>Transactions</Text>
+            <Text style={styles.headerTitle}>Transactions</Text>
 
-          <TouchableOpacity style={styles.iconButton}>
-            <FontAwesome name="download" size={28} color="#b5f2ccff" />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity style={styles.iconButton}>
+              <FontAwesome name="download" size={28} color="#b5f2ccff" />
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.dropdownContainer}>
-          <Picker
-            selectedValue={activeTab}
-            onValueChange={(itemValue) => handleTabFilter(itemValue)}
-            style={styles.pickerText}
-          >
-            <Picker.Item label="All" value="all" />
-            <Picker.Item label="Income" value="income" />
-            <Picker.Item label="Expense" value="expense" />
-          </Picker>
-        </View>
+          <View style={styles.dropdownContainer}>
+            <Picker
+              selectedValue={activeTab}
+              onValueChange={(itemValue) => handleTabFilter(itemValue)}
+              style={styles.pickerText}
+            >
+              <Picker.Item label="All" value="all" />
+              <Picker.Item label="Income" value="income" />
+              <Picker.Item label="Expense" value="expense" />
+            </Picker>
+          </View>
 
-        <View style={styles.monthSelector}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={styles.buttonContainer}>
-              {monthlyData.map((monthData, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.button,
-                    selectedMonth === index && styles.activeButton
-                  ]}
-                  onPress={() => handleMonthSelect(index)}
-                >
-                  <Text style={[
-                    styles.inactiveText,
-                    selectedMonth === index && styles.activeText
-                  ]}>
-                    {monthData.month.substring(0, 3)}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </ScrollView>
-        </View>
+          <View style={styles.monthSelector}>
+            <ScrollView 
+              ref={scrollViewRef}
+              horizontal 
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.monthScrollContainer}
+            >
+              <View style={styles.buttonContainer}>
+                {monthlyData.map((monthData, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      styles.monthButton,
+                      selectedMonth === index && styles.activeMonthButton
+                    ]}
+                    onPress={() => handleMonthSelect(index)}
+                  >
+                    <Text style={[
+                      styles.monthButtonText,
+                      selectedMonth === index && styles.activeMonthButtonText
+                    ]}>
+                      {monthData.month.substring(0, 3)}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </ScrollView>
+          </View>
         </ImageBackground>
 
         <View style={{ marginVertical: 20, backgroundColor: 'transparent', marginTop:'-20%' }}>
@@ -364,33 +386,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    textAlign: 'center',
+    flex: 1,
+  },
   iconButton: {
     borderRadius: 10,
-    padding:2
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  button: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-  },
-  activeButton: {
-    backgroundColor: "#b5f2ccff",
-  },
-  buttonText: {
-    fontFamily: "Inter-Regular",
-    fontWeight: "600",
-    textAlign: 'center',
-  },
-  activeText: {
-    color: "#17a34a",
-  },
-  inactiveText: {
-    color: "#ffffff",
-    fontWeight: "semibold"
+    padding: 2,
+    width: 40,
   },
   dropdownContainer: {
     borderRadius: 2,
@@ -399,35 +405,42 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "50%",
     alignSelf: "flex-end",
+    backgroundColor: '#ffffff'
   },
   pickerText: {
     color: "#666666",
     fontWeight: "semibold",
     fontFamily: "Inter-Regular",
     fontSize: 15,
-    padding: 6,
   },
   monthSelector: {
     marginVertical: 15,
     height: 50,
   },
-  monthButton: {
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    marginHorizontal: 5,
-    borderRadius: 15,
-    backgroundColor: '#f0f0f0',
+  monthScrollContainer: {
+    paddingHorizontal: width / 2 - 35,
   },
-  selectedMonthButton: {
-    backgroundColor: '#00712D',
+  buttonContainer: {
+    flexDirection: "row",
+  },
+  monthButton: {
+    width: 70,
+    paddingVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  activeMonthButton: {
+    backgroundColor: "#b5f2ccff",
+    borderRadius: 5,
   },
   monthButtonText: {
-    color: '#333',
-    fontWeight: '500',
+    color: "#ffffff",
+    fontWeight: "semibold"
   },
-  selectedMonthButtonText: {
-    color: '#fff',
+  activeMonthButtonText: {
+    color: "#17a34a",
   },
+
   transactionsContainer: {
     flex: 1,
     marginTop: 4,
