@@ -2,7 +2,7 @@ from pydantic import BaseModel,Field
 from bson import ObjectId
 from typing import List, Optional
 from datetime import datetime
-
+from ..transaction.transactionModel import Transaction
 class Account(BaseModel):
     id: Optional[str] = Field(alias="_id", default=None)
     user_id: str
@@ -16,10 +16,14 @@ class Account(BaseModel):
             ObjectId: str  # Automatically convert ObjectId to string
         }
         arbitrary_types_allowed = True 
-    
+class AccountWithTransactions(BaseModel):
+    account: Account
+    transaction_count: int
+    transactions: List[Transaction]
+     
 class AccountResponse(BaseModel):
     msg: str
-    accounts: List[Account]
+    accounts: List[AccountWithTransactions]
 class SingleAccountResponse(BaseModel):
     msg: str
     account: Account
