@@ -15,7 +15,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
-import { AccountData, addAccount, getAllUserAccounts } from "../api/account";
+import { AccountData, AccountWithTransactions, addAccount, getAllUserAccounts } from "../api/account";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
@@ -23,6 +23,7 @@ import { logout } from "../api/auth";
 import { addTransaction, getAllTransaction, TransactionData, TransactionDataFetch } from "../api/transaction";
 import { Greeting } from "../constant/greeting";
 import FilterTransaction from "../screen/FilterTransaction";
+import ScrollContainer from "@/components/ScrollContainer";
 
 const { height, width } = Dimensions.get("window");
 
@@ -34,7 +35,7 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [accounts, setAccounts] = useState<AccountData[]>([]);
+  const [accounts, setAccounts] = useState<AccountWithTransactions[]>([]);
   const [isTransactionModalVisible, setTransactionModelVisible] = useState(false);
   const [description, setNewDescription] = useState("");
   const [transactionAmount, setTransactionAmount] = useState("0");
@@ -100,7 +101,6 @@ export default function HomePage() {
 
     fetchAllTransaction();
   }, []);
-
   const handleAddaccount = async () => {
     if (!newAccountName.trim()) {
       setError('Account name is required');
@@ -155,7 +155,6 @@ export default function HomePage() {
       }
     };
     console.log("account", accounts);
-
     fetchUserAccount();
   }, []);
 
@@ -179,368 +178,343 @@ export default function HomePage() {
 
 
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={icons.Upperhalf}
-        style={styles.imageBackground}
-        resizeMode="cover"
-      >
-        <View style={styles.header}>
+    <ScrollContainer>
+      <View style={styles.container}>
+        <ImageBackground
+          source={icons.Upperhalf}
+          style={styles.imageBackground}
+          resizeMode="cover"
+        >
+          <View style={styles.header}>
+            <View>
+              <Text style={styles.greeting}>{Greeting()},</Text>
+              <Text style={styles.name}>Usha Gotame</Text>
+            </View>
+            <TouchableOpacity style={styles.bellIcon}>
+              <FontAwesome name="bell" size={20} color="#ffffff" />
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+        {/* main card */}
+        <View style={styles.body}>
+          <View style={styles.card}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardTitle}>
+                Total Balance {"\n"}
+                <Text style={styles.balance}>
+                  Rs {accounts[0]?.total_balance?.toLocaleString('en-IN', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  })}
+                </Text>
+              </Text>
+
+              <TouchableOpacity style={styles.ellipsis} onPress={logout}>
+                <FontAwesome name="ellipsis-h" size={20} color="#ffffff" />
+              </TouchableOpacity>
+            </View>
+            {/* end card */}
+            <View style={styles.cardHeader}>
+              <Text style={styles.expenses}>
+                <Feather
+                  name="arrow-up"
+                  size={13}
+                  color="#ffffff"
+                  style={styles.arrowIcon}
+                />
+                Income {"\n"}
+                <Text style={styles.expensesBalance}>$1840.00</Text>
+              </Text>
+              <Text style={styles.expenses}>
+                <Feather
+                  name="arrow-down"
+                  size={13}
+                  color="#ffffff"
+                  style={styles.arrowIcon}
+                />
+                Expenses {"\n"}
+                <Text style={styles.expensesBalance}>$1840.00</Text>
+              </Text>
+            </View>
+          </View>
+
+
+          {/* <ScrollView horizontal style={styles.accountScrollContainer} > */}
           <View>
-            <Text style={styles.greeting}>{Greeting()},</Text>
-            <Text style={styles.name}>Usha Gotame</Text>
-          </View>
-          <TouchableOpacity style={styles.bellIcon}>
-            <FontAwesome name="bell" size={20} color="#ffffff" />
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
-      {/* main card */}
-      <View style={styles.body}>
-        <View style={styles.card}>
-          <View style={styles.cardHeader}>
-            <Text style={styles.cardTitle}>
-              Total Balance {"\n"}
-              <Text style={styles.balance}>$2,548.00</Text>
-            </Text>
-
-            <TouchableOpacity style={styles.ellipsis} onPress={logout}>
-              <FontAwesome name="ellipsis-h" size={20} color="#ffffff" />
-            </TouchableOpacity>
-          </View>
-          {/* end card */}
-          <View style={styles.cardHeader}>
-            <Text style={styles.expenses}>
-              <Feather
-                name="arrow-up"
-                size={13}
-                color="#ffffff"
-                style={styles.arrowIcon}
-              />
-              Income {"\n"}
-              <Text style={styles.expensesBalance}>$1840.00</Text>
-            </Text>
-            <Text style={styles.expenses}>
-              <Feather
-                name="arrow-down"
-                size={13}
-                color="#ffffff"
-                style={styles.arrowIcon}
-              />
-              Expenses {"\n"}
-              <Text style={styles.expensesBalance}>$1840.00</Text>
-            </Text>
-          </View>
-        </View>
-
-
-        {/* <ScrollView horizontal style={styles.accountScrollContainer} > */}
-        <View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.horizontalScrollContainer}
-            contentContainerStyle={styles.scrollContentContainer}
-          >
-            {accounts.length > 0 ? (
-              accounts.map((account) => (
-                <TouchableOpacity
-                  key={`${account._id}`}
-                  style={styles.accountCard}
-                  onPress={() => {
-
-                    console.log('Account pressed:', account.user_id)
-                    console.log('New Account Name:', account.name);
-                  }
-                  }
-
-                >
-                  <View style={styles.accountPing} />
-                  <Text
-                    style={styles.accountName}
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                  > {account.name}
-                  </Text>
-                  <Text style={styles.accountBalance}>Rs {account.balance.toFixed(2)}</Text>
-                  <Text style={styles.accountTransactions}>0 Transactions</Text>
-                </TouchableOpacity>
-              ))
-            ) : (
-              <Text >No accounts found</Text>
-            )}
-              {/* add account button */}
-            <TouchableOpacity
-              style={[styles.accountCard, { backgroundColor: 'black', justifyContent: 'center', alignItems: 'center' }]}
-              onPress={() => setModalAccountVisible(true)}
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.horizontalScrollContainer}
+              contentContainerStyle={styles.scrollContentContainer}
             >
-              <Feather name="file-plus" size={32} color="#fff" />
-              <Text style={{ color: '#fff', fontSize: 10, marginTop:5 }}>Add Account</Text>
-            </TouchableOpacity>
-          </ScrollView>
-        </View>
+              {accounts.length > 0 ? (
+                accounts.map((accountData) => (
+                  <TouchableOpacity
+                    key={`${accountData.account._id}`}
+                    style={styles.accountCard}
+                    onPress={() => {
 
-        {/* </ScrollView> */}
+                      console.log('Account pressed:', accountData.account.user_id)
+                      console.log('New Account Name:', accountData.account.name);
+                    }
+                    }
 
-        {/* transaction history layout */}
-        <View style={styles.transactionHeader}>
+                  >
+                    <View style={styles.accountPing} />
+                    <Text
+                      style={styles.accountName}
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    > {accountData.account.name}
+                    </Text>
+                    <Text style={styles.accountBalance}>Rs {accountData.account.balance.toFixed(2)}</Text>
+                    <Text style={styles.accountTransactions}>{accountData.transaction_count} Transaction{accountData.transaction_count !== 1 ? 's' : ''}</Text>
+                  </TouchableOpacity>
+                ))
+              ) : (
+                <Text >No accounts found</Text>
+              )}
+              {/* add account button */}
+              <TouchableOpacity
+                style={[styles.accountCard, { backgroundColor: 'black', justifyContent: 'center', alignItems: 'center' }]}
+                onPress={() => setModalAccountVisible(true)}
+              >
+                <Feather name="file-plus" size={32} color="#fff" />
+                <Text style={{ color: '#fff', fontSize: 10, marginTop: 5 }}>Add Account</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+
+          {/* </ScrollView> */}
+
+          {/* transaction history layout */}
+          {/* <View style={styles.transactionHeader}>
           <Text style={styles.transactionTitle}>Transaction History</Text>
           <Text style={styles.semiTitle}>See all</Text>
-        </View>
-            <FilterTransaction/>
-        {/* <View>
-          {transactionAccount.length > 0 ? (
-            transactionAccount.map((transaction) => (
-              <View key={transaction._id} style={styles.items}>
-                <Text style={styles.sectionTitle}>
-                  {transaction.description}
-                  {"\n"}
-                  <Text style={styles.semiTitle}>
-                    {transaction.created_at ? new Date(transaction.created_at).toLocaleDateString() : 'N/A'}
-                  </Text>
-                </Text>
-
-                <Text
-                  style={[
-                    styles.transactionBalance,
-                    transaction.type === 'expense' ? styles.expense : styles.income
-                  ]}
-                >
-                  {transaction.type === 'expense' ? '-' : '+'}${transaction.amount.toFixed(2)}
-                </Text>
-              </View>
-            ))
-          ) : (
-            <Text>No accounts found</Text>
-          )}
         </View> */}
-      </View>
-      {/* end transaction history */}
+          <FilterTransaction />
+        </View>
+        {/* end transaction history */}
 
-      <TouchableOpacity
-        style={styles.floatingButton}
-        onPress={() => setModalVisible(true)}
-      >
-        <Feather name="plus" size={32} color="#fff" />
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.floatingButton}
+          onPress={() => setModalVisible(true)}
+        >
+          <Feather name="plus" size={32} color="#fff" />
+        </TouchableOpacity>
 
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-          <View style={styles.modalOverlay}>
-            <TouchableWithoutFeedback>
-              <View style={styles.modalView}>
-                <Text style={styles.modalTitle}></Text>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+            <View style={styles.modalOverlay}>
+              <TouchableWithoutFeedback>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalTitle}></Text>
 
-                <TouchableOpacity
-                  style={styles.modalButton}
-                  onPress={() => {
-                    setTransactionType("Income");
-                    setTransactionModelVisible(true);
+                  <TouchableOpacity
+                    style={styles.modalButton}
+                    onPress={() => {
+                      setTransactionType("income");
+                      setTransactionModelVisible(true);
+                    }}
+                  >
+                    <Text style={styles.modalButtonText}>Add Income</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.modalButton, styles.expenseButton]}
+                    onPress={() => {
+                      setTransactionType("expense");
+                      setTransactionModelVisible(true);
+                    }}
+                  >
+                    <Text style={styles.modalButtonText}>Add Expense</Text>
+                  </TouchableOpacity>
+                  {/* add expnse end */}
 
-                    // // 2. Navigate and pass params (optional, if you still need navigation)
-                    // router.push({
-                    //   pathname: "/screen/[type]/[id]",
-                    //   params: { type: "Income", id: 0 },
-                    // });
-                  }}
-                >
-                  <Text style={styles.modalButtonText}>Add Income</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.modalButton, styles.expenseButton]}
-                  onPress={() => {
-                    setTransactionType("Expense");
-                    setTransactionModelVisible(true);
-                  }}
-                >
-                  <Text style={styles.modalButtonText}>Add Expense</Text>
-                </TouchableOpacity>
-                {/* add expnse end */}
+                  {/* transaction model */}
+                  <Modal
+                    visible={isTransactionModalVisible}
+                    animationType="slide"
+                    transparent={true}
+                    onRequestClose={() => setTransactionModelVisible(false)}
+                  >
+                    <View style={styles.modalContainer}>
+                      <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Add Transaction</Text>
 
-                {/* transaction model */}
-                <Modal
-                  visible={isTransactionModalVisible}
-                  animationType="slide"
-                  transparent={true}
-                  onRequestClose={() => setTransactionModelVisible(false)}
-                >
-                  <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                      <Text style={styles.modalTitle}>Add Transaction</Text>
-
-                      <TextInput
-                        style={styles.input}
-                        placeholder="Transaction Name"
-                        value={description}
-                        onChangeText={setNewDescription}
-                      />
-
-                      <View style={styles.balanceContainer}>
                         <TextInput
-                          style={[styles.input, { flex: 1 }]}
-                          placeholder="Balance"
-                          value={transactionAmount}
-                          onChangeText={setTransactionAmount}
-                          keyboardType="numeric"
+                          style={styles.input}
+                          placeholder="Transaction Name"
+                          value={description}
+                          onChangeText={setNewDescription}
                         />
 
-                      </View>
-                      {/* dropdown */}
-                      <View style={styles.dropdownContainer}>
-                        {accounts.length > 0 ? (
-                          <Picker
-                            style={styles.pickerText}
-                            selectedValue={selectedAccount}
-                            onValueChange={(itemValue) => setSelectedAccount(itemValue)}
+                        <View style={styles.balanceContainer}>
+                          <TextInput
+                            style={[styles.input, { flex: 1 }]}
+                            placeholder="Balance"
+                            value={transactionAmount}
+                            onChangeText={setTransactionAmount}
+                            keyboardType="numeric"
+                          />
+
+                        </View>
+                        {/* dropdown */}
+                        <View style={styles.dropdownContainer}>
+                          {accounts.length > 0 ? (
+                            <Picker
+                              style={styles.pickerText}
+                              selectedValue={selectedAccount}
+                              onValueChange={(itemValue) => setSelectedAccount(itemValue)}
+                            >
+                              {accounts.map((accountData) => (
+                                <Picker.Item
+                                  key={accountData.account._id}
+                                  label={accountData.account.name}
+                                  value={accountData.account._id}
+                                />
+                              ))}
+                            </Picker>
+                          ) : (
+                            <Text style={styles.noAccountsText}>No accounts available</Text>
+                          )}
+                        </View>
+                        <View style={styles.buttonContainer}>
+                          <TouchableOpacity
+                            style={[styles.actionButton, styles.cancelButton]}
+                            onPress={() => setTransactionModelVisible(false)}
                           >
-                            {accounts.map((account) => (
-                              <Picker.Item
-                                key={account._id}
-                                label={account.name}
-                                value={account._id}
-                              />
-                            ))}
-                          </Picker>
-                        ) : (
-                          <Text style={styles.noAccountsText}>No accounts available</Text>
-                        )}
-                      </View>
-                      <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                          style={[styles.actionButton, styles.cancelButton]}
-                          onPress={() => setTransactionModelVisible(false)}
-                        >
-                          <Text style={styles.buttonText}>Cancel</Text>
-                        </TouchableOpacity>
+                            <Text style={styles.buttonText}>Cancel</Text>
+                          </TouchableOpacity>
 
-                        <TouchableOpacity
-                          style={[styles.actionButton, styles.submitButton]}
-                          onPress={handleAddTransaction}
-                        >
-                          <Text style={styles.buttonText}>Add</Text>
-                        </TouchableOpacity>
+                          <TouchableOpacity
+                            style={[styles.actionButton, styles.submitButton]}
+                            onPress={handleAddTransaction}
+                          >
+                            <Text style={styles.buttonText}>Add</Text>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                     </View>
-                  </View>
-                </Modal>
-                {/* end expanse modal */}
+                  </Modal>
+                  {/* end expanse modal */}
 
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
-
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalAccountVisible}
-        onRequestClose={() => setModalAccountVisible(false)}
-      >
-        <TouchableWithoutFeedback onPress={() => setModalAccountVisible(false)}>
-          <View style={styles.modalOverlay}>
-            <TouchableWithoutFeedback>
-              <View style={styles.modalView}>
-                <Text style={styles.modalTitle}>Create Account</Text>
-                <Text> {accounts.length > 0 ? "lot of acocunts" : "No accounts found"}
-                </Text>
-                {/* Account options */}
-                <View>
-
-                  {accounts.length > 0 ? (
-
-                    accounts.map((account) => (
-                      <View key={`${account._id}`} >
-                        <TouchableOpacity style={styles.accountOption}>
-                          <Text style={styles.accountText}>{account.name}</Text>
-                        </TouchableOpacity>
-                        {/* <Text>Rs {account.balance.toFixed(2)}</Text>
-                        <Text>0 Transactions</Text> */}
-                      </View>
-                    ))
-                  ) : (
-                    <Text>No accounts found</Text>
-                  )}
                 </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
 
-                <TouchableOpacity
-                  style={styles.addButton}
-                  onPress={() => setIsModalVisible(true)}
-                >
-                  <View style={styles.addButtonContent}>
-                    <Ionicons name="add" size={25} color="white" />
-                    <Text style={styles.addButtonText}>Add</Text>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalAccountVisible}
+          onRequestClose={() => setModalAccountVisible(false)}
+        >
+          <TouchableWithoutFeedback onPress={() => setModalAccountVisible(false)}>
+            <View style={styles.modalOverlay}>
+              <TouchableWithoutFeedback>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalTitle}>Create Account</Text>
+                  <Text> {accounts.length > 0 ? "lot of acocunts" : "No accounts found"}
+                  </Text>
+                  {/* Account options */}
+                  <View>
+
+                    {accounts.length > 0 ? (
+
+                      accounts.map((accountData) => (
+                        <View key={`${accountData.account._id}`} >
+                          <TouchableOpacity style={styles.accountOption}>
+                            <Text style={styles.accountText}>{accountData.account.name}</Text>
+                          </TouchableOpacity>
+                          <Text>Rs {accountData.account.balance.toFixed(2)}</Text>
+                          <Text>{accountData.transaction_count} Transactions</Text>
+                        </View>
+                      ))
+                    ) : (
+                      <Text>No accounts found</Text>
+                    )}
                   </View>
-                </TouchableOpacity>
 
-                {/* Add Account Modal */}
-                <Modal
-                  visible={isModalVisible}
-                  animationType="slide"
-                  transparent={true}
-                  onRequestClose={() => setIsModalVisible(false)}
-                >
-                  <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                      <Text style={styles.modalTitle}>Add New Account</Text>
+                  <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={() => setIsModalVisible(true)}
+                  >
+                    <View style={styles.addButtonContent}>
+                      <Ionicons name="add" size={25} color="white" />
+                      <Text style={styles.addButtonText}>Add</Text>
+                    </View>
+                  </TouchableOpacity>
 
-                      <TextInput
-                        style={styles.input}
-                        placeholder="Account Name"
-                        value={newAccountName}
-                        onChangeText={setNewAccountName}
-                      />
+                  {/* Add Account Modal */}
+                  <Modal
+                    visible={isModalVisible}
+                    animationType="slide"
+                    transparent={true}
+                    onRequestClose={() => setIsModalVisible(false)}
+                  >
+                    <View style={styles.modalContainer}>
+                      <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Add New Account</Text>
 
-                      <View style={styles.balanceContainer}>
                         <TextInput
-                          style={[styles.input, { flex: 1 }]}
-                          placeholder="Balance"
-                          value={initialBalance}
-                          onChangeText={setInitialBalance}
-                          keyboardType="numeric"
+                          style={styles.input}
+                          placeholder="Account Name"
+                          value={newAccountName}
+                          onChangeText={setNewAccountName}
                         />
-                        <Picker
-                          // selectedValue={}
-                          style={styles.currencyPicker}
-                        // onValueChange={(itemValue) => setCurrency(itemValue)}
-                        >
-                          <Picker.Item label="₹ INR" value="INR" />
-                          <Picker.Item label="$ USD" value="USD" />
-                          <Picker.Item label="€ EUR" value="EUR" />
-                          <Picker.Item label="£ GBP" value="GBP" />
-                        </Picker>
-                      </View>
 
-                      <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                          style={[styles.actionButton, styles.cancelButton]}
-                          onPress={() => setIsModalVisible(false)}
-                        >
-                          <Text style={styles.buttonText}>Cancel</Text>
-                        </TouchableOpacity>
+                        <View style={styles.balanceContainer}>
+                          <TextInput
+                            style={[styles.input, { flex: 1 }]}
+                            placeholder="Balance"
+                            value={initialBalance}
+                            onChangeText={setInitialBalance}
+                            keyboardType="numeric"
+                          />
+                          <Picker
+                            // selectedValue={}
+                            style={styles.currencyPicker}
+                          // onValueChange={(itemValue) => setCurrency(itemValue)}
+                          >
+                            <Picker.Item label="₹ INR" value="INR" />
+                            <Picker.Item label="$ USD" value="USD" />
+                            <Picker.Item label="€ EUR" value="EUR" />
+                            <Picker.Item label="£ GBP" value="GBP" />
+                          </Picker>
+                        </View>
 
-                        <TouchableOpacity
-                          style={[styles.actionButton, styles.submitButton]}
-                          onPress={handleAddaccount}
-                        >
-                          <Text style={styles.buttonText}>Submit</Text>
-                        </TouchableOpacity>
+                        <View style={styles.buttonContainer}>
+                          <TouchableOpacity
+                            style={[styles.actionButton, styles.cancelButton]}
+                            onPress={() => setIsModalVisible(false)}
+                          >
+                            <Text style={styles.buttonText}>Cancel</Text>
+                          </TouchableOpacity>
+
+                          <TouchableOpacity
+                            style={[styles.actionButton, styles.submitButton]}
+                            onPress={handleAddaccount}
+                          >
+                            <Text style={styles.buttonText}>Submit</Text>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                     </View>
-                  </View>
-                </Modal>
-                {/* end account modal */}
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
-    </View>
+                  </Modal>
+                  {/* end account modal */}
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      </View>
+    </ScrollContainer>
   );
 }
 
@@ -658,7 +632,7 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    padding: 20,
+    padding: 10,
   },
   sectionTitle: {
     fontSize: 16,

@@ -3,6 +3,74 @@ import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'rea
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAllTransaction, TransactionDataFetch } from '../api/transaction';
 
+// Helper function to format dates
+const formatTransactionDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+  const dayBeforeYesterday = new Date(yesterday);
+  dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 1);
+
+  // Reset time parts for comparison
+  today.setHours(0, 0, 0, 0);
+  yesterday.setHours(0, 0, 0, 0);
+  dayBeforeYesterday.setHours(0, 0, 0, 0);
+  date.setHours(0, 0, 0, 0);
+
+  if (date.getTime() === today.getTime()) return 'Today';
+  if (date.getTime() === yesterday.getTime()) return 'Yesterday';
+  if (date.getTime() === dayBeforeYesterday.getTime()) return dayBeforeYesterday.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  
+  return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+};
+
+// Nepal Time Offset (UTC+5:45 in minutes)
+const NEPAL_TIME_OFFSET = 5 * 60 + 45;
+
+// Convert UTC to Nepal Time
+const toNepalTime = (date: Date) => {
+  const nepaliDate = new Date(date);
+  nepaliDate.setMinutes(nepaliDate.getMinutes() + NEPAL_TIME_OFFSET);
+  return nepaliDate;
+};
+
+// Format transaction time in Nepal Time
+const formatTransactionTime = (dateString: string) => {
+  if (!dateString) return '';
+  
+  try {
+    const utcDate = new Date(dateString);
+    const nepalTime = toNepalTime(utcDate);
+    
+    return nepalTime.toLocaleTimeString('en-US', { 
+      hour: 'numeric', 
+      minute: '2-digit',
+      hour12: true
+    });
+  } catch (error) {
+    console.error('Error formatting transaction time:', error);
+    return '';
+  }
+};
+
+// Group transactions by date
+const groupTransactionsByDate = (transactions: TransactionDataFetch[]) => {
+  const grouped: {[key: string]: TransactionDataFetch[]} = {};
+  
+  transactions.forEach(transaction => {
+    if (!transaction.created_at) return;
+    
+    const dateKey = formatTransactionDate(transaction.created_at);
+    if (!grouped[dateKey]) {
+      grouped[dateKey] = [];
+    }
+    grouped[dateKey].push(transaction);
+  });
+  
+  return grouped;
+};
+
 // Exportable transaction fetching function with proper sorting
 export const fetchAllTransaction = async (): Promise<TransactionDataFetch[]> => {
   try {
@@ -51,33 +119,12 @@ const FilterTransaction = () => {
     setActiveTab(type);
     
     if (type === 'all') {
-      setFilteredTransactions([...transactionAccount]); // Create new array reference
+      setFilteredTransactions([...transactionAccount]);
     } else {
       const filtered = transactionAccount.filter(
-        transaction => transaction.type === type
+        transaction => transaction.type.toLowerCase() === type.toLowerCase()
       );
       setFilteredTransactions(filtered);
-    }
-  };
-
-  // Function to add new transaction to the top
-  const addNewTransaction = (newTransaction: TransactionDataFetch) => {
-    const updatedTransactions = [
-      {
-        ...newTransaction,
-        created_at: newTransaction.created_at || new Date().toISOString()
-      },
-      ...transactionAccount
-    ];
-    
-    setTransactionAccount(updatedTransactions);
-    
-    // Update filtered view if it matches the filter
-    if (activeTab === 'all' || newTransaction.type === activeTab) {
-      setFilteredTransactions([
-        newTransaction,
-        ...filteredTransactions
-      ]);
     }
   };
 
@@ -88,6 +135,8 @@ const FilterTransaction = () => {
   if (error) {
     return <Text style={styles.errorText}>{error}</Text>;
   }
+
+  const groupedTransactions = groupTransactionsByDate(filteredTransactions);
 
   return (
     <View style={styles.container}>
@@ -115,33 +164,40 @@ const FilterTransaction = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Transactions List (Newest first) */}
+      {/* Transactions List grouped by date */}
       <View style={styles.transactionsContainer}>
-        {filteredTransactions.length > 0 ? (
-          filteredTransactions.map((transaction) => (
-            <View key={transaction._id} style={styles.item}>
-              <View style={styles.textContainer}>
-                <Text style={styles.description}>
-                  {transaction.description}
-                </Text>
-                <Text style={styles.date}>
-                  {transaction.created_at ? new Date(transaction.created_at).toLocaleDateString() : 'N/A'}
-                </Text>
-                {transaction.category && (
-                  <Text style={styles.category}>
-                    {transaction.category}
+        {Object.keys(groupedTransactions).length > 0 ? (
+          Object.entries(groupedTransactions).map(([date, transactions]) => (
+            <View key={date} style={styles.dateGroup}>
+              <Text style={styles.dateHeader}>{date}</Text>
+              {transactions.map((transaction) => (
+                <View key={transaction._id} style={styles.item}>
+                  <View style={styles.textContainer}>
+                    <Text style={styles.description}>
+                      {transaction.description}
+                    </Text>
+                    <Text style={styles.time}>
+                      {transaction.created_at && formatTransactionTime(transaction.created_at)}
+                    </Text>
+                    <Text style={styles.time}>
+                    </Text>
+                    {transaction.category && (
+                      <Text style={styles.category}>
+                        {transaction.category}
+                      </Text>
+                    )}
+                  </View>
+                  
+                  <Text
+                    style={[
+                      styles.amount,
+                      transaction.type.toLowerCase() === 'expense' ? styles.expense : styles.income
+                    ]}
+                  >
+                    {transaction.type.toLowerCase() === 'expense' ? '-' : '+'}${transaction.amount.toFixed(2)}
                   </Text>
-                )}
-              </View>
-              
-              <Text
-                style={[
-                  styles.amount,
-                  transaction.type === 'expense' ? styles.expense : styles.income
-                ]}
-              >
-                {transaction.type === 'expense' ? '-' : '+'}${transaction.amount.toFixed(2)}
-              </Text>
+                </View>
+              ))}
             </View>
           ))
         ) : (
@@ -155,7 +211,6 @@ const FilterTransaction = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     backgroundColor: '#fff',
   },
   loadingContainer: {
@@ -173,11 +228,11 @@ const styles = StyleSheet.create({
   },
   tabButton: {
     paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     borderRadius: 20,
   },
   activeTab: {
-    backgroundColor: '#6200ee',
+    backgroundColor: '#17a34a',
   },
   tabText: {
     color: '#333',
@@ -189,6 +244,16 @@ const styles = StyleSheet.create({
   },
   transactionsContainer: {
     flex: 1,
+  },
+  dateGroup: {
+    marginBottom: 16,
+  },
+  dateHeader: {
+    fontSize: 14,
+    fontWeight: 'semibold',
+    color: '#6200ee',
+    marginBottom: 8,
+    paddingLeft: 8,
   },
   item: {
     flexDirection: 'row',
@@ -207,18 +272,22 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginBottom: 4,
   },
-  date: {
+  time: {
     fontSize: 12,
     color: '#666',
+    marginBottom: 4,
   },
   category: {
     fontSize: 12,
-    color: '#888',
+    // color: '#888',
     fontStyle: 'italic',
+         color: '#4c7aafff',
+
   },
   amount: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: 'semibold',
+
   },
   income: {
     color: '#4CAF50',
