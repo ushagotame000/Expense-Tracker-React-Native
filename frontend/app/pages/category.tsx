@@ -1,27 +1,41 @@
-// app/category.tsx
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, ActivityIndicator, Dimensions, ImageBackground } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { MaterialIcons, FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getAllTransaction } from '../api/transaction'
+import ScrollContainer from '@/components/ScrollContainer'
+import { icons } from '@/assets/images/assets'
+import { useNavigation } from "expo-router";
 
+const { height, width } = Dimensions.get("window");
+
+// Expanded icon map with all categories
 const getIconComponent = (categoryName: string) => {
-const iconMap: Record<string, React.ReactNode> = {    
-  'food': <MaterialIcons name="restaurant" size={24} color="white" />,
+  const iconMap: Record<string, React.ReactNode> = {    
+    'food': <MaterialIcons name="restaurant" size={24} color="white" />,
     'transport': <MaterialIcons name="directions-car" size={24} color="white" />,
     'shopping': <FontAwesome name="shopping-cart" size={24} color="white" />,
     'entertainment': <MaterialIcons name="movie" size={24} color="white" />,
     'bills': <Ionicons name="receipt" size={24} color="white" />,
     'health': <MaterialIcons name="local-hospital" size={24} color="white" />,
+    'healthcare': <MaterialIcons name="local-hospital" size={24} color="white" />,
     'education': <MaterialIcons name="school" size={24} color="white" />,
     'travel': <MaterialIcons name="flight" size={24} color="white" />,
     'groceries': <MaterialCommunityIcons name="food-apple" size={24} color="white" />,
     'utilities': <MaterialIcons name="electrical-services" size={24} color="white" />,
+    'salary': <MaterialIcons name="attach-money" size={24} color="white" />,
+    'investment': <MaterialIcons name="trending-up" size={24} color="white" />,
+    'gift': <MaterialIcons name="card-giftcard" size={24} color="white" />,
+    'freelance': <MaterialCommunityIcons name="hand-coin" size={24} color="white" />,
+    'rental': <MaterialCommunityIcons name="home-city" size={24} color="white" />,
+    'income': <MaterialIcons name="attach-money" size={24} color="white" />,
+    'housing': <MaterialIcons name="home" size={24} color="white" />,
   }
   
   return iconMap[categoryName.toLowerCase()] || <MaterialCommunityIcons name="tag" size={24} color="white" />
 }
 
+// Expanded color map with all categories
 const getCategoryColor = (categoryName: string) => {
   const colorMap: Record<string, string> = {
     'food': '#FF6B6B',
@@ -30,10 +44,18 @@ const getCategoryColor = (categoryName: string) => {
     'entertainment': '#9575CD',
     'bills': '#81C784',
     'health': '#FF8A65',
+    'healthcare': '#FF8A65',
     'education': '#64B5F6',
     'travel': '#FFD54F',
     'groceries': '#FF9E80',
     'utilities': '#80DEEA',
+    'salary': '#4DB6AC',
+    'investment': '#7986CB',
+    'gift': '#F06292',
+    'freelance': '#BA68C8',
+    'rental': '#4DD0E1',
+    'income': '#4DB6AC',
+    'housing': '#90A4AE',
   }
   
   return colorMap[categoryName.toLowerCase()] || '#A1887F'
@@ -42,6 +64,7 @@ const getCategoryColor = (categoryName: string) => {
 export default function Category() {
   const [categories, setCategories] = useState<{name: string, total: number}[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchCategoryData = async () => {
@@ -54,20 +77,37 @@ export default function Category() {
         // Calculate totals by category
         const categoryTotals: Record<string, number> = {}
         
+        // Initialize with all possible categories
+        const allCategories = [
+          'food', 'transport', 'shopping', 'entertainment', 'bills', 
+          'health', 'education', 'travel', 'groceries', 'utilities',
+          'salary', 'investment', 'gift', 'freelance', 'rental', 
+          'income', 'housing', 'healthcare'
+        ];
+        
+        // Initialize all categories with 0
+        allCategories.forEach(category => {
+          categoryTotals[category] = 0;
+        });
+        
+        // Calculate actual totals from transactions
         transactions.forEach(transaction => {
           if (transaction.category) {
             const category = transaction.category.toLowerCase()
             const amount = transaction.type.toLowerCase() === 'expense' ? 
               transaction.amount : -transaction.amount
             
-            categoryTotals[category] = (categoryTotals[category] || 0) + amount
+            if (categoryTotals[category] !== undefined) {
+              categoryTotals[category] += amount
+            }
           }
         })
         
-        // Convert to array and sort by highest amount
+        // Convert to array, filter out zero totals, and sort by highest amount
         const sortedCategories = Object.entries(categoryTotals)
           .map(([name, total]) => ({ name, total }))
-          .sort((a, b) => b.total - a.total)
+          .filter(item => item.total !== 0)
+          .sort((a, b) => Math.abs(b.total) - Math.abs(a.total))
         
         setCategories(sortedCategories)
       } catch (error) {
@@ -96,6 +136,9 @@ export default function Category() {
         </Text>
         <Text style={styles.categoryTotal}>
           Rs {Math.abs(item.total).toLocaleString('en-IN')}
+          <Text style={styles.categoryType}>
+            {item.total > 0 ? ' (Income)' : ' (Expense)'}
+          </Text>
         </Text>
       </View>
     </TouchableOpacity>
@@ -110,21 +153,40 @@ export default function Category() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Expense Categories</Text>
-      
-      <FlatList
-        data={categories}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.name}
-        numColumns={2}
-        contentContainerStyle={styles.listContainer}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>No categories found</Text>
-        }
-      />
-    </View>
+    <ScrollContainer>
+      <View style={styles.container}>
+        <ImageBackground
+          source={icons.Upperhalf}
+          style={styles.imageBackground}
+          resizeMode="cover"
+        >
+          <View style={styles.headerContainer}>
+            <TouchableOpacity
+              style={styles.iconButton}
+              onPress={() => navigation.goBack()}
+            >
+              <FontAwesome name="angle-left" size={30} color="#b5f2ccff" />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Categories</Text>
+            <View style={styles.iconButton} />
+          </View>
+
+          <View style={styles.listWrapper}>
+            <FlatList
+              data={categories}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.name}
+              numColumns={2}
+              contentContainerStyle={styles.listContainer}
+              showsVerticalScrollIndicator={false}
+              ListEmptyComponent={
+                <Text style={styles.emptyText}>No categories found</Text>
+              }
+            />
+          </View>
+        </ImageBackground>
+      </View>
+    </ScrollContainer>
   )
 }
 
@@ -132,19 +194,39 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
-    padding: 16,
+    fontFamily: "Inter-Regular",
+  },
+  imageBackground: {
+    height: height * 0.4,
+    paddingTop: 40,
+    paddingHorizontal: 20,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  iconButton: {
+    borderRadius: 10,
+    padding: 2,
+    width: 40, 
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    textAlign: 'center',
+    flex: 1,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#333',
-    textAlign: 'center',
+  listWrapper: {
+    marginTop: 20,
+    paddingBottom: 40,
   },
   listContainer: {
     paddingBottom: 20,
@@ -168,6 +250,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     minHeight: 100,
+    maxWidth: '48%', 
   },
   iconContainer: {
     backgroundColor: 'rgba(255,255,255,0.2)',
@@ -191,5 +274,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'white',
+  },
+  categoryType: {
+    fontSize: 12,
+    fontWeight: 'normal',
+    opacity: 0.8,
   },
 })

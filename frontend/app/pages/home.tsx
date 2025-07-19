@@ -180,6 +180,7 @@ export default function HomePage() {
 
 
   return (
+    <View style={{ flex: 1 }}>
     <ScrollContainer>
       <View style={styles.container}>
         <ImageBackground
@@ -207,10 +208,7 @@ export default function HomePage() {
                   Rs {totalBalances?.total_balance ?? 0}
                 </Text>
               </Text>
- {/* {accounts[0]?.total_balances?.toLocaleString('en-IN', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                  })} */}
+
               <TouchableOpacity style={styles.ellipsis} onPress={logout}>
                 <FontAwesome name="ellipsis-h" size={20} color="#ffffff" />
               </TouchableOpacity>
@@ -298,13 +296,7 @@ export default function HomePage() {
         </View>
         {/* end transaction history */}
 
-        <TouchableOpacity
-          style={styles.floatingButton}
-          onPress={() => setModalVisible(true)}
-        >
-          <Feather name="plus" size={32} color="#fff" />
-        </TouchableOpacity>
-
+        
         <Modal
           animationType="fade"
           transparent={true}
@@ -517,6 +509,13 @@ export default function HomePage() {
         </Modal>
       </View>
     </ScrollContainer>
+    <TouchableOpacity
+    style={styles.floatingButton}
+    onPress={() => setModalVisible(true)}
+  >
+    <Feather name="plus" size={32} color="#fff" />
+  </TouchableOpacity>
+  </View>
   );
 }
 
@@ -711,7 +710,7 @@ const styles = StyleSheet.create({
   },
   floatingButton: {
     position: "absolute",
-    bottom: 5,
+    bottom: 3,
     left: width / 2 - 30,
     width: 60,
     height: 60,
@@ -719,11 +718,29 @@ const styles = StyleSheet.create({
     backgroundColor: "#00712D",
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#00712D",
+    shadowColor: "#8beeb2ff",
     shadowOffset: { width: 10, height: 10 },
     shadowOpacity: 0.5,
     shadowRadius: 10,
+    zIndex: 100,
   },
+  // floatingButton: {
+  //   position: "absolute",
+  //   bottom: 30,  // Increased from 5 for better visibility
+  //   left: width / 2 - 30,   // Changed from center to right side
+  //   width: 60,
+  //   height: 60,
+  //   borderRadius: 30,
+  //   backgroundColor: "#00712D",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   shadowColor: "#000",
+  //   shadowOffset: { width: 0, height: 2 },
+  //   shadowOpacity: 0.25,
+  //   shadowRadius: 3.84,
+  //   elevation: 5,
+  //   zIndex: 100,  // Ensure it stays above other elements
+  // },
 
   modalButton: {
     backgroundColor: "#17a34a",

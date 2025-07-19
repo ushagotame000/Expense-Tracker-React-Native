@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View, ActivityIndicator, ScrollView } from "react-native";
+import { StyleSheet, TouchableOpacity, View, ActivityIndicator, ScrollView, ImageBackground } from "react-native";
 import React, { useState, useEffect } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
@@ -10,6 +10,9 @@ import { useNavigation } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAllTransaction } from "../api/transaction";
 import ChartPie from "../components/LineGraph";
+import { icons } from "@/assets/images/assets";
+import { Dimensions } from "react-native";
+const { height, width } = Dimensions.get("window");
 
 // Helper functions (copy from FilterTransaction)
 const formatTransactionDate = (dateString: string) => {
@@ -77,11 +80,10 @@ export default function Transaction() {
   const [filteredTransactions, setFilteredTransactions] = useState<any[]>([]);
   const [monthlyData, setMonthlyData] = useState<{ month: string, income: number, expense: number }[]>([]);
   const [categoryData, setCategoryData] = useState<{ name: string, amount: number, color: string }[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
+  const [selectedMonth, setSelectedMonth] = useState<number | null>(new Date().getMonth());
   const [selectedSegment, setSelectedSegment] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
-  // const filters = ["Day", "Week", "Month", "Year"];
 
   const categoryColors = [
     '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
@@ -102,9 +104,11 @@ export default function Transaction() {
         });
 
         setTransactions(sortedTransactions);
-        setFilteredTransactions(sortedTransactions);
         calculateMonthlyData(sortedTransactions);
-        calculateCategoryData(sortedTransactions);
+        calculateCategoryData(sortedTransactions.filter(transaction => {
+          const date = new Date(transaction.created_at);
+          return date.getMonth() === new Date().getMonth();
+        }));
       } catch (err) {
         console.error('Failed to fetch transactions:', err);
       } finally {
@@ -167,11 +171,21 @@ export default function Transaction() {
   const handleTabFilter = (type: 'all' | 'income' | 'expense') => {
     setActiveTab(type);
     if (type === 'all') {
-      setFilteredTransactions([...transactions]);
-      calculateCategoryData(transactions);
+      if (selectedMonth !== null) {
+        const filtered = transactions.filter(transaction => {
+          const date = new Date(transaction.created_at);
+          return date.getMonth() === selectedMonth;
+        });
+        setFilteredTransactions(filtered);
+        calculateCategoryData(filtered);
+      } else {
+        setFilteredTransactions([...transactions]);
+        calculateCategoryData(transactions);
+      }
     } else {
       const filtered = transactions.filter(
-        transaction => transaction.type.toLowerCase() === type.toLowerCase()
+        transaction => transaction.type.toLowerCase() === type.toLowerCase() && 
+        (selectedMonth === null || new Date(transaction.created_at).getMonth() === selectedMonth)
       );
       setFilteredTransactions(filtered);
       calculateCategoryData(filtered);
@@ -180,27 +194,27 @@ export default function Transaction() {
 
   const handleTimeFilter = (filter: string) => {
     setActiveFilter(filter);
-    // Implement time-based filtering if needed
   };
 
   const handleMonthSelect = (monthIndex: number) => {
-    setSelectedMonth(monthIndex === selectedMonth ? null : monthIndex);
-
-    // Filter transactions for the selected month
-    const filtered = monthIndex === selectedMonth
-      ? transactions
-      : transactions.filter(transaction => {
+    if (selectedMonth === monthIndex) {
+      setSelectedMonth(null);
+      setFilteredTransactions(transactions);
+      calculateCategoryData(transactions);
+    } else {
+      setSelectedMonth(monthIndex);
+      const filtered = transactions.filter(transaction => {
         const date = new Date(transaction.created_at);
         return date.getMonth() === monthIndex;
       });
-
-    setFilteredTransactions(filtered);
-    calculateCategoryData(filtered);
+      setFilteredTransactions(filtered);
+      calculateCategoryData(filtered);
+    }
   };
 
   const handleSegmentPress = (segment: any) => {
     setSelectedSegment(segment);
-    setTimeout(() => setSelectedSegment(null), 2000); // Hide after 2 seconds
+    setTimeout(() => setSelectedSegment(null), 2000);
   };
 
   const groupedTransactions = groupTransactionsByDate(filteredTransactions);
@@ -216,38 +230,26 @@ export default function Transaction() {
   return (
     <ScrollContainer>
       <View style={styles.container}>
-        {/* Header */}
+         <ImageBackground
+                  source={icons.Upperhalf}
+                  style={styles.imageBackground}
+                  resizeMode="cover"
+                >
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.iconButton}
             onPress={() => navigation.goBack()}
           >
-            <FontAwesome name="angle-left" size={28} color="#17a34a" />
+            <FontAwesome name="angle-left" size={30} color="#b5f2ccff" />
           </TouchableOpacity>
 
-          <Text variant="displayMedium" style={{ color: 'green' }}>Transactions</Text>
+          <Text variant="displayMedium" style={{ color: '#ffffff' }}>Transactions</Text>
 
           <TouchableOpacity style={styles.iconButton}>
-            <FontAwesome name="download" size={24} color="#17a34a" />
+            <FontAwesome name="download" size={28} color="#b5f2ccff" />
           </TouchableOpacity>
         </View>
 
-        {/* Time Filter Buttons */}
-        {/* <View style={styles.buttonContainer}>
-          {filters.map((label) => (
-            <TouchableOpacity
-              key={label}
-              style={[styles.button, label === activeFilter && styles.activeButton]}
-              onPress={() => handleTimeFilter(label)}
-            >
-              <Text style={[styles.buttonText, label === activeFilter ? styles.activeText : styles.inactiveText]}>
-                {label}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View> */}
-
-        {/* Type Filter Picker */}
         <View style={styles.dropdownContainer}>
           <Picker
             selectedValue={activeTab}
@@ -260,8 +262,6 @@ export default function Transaction() {
           </Picker>
         </View>
 
-        {/* Month Selector */}
-
         <View style={styles.monthSelector}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.buttonContainer}>
@@ -269,10 +269,8 @@ export default function Transaction() {
                 <TouchableOpacity
                   key={index}
                   style={[
-                    // styles.button,        
                     styles.button,
                     selectedMonth === index && styles.activeButton
-
                   ]}
                   onPress={() => handleMonthSelect(index)}
                 >
@@ -287,16 +285,15 @@ export default function Transaction() {
             </View>
           </ScrollView>
         </View>
+        </ImageBackground>
 
-        {/* Pie Chart */}
-        <View style={{ marginVertical: 20 }}>
+        <View style={{ marginVertical: 20, backgroundColor: 'transparent', marginTop:'-20%' }}>
           <ChartPie
             categoryData={categoryData}
             onSegmentPress={handleSegmentPress}
           />
         </View>
 
-        {/* Segment Tooltip */}
         {selectedSegment && (
           <View style={[
             styles.tooltip,
@@ -310,7 +307,6 @@ export default function Transaction() {
           </View>
         )}
 
-        {/* Transactions List */}
         <View style={styles.transactionsContainer}>
           {Object.keys(groupedTransactions).length > 0 ? (
             Object.entries(groupedTransactions).map(([date, transactions]) => (
@@ -356,22 +352,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 20,
+    fontFamily: "Inter-Regular",
+  },
+  imageBackground: {
+    height: height * 0.4,
+    paddingTop: 60,
+    paddingHorizontal: 20,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: "10%",
   },
   iconButton: {
-    backgroundColor: "#ffffff",
     borderRadius: 10,
+    padding:2
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 10,
   },
   button: {
     paddingVertical: 10,
@@ -379,7 +378,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   activeButton: {
-    backgroundColor: "#00712D",
+    backgroundColor: "#b5f2ccff",
   },
   buttonText: {
     fontFamily: "Inter-Regular",
@@ -387,10 +386,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   activeText: {
-    color: "#ffffff",
+    color: "#17a34a",
   },
   inactiveText: {
-    color: "#666666",
+    color: "#ffffff",
     fontWeight: "semibold"
   },
   dropdownContainer: {
@@ -407,7 +406,6 @@ const styles = StyleSheet.create({
     fontFamily: "Inter-Regular",
     fontSize: 15,
     padding: 6,
-
   },
   monthSelector: {
     marginVertical: 15,
