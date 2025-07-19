@@ -22,6 +22,7 @@ import { Picker } from "@react-native-picker/picker";
 import { logout } from "../api/auth";
 import { addTransaction, getAllTransaction, TransactionData, TransactionDataFetch } from "../api/transaction";
 import { Greeting } from "../constant/greeting";
+import FilterTransaction from "../screen/FilterTransaction";
 
 const { height, width } = Dimensions.get("window");
 
@@ -231,13 +232,8 @@ export default function HomePage() {
             </Text>
           </View>
         </View>
-        <TouchableOpacity
-          style={{ backgroundColor: 'black' }}
-          onPress={() => setModalAccountVisible(true)}
-        >
-          <Feather name="plus" size={32} color="#fff" />
-          <Text>Add Account</Text>
-        </TouchableOpacity>
+
+
         {/* <ScrollView horizontal style={styles.accountScrollContainer} > */}
         <View>
           <ScrollView
@@ -273,6 +269,14 @@ export default function HomePage() {
             ) : (
               <Text >No accounts found</Text>
             )}
+              {/* add account button */}
+            <TouchableOpacity
+              style={[styles.accountCard, { backgroundColor: 'black', justifyContent: 'center', alignItems: 'center' }]}
+              onPress={() => setModalAccountVisible(true)}
+            >
+              <Feather name="file-plus" size={32} color="#fff" />
+              <Text style={{ color: '#fff', fontSize: 10, marginTop:5 }}>Add Account</Text>
+            </TouchableOpacity>
           </ScrollView>
         </View>
 
@@ -283,8 +287,8 @@ export default function HomePage() {
           <Text style={styles.transactionTitle}>Transaction History</Text>
           <Text style={styles.semiTitle}>See all</Text>
         </View>
-
-        <View>
+            <FilterTransaction/>
+        {/* <View>
           {transactionAccount.length > 0 ? (
             transactionAccount.map((transaction) => (
               <View key={transaction._id} style={styles.items}>
@@ -309,7 +313,7 @@ export default function HomePage() {
           ) : (
             <Text>No accounts found</Text>
           )}
-        </View>
+        </View> */}
       </View>
       {/* end transaction history */}
 
@@ -900,7 +904,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: '#999',
   },
-   income: {
+  income: {
     color: '#4CAF50',  // Green for income
     backgroundColor: 'rgba(76, 175, 80, 0.1)',
     paddingHorizontal: 8,

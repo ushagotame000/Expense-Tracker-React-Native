@@ -1,9 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet,  TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { LineChart } from "react-native-chart-kit";
 import LineGraph from "../components/LineGraph";
+import { Text } from 'react-native-paper';
+
 
 export default function Transaction() {
   const [activeFilter, setActiveFilter] = useState("Day");
@@ -18,7 +20,7 @@ export default function Transaction() {
           <FontAwesome name="angle-left" size={20} color="#ffffff" />
         </TouchableOpacity>
 
-        <Text style={styles.title}>Statistics</Text>
+        <Text variant="displayMedium" style={{ color: 'green' }}  >Transactions</Text>
 
         <TouchableOpacity style={styles.iconButton}>
           <FontAwesome name="download" size={20} color="#ffffff" />
