@@ -27,3 +27,5 @@ class AccountResponse(BaseModel):
 class SingleAccountResponse(BaseModel):
     msg: str
     account: Account
+    transaction_count: int
+    transactions: List[Transaction]

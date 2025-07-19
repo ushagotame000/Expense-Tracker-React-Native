@@ -82,16 +82,31 @@ async def getUserAccounts(user_id: str):
     
     
     
-@router.get('/get-user-account/{account_id}',response_model=SingleAccountResponse)
-async def getUserAccounts(account_id:str):
+@router.get('/get-user-account/{account_id}', response_model=SingleAccountResponse)
+async def get_user_account(account_id: str):
     if not ObjectId.is_valid(account_id):
         raise HTTPException(status_code=400, detail="Invalid account ID")
+    
     try:
+        # Find the account
         account = await account_collection.find_one({"_id": ObjectId(account_id)})
-        account_model = Account(**{**account, "_id": str(account["_id"])})
         if not account:
-            raise HTTPException(status_code=404, detail="No accounts found for this user ID")
+            raise HTTPException(status_code=404, detail="No account found with this ID")
+        
+        # Convert _id and create Account model
+        account_id_str = str(account["_id"])
+        account_model = Account(**{**account, "_id": account_id_str})
 
-        return {"msg": "Account fetched successfully","account": account_model}
+        # Find transactions for this account
+        transactions_raw = await transaction_collection.find({"account_id": account_id_str}).to_list(length=None)
+        transactions = [Transaction(**{**tx, "_id": str(tx["_id"])}) for tx in transactions_raw]
+
+        return {
+            "msg": "Account fetched successfully",
+            "account": account_model,
+            "transaction_count": len(transactions),
+            "transactions": transactions
+        }
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch account: {e}")
