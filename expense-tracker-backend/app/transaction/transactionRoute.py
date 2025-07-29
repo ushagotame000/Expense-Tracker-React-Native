@@ -29,6 +29,8 @@ async def addTransaction(transaction: TransactionCreate, classifier: NaiveBayesC
             "user_id": transaction.user_id,
             "created_at": datetime.utcnow(),
             "updated_at": datetime.utcnow()
+            "date":transaction.date,
+            "time":transaction.time,
         })
 
         account = await account_collection.find_one({"_id": ObjectId(transaction.account_id)})
@@ -51,7 +53,9 @@ async def addTransaction(transaction: TransactionCreate, classifier: NaiveBayesC
         return {
             "msg": "Transaction added successfully",
             "category": predicted_category,
-            "type": transaction.type
+            "type": transaction.type,
+            "date":transaction.date,
+            "time":transaction.time,
         }
 
     except Exception as e:

@@ -11,6 +11,8 @@ class Transaction(BaseModel):
     type: str
     user_id: str
     account_id: Optional[str] = None
+    date:str
+    time:str
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     class Config:
@@ -24,7 +26,9 @@ class TransactionCreate(BaseModel):
     amount: float
     user_id: str
     type:str
-    account_id: str
+    account_id: 
+    date:str
+    time:str
 
 class TransactionResponse(BaseModel):
     msg: str

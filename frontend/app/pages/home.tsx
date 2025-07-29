@@ -7,6 +7,7 @@ import {
   Dimensions,
   ImageBackground,
   Modal,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -24,9 +25,10 @@ import { addTransaction, getAllTransaction, TransactionData, TransactionDataFetc
 import { Greeting } from "../constant/greeting";
 import FilterTransaction from "../screen/FilterTransaction";
 import ScrollContainer from "@/components/ScrollContainer";
-
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 const { height, width } = Dimensions.get("window");
 
+type pickerMode = 'date' | 'time';
 export default function HomePage() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalAccountVisible, setModalAccountVisible] = useState(false);
@@ -43,9 +45,9 @@ export default function HomePage() {
   const [selectedAccount, setSelectedAccount] = useState<string | null>(null);
   const [transactionAccount, setTransactionAccount] = useState<TransactionDataFetch[]>([]);
   const [totalBalances, setTotalBalances] = useState<ITotalBalances | null>(null);
-  const [user, setUser] =  useState<any>()
+  const [user, setUser] = useState<any>()
   const router = useRouter();
- 
+
   const handleAddTransaction = async () => {
     if (!description && !transactionAmount) {
       setError('Fields is required');
@@ -65,6 +67,8 @@ export default function HomePage() {
         amount: parseFloat(transactionAmount) || 0,
         type: transactionType,
         account_id: selectedAccount!,
+        date: date.toISOString().split('T')[0],
+        time: date.toTimeString().split(' ')[0],
       };
       setIsLoading(true);
       setError("");
@@ -74,6 +78,7 @@ export default function HomePage() {
       setModalVisible(false);
       setNewDescription(""),
         setTransactionAmount("0");
+        console.log(response,("the response is "))
     }
     catch (err) {
       console.log("failed to add transaction:", err);
@@ -83,11 +88,11 @@ export default function HomePage() {
       setIsLoading(false);
     }
   }
-  useEffect(()=>{
-    const loadUserData = async() => {
-      try{
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
         const userData = await AsyncStorage.getItem('user')
-           if (userData !== null) {
+        if (userData !== null) {
           setUser(JSON.parse(userData));
         }
       }
@@ -95,7 +100,7 @@ export default function HomePage() {
         console.log("Failed to load user data", e);
       }
     }
-   loadUserData();
+    loadUserData();
   }, []);
 
   useEffect(() => {
@@ -193,6 +198,30 @@ export default function HomePage() {
     );
   }
 
+  const [date, setDate] = useState<Date>(new Date());
+  const [showPicker, setShowPicker] = useState<boolean>(false);
+  const [pickerMode, setPickerMode] = useState<pickerMode>('date');
+
+  const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    if (selectedDate) {
+      setDate(selectedDate);
+    }
+
+    // On Android, close picker after selection
+    if (Platform.OS === 'android') {
+      setShowPicker(false);
+    }
+  };
+
+  const showDatePicker = () => {
+    setPickerMode('date');
+    setShowPicker(true);
+  };
+
+  const showTimePicker = () => {
+    setPickerMode('time');
+    setShowPicker(true);
+  };
 
   return (
     <ScrollContainer>
@@ -222,7 +251,7 @@ export default function HomePage() {
                   Rs {totalBalances?.total_balance ?? 0}
                 </Text>
               </Text>
- {/* {accounts[0]?.total_balances?.toLocaleString('en-IN', {
+              {/* {accounts[0]?.total_balances?.toLocaleString('en-IN', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                   })} */}
@@ -378,13 +407,38 @@ export default function HomePage() {
                             onChangeText={setTransactionAmount}
                             keyboardType="numeric"
                           />
+                        </View>
+                        <View style={styles.balanceContainer}>
+                          <TouchableOpacity
+                            onPress={showDatePicker}
+                            style={[styles.input, { flex: 1 }]}
+                          >
+                            <Text>{date.toLocaleDateString()}</Text>
+                          </TouchableOpacity>
 
+                          <TouchableOpacity
+                            onPress={showTimePicker}
+                            style={[styles.input, { flex: 1, marginLeft: 10 }]}
+                          >
+                            <Text>{date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+                          </TouchableOpacity>
+
+                          {showPicker && (
+                            <DateTimePicker
+                              testID="dateTimePicker"
+                              value={date}
+                              mode={pickerMode}
+                              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                              onChange={onChange}
+                            />
+                          )}
                         </View>
                         {/* dropdown */}
                         <View style={styles.dropdownContainer}>
                           {accounts.length > 0 ? (
                             <Picker
                               style={styles.pickerText}
+                              placeholder="Select Account"
                               selectedValue={selectedAccount}
                               onValueChange={(itemValue) => setSelectedAccount(itemValue)}
                             >

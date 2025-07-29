@@ -6,6 +6,8 @@ export interface TransactionData {
   user_id: string;
   type: string;
   account_id?: string;
+  time:string;
+  date:string;
 }
 export interface TransactionDataFetch {
   description: string;
