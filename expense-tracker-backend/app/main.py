@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from .user.authRoute import router as authRoute, get_current_user
 from .accounts.accountRoute import router as accountRoute
 from .transaction.transactionRoute import router as transactionRoute
-
+from .prediction.predectionRoute import router as predectionRoute
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
@@ -21,6 +21,7 @@ app.add_middleware(
 app.include_router(authRoute, prefix='/auth')
 app.include_router(accountRoute)
 app.include_router(transactionRoute)
+app.include_router(predectionRoute)
 @app.get("/")
 def read_root():
     return {"message": "Expense Tracker Backend Running 🚀"}

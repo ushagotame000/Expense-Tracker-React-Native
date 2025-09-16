@@ -25,8 +25,8 @@ async def addTransaction(transaction: TransactionCreate, classifier: NaiveBayesC
             "amount": transaction.amount,
             "category": predicted_category,
             "type": transaction.type,
-            "account_id": transaction.account_id,
-            "user_id": transaction.user_id,
+            "account_id": ObjectId(transaction.account_id),
+            "user_id": ObjectId(transaction.account_id),
             "created_at": datetime.utcnow(),
             "updated_at": datetime.utcnow()
         })

@@ -11,6 +11,7 @@ class Transaction(BaseModel):
     type: str
     user_id: str
     account_id: Optional[str] = None
+    date: datetime =  Field(default_factory=datetime.now)
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     class Config:

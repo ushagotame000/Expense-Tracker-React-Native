@@ -454,7 +454,7 @@ export default function HomePage() {
                         </View>
                       ))
                     ) : (
-                      <Text>No accounts found</Text>
+                      <Text> </Text>
                     )}
                   </View>
 

@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontStyle: 'italic',
          color: '#4c7aafff',
-         marginTop:-20,
+         marginTop:2,
 
   },
   amount: {
