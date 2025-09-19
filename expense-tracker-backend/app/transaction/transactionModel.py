@@ -26,7 +26,7 @@ class TransactionCreate(BaseModel):
     amount: float
     user_id: str
     type:str
-    account_id: 
+    account_id: str
     date:str
     time:str
 

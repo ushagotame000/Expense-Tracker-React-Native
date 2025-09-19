@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   Dimensions,
   ImageBackground,
   Modal,
@@ -16,7 +17,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
-import { AccountData, AccountWithTransactions, addAccount, getAllUserAccounts, ITotalBalances } from "../api/account";
+import { AccountData, AccountWithTransactions, addAccount, deleteAccount, getAllUserAccounts, ITotalBalances } from "../api/account";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
@@ -26,6 +27,8 @@ import { Greeting } from "../constant/greeting";
 import FilterTransaction from "../screen/FilterTransaction";
 import ScrollContainer from "@/components/ScrollContainer";
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import ModalComponent from "../components/ModalComponent";
+import ConfirmationModal from "../components/ConfirmationModal";
 const { height, width } = Dimensions.get("window");
 
 type pickerMode = 'date' | 'time';
@@ -38,27 +41,36 @@ export default function HomePage() {
   const [error, setError] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [accounts, setAccounts] = useState<AccountWithTransactions[]>([]);
-  const [isTransactionModalVisible, setTransactionModelVisible] = useState(false);
+  const [isTransactionModalVisible, setTransactionModelVisible] =
+    useState(false);
   const [description, setNewDescription] = useState("");
   const [transactionAmount, setTransactionAmount] = useState("0");
   const [transactionType, setTransactionType] = useState("");
   const [selectedAccount, setSelectedAccount] = useState<string | null>(null);
-  const [transactionAccount, setTransactionAccount] = useState<TransactionDataFetch[]>([]);
-  const [totalBalances, setTotalBalances] = useState<ITotalBalances | null>(null);
-  const [user, setUser] = useState<any>()
+  const [transactionAccount, setTransactionAccount] = useState<
+    TransactionDataFetch[]
+  >([]);
+  const [totalBalances, setTotalBalances] = useState<ITotalBalances | null>(
+    null
+  );
+  const [user, setUser] = useState<any>();
+  const [isModalComponentVisible, setModalComponentVisible] =
+    useState<boolean>(false);
+  const [isDeleteModalVisible, setDeleteModalVisible] =
+    useState<boolean>(false);
   const router = useRouter();
 
   const handleAddTransaction = async () => {
     if (!description && !transactionAmount) {
-      setError('Fields is required');
+      setError("Fields is required");
       return;
     }
     try {
-      const userId = await AsyncStorage.getItem('user_id');
-      console.log("userid is", userId)
+      const userId = await AsyncStorage.getItem("user_id");
+      console.log("userid is", userId);
 
       if (!userId) {
-        setError('User not authenticated');
+        setError("User not authenticated");
         return;
       }
       const TransactionData: TransactionData = {
@@ -67,8 +79,8 @@ export default function HomePage() {
         amount: parseFloat(transactionAmount) || 0,
         type: transactionType,
         account_id: selectedAccount!,
-        date: date.toISOString().split('T')[0],
-        time: date.toTimeString().split(' ')[0],
+        date: date.toISOString().split("T")[0],
+        time: date.toTimeString().split(" ")[0],
       };
       setIsLoading(true);
       setError("");
@@ -76,43 +88,39 @@ export default function HomePage() {
       // console.log('transaction added successfully:', response);
       setModalAccountVisible(false);
       setModalVisible(false);
-      setNewDescription(""),
-        setTransactionAmount("0");
-        console.log(response,("the response is "))
-    }
-    catch (err) {
+      setNewDescription(""), setTransactionAmount("0");
+      console.log(response, "the response is ");
+    } catch (err) {
       console.log("failed to add transaction:", err);
-      setError("failed to add transaction. Please try again.")
-    }
-    finally {
+      setError("failed to add transaction. Please try again.");
+    } finally {
       setIsLoading(false);
     }
-  }
+  };
   useEffect(() => {
     const loadUserData = async () => {
       try {
-        const userData = await AsyncStorage.getItem('user')
+        const userData = await AsyncStorage.getItem("user");
         if (userData !== null) {
           setUser(JSON.parse(userData));
         }
-      }
-      catch (e) {
+      } catch (e) {
         console.log("Failed to load user data", e);
       }
-    }
+    };
     loadUserData();
   }, []);
 
   useEffect(() => {
     const fetchAllTransaction = async () => {
       try {
-        const userId = await AsyncStorage.getItem('user_id');
+        const userId = await AsyncStorage.getItem("user_id");
         if (userId) {
           const transactionAccount = await getAllTransaction(userId);
           setTransactionAccount(transactionAccount);
         }
       } catch (err) {
-        setError('Failed to fetch transaction');
+        setError("Failed to fetch transaction");
         console.error(err);
       } finally {
         setIsLoading(false);
@@ -121,17 +129,19 @@ export default function HomePage() {
 
     fetchAllTransaction();
   }, []);
+
+
   const handleAddaccount = async () => {
     if (!newAccountName.trim()) {
-      setError('Account name is required');
+      setError("Account name is required");
       return;
     }
     try {
-      const userId = await AsyncStorage.getItem('user_id');
-      console.log("userid is", userId)
+      const userId = await AsyncStorage.getItem("user_id");
+      console.log("userid is", userId);
 
       if (!userId) {
-        setError('User not authenticated');
+        setError("User not authenticated");
         return;
       }
       const accountData = {
@@ -142,35 +152,32 @@ export default function HomePage() {
       setIsLoading(true);
       setError("");
       const response = await addAccount(accountData);
-      console.log('account added successfully:', response);
+      console.log("account added successfully:", response);
       setModalAccountVisible(false);
       setModalVisible(false);
-      setNewAccountName(""),
-        setInitialBalance("0");
-    }
-    catch (err) {
+      setNewAccountName(""), setInitialBalance("0");
+    } catch (err) {
       console.log("failed to add account:", err);
-      setError("failed to add account. Please try again.")
-    }
-    finally {
+      setError("failed to add account. Please try again.");
+    } finally {
       setIsLoading(false);
     }
-  }
+  };
 
-  const userId = AsyncStorage.getItem('user_id');
+  const userId = AsyncStorage.getItem("user_id");
   useEffect(() => {
     const fetchUserAccount = async () => {
       try {
-        const userId = await AsyncStorage.getItem('user_id');
+        const userId = await AsyncStorage.getItem("user_id");
         if (userId) {
           const userAccounts = await getAllUserAccounts(userId);
           // console.log("Hello",userAccounts)
           // console.log('fetched accout:', userAccounts.total_balances)
-          setTotalBalances(userAccounts.total_balances)
+          setTotalBalances(userAccounts.total_balances);
           setAccounts(userAccounts.accounts);
         }
       } catch (err) {
-        setError('Failed to fetch accounts');
+        setError("Failed to fetch accounts");
         console.error(err);
       } finally {
         setIsLoading(false);
@@ -180,7 +187,41 @@ export default function HomePage() {
     fetchUserAccount();
   }, []);
 
+  const handleEdit = (account_id:string) => {
+    console.log("Edit Account:", selectedAccount);
+    router.push(`/editpages/${account_id}`);
+    setModalComponentVisible(false);
+  };
 
+
+// Account delete
+  const handleDeleteAccount = () => {
+  setModalComponentVisible(false);
+    setDeleteModalVisible(true);
+
+  };
+
+  //Account delete confirmation
+  const handleConfirmAccount = async (account_id: string) => {
+    console.log("this is account_id", account_id);
+
+    try {
+      const response = await deleteAccount(account_id);
+      if (response && response.success) {
+        console.log("account deleted successfully");
+        Alert.alert("Account deleted successfully")
+      }
+    } catch (error) {
+      console.error("Error during account deletion:", error);
+      setDeleteModalVisible(true);
+      Alert.alert("Account deletion failed");
+    }
+  };
+
+  
+  const cancelDelete = () => {
+    setDeleteModalVisible(false);
+  };
 
   if (isLoading) {
     return (
@@ -200,7 +241,7 @@ export default function HomePage() {
 
   const [date, setDate] = useState<Date>(new Date());
   const [showPicker, setShowPicker] = useState<boolean>(false);
-  const [pickerMode, setPickerMode] = useState<pickerMode>('date');
+  const [pickerMode, setPickerMode] = useState<pickerMode>("date");
 
   const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     if (selectedDate) {
@@ -208,18 +249,18 @@ export default function HomePage() {
     }
 
     // On Android, close picker after selection
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       setShowPicker(false);
     }
   };
 
   const showDatePicker = () => {
-    setPickerMode('date');
+    setPickerMode("date");
     setShowPicker(true);
   };
 
   const showTimePicker = () => {
-    setPickerMode('time');
+    setPickerMode("time");
     setShowPicker(true);
   };
 
@@ -269,7 +310,9 @@ export default function HomePage() {
                   style={styles.arrowIcon}
                 />
                 Income {"\n"}
-                <Text style={styles.expensesBalance}>Rs {totalBalances?.total_income ?? 0}</Text>
+                <Text style={styles.expensesBalance}>
+                  Rs {totalBalances?.total_income ?? 0}
+                </Text>
               </Text>
               <Text style={styles.expenses}>
                 <Feather
@@ -279,11 +322,12 @@ export default function HomePage() {
                   style={styles.arrowIcon}
                 />
                 Expenses {"\n"}
-                <Text style={styles.expensesBalance}>Rs {totalBalances?.total_expense}</Text>
+                <Text style={styles.expensesBalance}>
+                  Rs {totalBalances?.total_expense}
+                </Text>
               </Text>
             </View>
           </View>
-
 
           {/* <ScrollView horizontal style={styles.accountScrollContainer} > */}
           <View>
@@ -299,36 +343,91 @@ export default function HomePage() {
                     key={`${accountData.account._id}`}
                     style={styles.accountCard}
                     onPress={() => {
-
-                      console.log('Account pressed:', accountData.account.user_id)
-                      console.log('New Account Name:', accountData.account.name);
-                    }
-                    }
-
+                      console.log(
+                        "Account pressed:",
+                        accountData.account.user_id
+                      );
+                      console.log(
+                        "New Account Name:",
+                        accountData.account.name
+                      );
+                      setSelectedAccount(accountData.account._id);
+                      setModalComponentVisible(true);
+                    }}
                   >
                     <View style={styles.accountPing} />
                     <Text
                       style={styles.accountName}
                       numberOfLines={1}
                       ellipsizeMode="tail"
-                    > {accountData.account.name}
+                    >
+                      {" "}
+                      {accountData.account.name}
                     </Text>
-                    <Text style={styles.accountBalance}>Rs {accountData.account.balance.toFixed(2)}</Text>
-                    <Text style={styles.accountTransactions}>{accountData.transaction_count} Transaction{accountData.transaction_count !== 1 ? 's' : ''}</Text>
+                    <Text style={styles.accountBalance}>
+                      Rs {accountData.account.balance.toFixed(2)}
+                    </Text>
+                    <Text style={styles.accountTransactions}>
+                      {accountData.transaction_count} Transaction
+                      {accountData.transaction_count !== 1 ? "s" : ""}
+                    </Text>
                   </TouchableOpacity>
                 ))
               ) : (
-                <Text >No accounts found</Text>
+                <Text>No accounts found</Text>
               )}
               {/* add account button */}
               <TouchableOpacity
-                style={[styles.accountCard, { backgroundColor: 'black', justifyContent: 'center', alignItems: 'center' }]}
+                style={[
+                  styles.accountCard,
+                  {
+                    backgroundColor: "black",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  },
+                ]}
                 onPress={() => setModalAccountVisible(true)}
               >
                 <Feather name="file-plus" size={32} color="#fff" />
-                <Text style={{ color: '#fff', fontSize: 10, marginTop: 5 }}>Add Account</Text>
+                <Text style={{ color: "#fff", fontSize: 10, marginTop: 5 }}>
+                  Add Account
+                </Text>
               </TouchableOpacity>
             </ScrollView>
+
+           {/* account add edit modal  */}
+            <ModalComponent
+              visible={isModalComponentVisible}
+              onClose={() => setModalComponentVisible(false)}
+             
+              onDelete={handleDeleteAccount}
+              item={selectedAccount}
+               onEdit={()=>{
+                  if (selectedAccount !== null) {
+                  handleEdit(selectedAccount);
+              }
+                else {
+                  console.warn("Selected account Id is null.")
+            }
+            }}
+            />
+
+            {/* Delete  account Confirmation Modal */}
+            <ConfirmationModal
+              visible={isDeleteModalVisible}
+              onClose={cancelDelete}
+              onConfirm={() => {
+                if (selectedAccount !== null) {
+                  handleConfirmAccount(selectedAccount);
+                 setDeleteModalVisible(false);
+                  Alert.alert("Account deleted successfully");
+
+
+                } else {
+                  console.warn("Selected account Id is null.");
+                }
+              }}
+            />
           </View>
 
           {/* </ScrollView> */}
@@ -420,7 +519,12 @@ export default function HomePage() {
                             onPress={showTimePicker}
                             style={[styles.input, { flex: 1, marginLeft: 10 }]}
                           >
-                            <Text>{date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+                            <Text>
+                              {date.toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </Text>
                           </TouchableOpacity>
 
                           {showPicker && (
@@ -428,7 +532,9 @@ export default function HomePage() {
                               testID="dateTimePicker"
                               value={date}
                               mode={pickerMode}
-                              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                              display={
+                                Platform.OS === "ios" ? "spinner" : "default"
+                              }
                               onChange={onChange}
                             />
                           )}
@@ -440,7 +546,9 @@ export default function HomePage() {
                               style={styles.pickerText}
                               placeholder="Select Account"
                               selectedValue={selectedAccount}
-                              onValueChange={(itemValue) => setSelectedAccount(itemValue)}
+                              onValueChange={(itemValue) =>
+                                setSelectedAccount(itemValue)
+                              }
                             >
                               {accounts.map((accountData) => (
                                 <Picker.Item
@@ -451,7 +559,9 @@ export default function HomePage() {
                               ))}
                             </Picker>
                           ) : (
-                            <Text style={styles.noAccountsText}>No accounts available</Text>
+                            <Text style={styles.noAccountsText}>
+                              No accounts available
+                            </Text>
                           )}
                         </View>
                         <View style={styles.buttonContainer}>
@@ -473,7 +583,6 @@ export default function HomePage() {
                     </View>
                   </Modal>
                   {/* end expanse modal */}
-
                 </View>
               </TouchableWithoutFeedback>
             </View>
@@ -486,25 +595,35 @@ export default function HomePage() {
           visible={modalAccountVisible}
           onRequestClose={() => setModalAccountVisible(false)}
         >
-          <TouchableWithoutFeedback onPress={() => setModalAccountVisible(false)}>
+          <TouchableWithoutFeedback
+            onPress={() => setModalAccountVisible(false)}
+          >
             <View style={styles.modalOverlay}>
               <TouchableWithoutFeedback>
                 <View style={styles.modalView}>
                   <Text style={styles.modalTitle}>Create Account</Text>
-                  <Text> {accounts.length > 0 ? "lot of acocunts" : "No accounts found"}
+                  <Text>
+                    {" "}
+                    {accounts.length > 0
+                      ? ""
+                      : "No accounts found"}
                   </Text>
                   {/* Account options */}
                   <View>
-
                     {accounts.length > 0 ? (
-
                       accounts.map((accountData) => (
-                        <View key={`${accountData.account._id}`} >
+                        <View key={`${accountData.account._id}`}>
                           <TouchableOpacity style={styles.accountOption}>
-                            <Text style={styles.accountText}>{accountData.account.name}</Text>
+                            <Text style={styles.accountText}>
+                              {accountData.account.name}
+                            </Text>
                           </TouchableOpacity>
-                          <Text>Rs {accountData.account.balance.toFixed(2)}</Text>
-                          <Text>{accountData.transaction_count} Transactions</Text>
+                          <Text>
+                            Rs {accountData.account.balance.toFixed(2)}
+                          </Text>
+                          <Text>
+                            {accountData.transaction_count} Transactions
+                          </Text>
                         </View>
                       ))
                     ) : (
@@ -551,7 +670,7 @@ export default function HomePage() {
                           <Picker
                             // selectedValue={}
                             style={styles.currencyPicker}
-                          // onValueChange={(itemValue) => setCurrency(itemValue)}
+                            // onValueChange={(itemValue) => setCurrency(itemValue)}
                           >
                             <Picker.Item label="₹ INR" value="INR" />
                             <Picker.Item label="$ USD" value="USD" />
