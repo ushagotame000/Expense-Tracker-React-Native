@@ -6,11 +6,13 @@ import { LineChart } from "react-native-chart-kit";
 import LineGraph from "../components/LineGraph";
 import { Text } from 'react-native-paper';
 import ScrollContainer from "@/components/ScrollContainer";
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getAllTransaction } from "../api/transaction";
+import { deleteTransaction, getAllTransaction } from "../api/transaction";
 import ChartPie from "../components/LineGraph";
 import { icons } from "@/assets/images/assets";
+import ConfirmationModal from "../components/ConfirmationModal";
+import ModalComponent from "../components/ModalComponent";
 
 const { height, width } = Dimensions.get("window");
 
@@ -75,27 +77,52 @@ const groupTransactionsByDate = (transactions: any[]) => {
 
 export default function Transaction() {
   const [activeFilter, setActiveFilter] = useState("Month");
-  const [activeTab, setActiveTab] = useState<'all' | 'income' | 'expense'>('all');
+  const [activeTab, setActiveTab] = useState<"all" | "income" | "expense">(
+    "all"
+  );
   const [transactions, setTransactions] = useState<any[]>([]);
   const [filteredTransactions, setFilteredTransactions] = useState<any[]>([]);
-  const [monthlyData, setMonthlyData] = useState<{ month: string, income: number, expense: number }[]>([]);
-  const [categoryData, setCategoryData] = useState<{ name: string, amount: number, color: string }[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState<number | null>(new Date().getMonth());
+  const [monthlyData, setMonthlyData] = useState<
+    { month: string; income: number; expense: number }[]
+  >([]);
+  const [categoryData, setCategoryData] = useState<
+    { name: string; amount: number; color: string }[]
+  >([]);
+  const [selectedMonth, setSelectedMonth] = useState<number | null>(
+    new Date().getMonth()
+  );
   const [selectedSegment, setSelectedSegment] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
+  const [selectedTransaction, setSelectedTransaction] = useState<string | null>(
+    null
+  );
+
+  const [isModalComponentVisible, setModalComponentVisible] =
+    useState<boolean>(false);
+  const [isDeleteModalVisible, setDeleteModalVisible] =
+    useState<boolean>(false);
+  const router = useRouter();
   const scrollViewRef = useRef<ScrollView>(null);
 
   const categoryColors = [
-    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
-    '#FF9F40', '#8AC24A', '#607D8B', '#E91E63', '#9C27B0'
+    "#FF6384",
+    "#36A2EB",
+    "#FFCE56",
+    "#4BC0C0",
+    "#9966FF",
+    "#FF9F40",
+    "#8AC24A",
+    "#607D8B",
+    "#E91E63",
+    "#9C27B0",
   ];
 
   useEffect(() => {
     const loadTransactions = async () => {
       try {
-        const userId = await AsyncStorage.getItem('user_id');
-        if (!userId) throw new Error('User ID not found');
+        const userId = await AsyncStorage.getItem("user_id");
+        if (!userId) throw new Error("User ID not found");
 
         const fetchedTransactions = await getAllTransaction(userId);
         const sortedTransactions = [...fetchedTransactions].sort((a, b) => {
@@ -106,19 +133,19 @@ export default function Transaction() {
 
         setTransactions(sortedTransactions);
         calculateMonthlyData(sortedTransactions);
-        
-        // Filter for current month by default
+
         const currentMonth = new Date().getMonth();
-        const currentMonthTransactions = sortedTransactions.filter(transaction => {
-          const date = new Date(transaction.created_at);
-          return date.getMonth() === currentMonth;
-        });
-        
+        const currentMonthTransactions = sortedTransactions.filter(
+          (transaction) => {
+            const date = new Date(transaction.created_at);
+            return date.getMonth() === currentMonth;
+          }
+        );
+
         setFilteredTransactions(currentMonthTransactions);
         calculateCategoryData(currentMonthTransactions);
-        
       } catch (err) {
-        console.error('Failed to fetch transactions:', err);
+        console.error("Failed to fetch transactions:", err);
       } finally {
         setIsLoading(false);
       }
@@ -139,21 +166,31 @@ export default function Transaction() {
 
   const calculateMonthlyData = (transactions: any[]) => {
     const months = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ];
 
-    const monthlyTotals = months.map(month => ({
+    const monthlyTotals = months.map((month) => ({
       month,
       income: 0,
-      expense: 0
+      expense: 0,
     }));
 
-    transactions.forEach(transaction => {
+    transactions.forEach((transaction) => {
       const date = new Date(transaction.created_at);
       const monthIndex = date.getMonth();
 
-      if (transaction.type.toLowerCase() === 'income') {
+      if (transaction.type.toLowerCase() === "income") {
         monthlyTotals[monthIndex].income += transaction.amount;
       } else {
         monthlyTotals[monthIndex].expense += transaction.amount;
@@ -166,9 +203,8 @@ export default function Transaction() {
   const calculateCategoryData = (transactions: any[]) => {
     const categories: { [key: string]: number } = {};
 
-    transactions.forEach(transaction => {
+    transactions.forEach((transaction) => {
       if (!transaction.category) return;
-
       if (!categories[transaction.category]) {
         categories[transaction.category] = 0;
       }
@@ -179,54 +215,35 @@ export default function Transaction() {
       .map(([name, amount], index) => ({
         name,
         amount,
-        color: categoryColors[index % categoryColors.length]
+        color: categoryColors[index % categoryColors.length],
       }))
       .sort((a, b) => b.amount - a.amount);
 
     setCategoryData(sortedCategories);
   };
-  const handleTabFilter = (type: 'all' | 'income' | 'expense') => {
-    setActiveTab(type);
-    if (type === 'all') {
-      if (selectedMonth !== null) {
-        const filtered = transactions.filter(transaction => {
-          const date = new Date(transaction.created_at);
-          return date.getMonth() === selectedMonth;
-        });
-        setFilteredTransactions(filtered);
-        calculateCategoryData(filtered);
-      } else {
-        setFilteredTransactions([...transactions]);
-        calculateCategoryData(transactions);
-      }
-    } else {
-      const filtered = transactions.filter(
-        transaction => transaction.type.toLowerCase() === type.toLowerCase() && 
-        (selectedMonth === null || new Date(transaction.created_at).getMonth() === selectedMonth)
-      );
-      setFilteredTransactions(filtered);
-      calculateCategoryData(filtered);
-    }
-  };
 
-  const handleTimeFilter = (filter: string) => {
-    setActiveFilter(filter);
+  const handleTabFilter = (type: "all" | "income" | "expense") => {
+    setActiveTab(type);
+    const filtered = transactions.filter((transaction) => {
+      const matchesType =
+        type === "all" || transaction.type.toLowerCase() === type.toLowerCase();
+      const matchesMonth =
+        selectedMonth === null ||
+        new Date(transaction.created_at).getMonth() === selectedMonth;
+      return matchesType && matchesMonth;
+    });
+    setFilteredTransactions(filtered);
+    calculateCategoryData(filtered);
   };
 
   const handleMonthSelect = (monthIndex: number) => {
-    if (selectedMonth === monthIndex) {
-      setSelectedMonth(null);
-      setFilteredTransactions(transactions);
-      calculateCategoryData(transactions);
-    } else {
-      setSelectedMonth(monthIndex);
-      const filtered = transactions.filter(transaction => {
-        const date = new Date(transaction.created_at);
-        return date.getMonth() === monthIndex;
-      });
-      setFilteredTransactions(filtered);
-      calculateCategoryData(filtered);
-    }
+    const filtered = transactions.filter((transaction) => {
+      const date = new Date(transaction.created_at);
+      return date.getMonth() === monthIndex;
+    });
+    setSelectedMonth(monthIndex);
+    setFilteredTransactions(filtered);
+    calculateCategoryData(filtered);
   };
 
   const handleSegmentPress = (segment: any) => {
@@ -234,11 +251,39 @@ export default function Transaction() {
     setTimeout(() => setSelectedSegment(null), 2000);
   };
 
+  const handleEdit = (transaction_id: string) => {
+    if (!transaction_id) return;
+    router.push(`/edit-transaction/${transaction_id}`);
+    setModalComponentVisible(false);
+  };
+
+  const handleDeleteAccount = () => {
+    setModalComponentVisible(false);
+    setDeleteModalVisible(true);
+  };
+
+  const handleConfirmAccount = async () => {
+    try {
+      if (!selectedTransaction) return;
+      await deleteTransaction(selectedTransaction);
+      const updatedTransactions = transactions.filter(
+        (txn) => txn._id !== selectedTransaction
+      );
+      setTransactions(updatedTransactions);
+      setFilteredTransactions(updatedTransactions);
+    } catch (error) {
+      console.error("Failed to delete transaction", error);
+    } finally {
+      setModalComponentVisible(false);
+      setDeleteModalVisible(false);
+    }
+  };
+
   const groupedTransactions = groupTransactionsByDate(filteredTransactions);
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" />
       </View>
     );
@@ -259,9 +304,7 @@ export default function Transaction() {
             >
               <FontAwesome name="angle-left" size={30} color="#b5f2ccff" />
             </TouchableOpacity>
-
             <Text style={styles.headerTitle}>Transactions</Text>
-
             <TouchableOpacity style={styles.iconButton}>
               <FontAwesome name="download" size={28} color="#b5f2ccff" />
             </TouchableOpacity>
@@ -270,7 +313,7 @@ export default function Transaction() {
           <View style={styles.dropdownContainer}>
             <Picker
               selectedValue={activeTab}
-              onValueChange={(itemValue) => handleTabFilter(itemValue)}
+              onValueChange={handleTabFilter}
               style={styles.pickerText}
             >
               <Picker.Item label="All" value="all" />
@@ -280,9 +323,9 @@ export default function Transaction() {
           </View>
 
           <View style={styles.monthSelector}>
-            <ScrollView 
+            <ScrollView
               ref={scrollViewRef}
-              horizontal 
+              horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.monthScrollContainer}
             >
@@ -292,14 +335,16 @@ export default function Transaction() {
                     key={index}
                     style={[
                       styles.monthButton,
-                      selectedMonth === index && styles.activeMonthButton
+                      selectedMonth === index && styles.activeMonthButton,
                     ]}
                     onPress={() => handleMonthSelect(index)}
                   >
-                    <Text style={[
-                      styles.monthButtonText,
-                      selectedMonth === index && styles.activeMonthButtonText
-                    ]}>
+                    <Text
+                      style={[
+                        styles.monthButtonText,
+                        selectedMonth === index && styles.activeMonthButtonText,
+                      ]}
+                    >
                       {monthData.month.substring(0, 3)}
                     </Text>
                   </TouchableOpacity>
@@ -309,7 +354,13 @@ export default function Transaction() {
           </View>
         </ImageBackground>
 
-        <View style={{ marginVertical: 20, backgroundColor: 'transparent', marginTop:'-20%' }}>
+        <View
+          style={{
+            marginVertical: 20,
+            backgroundColor: "transparent",
+            marginTop: "-20%",
+          }}
+        >
           <ChartPie
             categoryData={categoryData}
             onSegmentPress={handleSegmentPress}
@@ -317,31 +368,39 @@ export default function Transaction() {
         </View>
 
         {selectedSegment && (
-          <View style={[
-            styles.tooltip,
-            {
-              top: selectedSegment.y - 60,
-              left: selectedSegment.x - 50
-            }
-          ]}>
+          <View
+            style={[
+              styles.tooltip,
+              { top: selectedSegment.y - 60, left: selectedSegment.x - 50 },
+            ]}
+          >
             <Text style={styles.tooltipText}>{selectedSegment.name}</Text>
-            <Text style={styles.tooltipText}>Rs {selectedSegment.amount.toFixed(2)}</Text>
+            <Text style={styles.tooltipText}>
+              Rs {selectedSegment.amount.toFixed(2)}
+            </Text>
           </View>
         )}
 
-        <View style={styles.transactionsContainer}>
-          {Object.keys(groupedTransactions).length > 0 ? (
-            Object.entries(groupedTransactions).map(([date, transactions]) => (
-              <View key={date} style={styles.dateGroup}>
-                <Text style={styles.dateHeader}>{date}</Text>
-                {transactions.map((transaction) => (
-                  <View key={transaction._id} style={styles.item}>
+        {Object.keys(groupedTransactions).length > 0 ? (
+          Object.entries(groupedTransactions).map(([date, transactions]) => (
+            <View key={date} style={styles.dateGroup}>
+              <Text style={styles.dateHeader}>{date}</Text>
+              {transactions.map((transaction) => (
+                <TouchableOpacity
+                  key={transaction._id}
+                  onPress={() => {
+                    setSelectedTransaction(transaction._id);
+                    setModalComponentVisible(true);
+                  }}
+                >
+                  <View style={styles.item}>
                     <View style={styles.textContainer}>
                       <Text style={styles.description}>
                         {transaction.description}
                       </Text>
                       <Text style={styles.time}>
-                        {transaction.created_at && formatTransactionTime(transaction.created_at)}
+                        {transaction.created_at &&
+                          formatTransactionTime(transaction.created_at)}
                       </Text>
                       {transaction.category && (
                         <Text style={styles.category}>
@@ -352,19 +411,36 @@ export default function Transaction() {
                     <Text
                       style={[
                         styles.amount,
-                        transaction.type.toLowerCase() === 'expense' ? styles.expense : styles.income
+                        transaction.type.toLowerCase() === "expense"
+                          ? styles.expense
+                          : styles.income,
                       ]}
                     >
-                      {transaction.type.toLowerCase() === 'expense' ? '-' : '+'}Rs {transaction.amount.toFixed(2)}
+                      {transaction.type.toLowerCase() === "expense" ? "-" : "+"}
+                      Rs {transaction.amount.toFixed(2)}
                     </Text>
                   </View>
-                ))}
-              </View>
-            ))
-          ) : (
-            <Text style={styles.noTransactionsText}>No transactions found</Text>
-          )}
-        </View>
+                </TouchableOpacity>
+              ))}
+            </View>
+          ))
+        ) : (
+          <Text style={styles.noTransactionsText}>No transactions found</Text>
+        )}
+
+        <ModalComponent
+          visible={isModalComponentVisible}
+          onClose={() => setModalComponentVisible(false)}
+          onDelete={handleDeleteAccount}
+          item={transactions.find((txn) => txn._id === selectedTransaction)}
+          onEdit={() => handleEdit(selectedTransaction)}
+        />
+
+        <ConfirmationModal
+          visible={isDeleteModalVisible}
+          onClose={() => setDeleteModalVisible(false)}
+          onConfirm={handleConfirmAccount}
+        />
       </View>
     </ScrollContainer>
   );
