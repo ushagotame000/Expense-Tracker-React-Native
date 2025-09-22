@@ -26,6 +26,8 @@ class TransactionCreate(BaseModel):
     user_id: str
     type:str
     account_id: str
+    date:str
+    time:str
 
 class TransactionResponse(BaseModel):
     msg: str

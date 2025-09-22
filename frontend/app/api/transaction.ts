@@ -6,6 +6,8 @@ export interface TransactionData {
   user_id: string;
   type: string;
   account_id?: string;
+  time:string;
+  date:string;
 }
 export interface TransactionDataFetch {
   description: string;
@@ -59,5 +61,74 @@ export const getAllTransaction = async (
   } catch (error) {
     console.error("API Error:", error);
     return [];
+  }
+};
+
+
+export const deleteTransaction = async (transaction_id: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/delete-transaction/${transaction_id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data; 
+  } catch (error) {
+    console.error("Error deleting transaction:", error);
+    throw error;
+  }
+};
+
+export const editTransaction = async (
+  transaction_id: string,
+  updatedTransaction: Partial<TransactionData>
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/edit-transaction/${transaction_id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedTransaction),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("error while editing transaction", error);
+    throw error;
+  }
+};
+
+
+export const getTransactionById = async (transaction_id: string) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/get-transaction/${transaction_id}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching transaction by ID:", error);
+    throw error;
   }
 };

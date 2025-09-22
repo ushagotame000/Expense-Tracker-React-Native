@@ -91,3 +91,69 @@ export const getAllUserAccounts = async (user_id: string): Promise<IAccountRespo
         } 
   }
 };
+
+export const deleteAccount = async (account_id: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/delete-account/${account_id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data; 
+  } catch (error) {
+    console.error("Error deleting account:", error);
+    throw error;
+  }
+};
+
+
+export const handleEditAccounts = async (
+  account_id: string,
+  updatedAccount: Partial<AccountData>
+) => {
+  try {
+    const response = await fetch(`${BASE_URL}/edit-account/${account_id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedAccount),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("error while editing account", error);
+    throw error;
+  }
+};
+
+export const getUserAccountById = async (account_id: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/get-user-account/${account_id}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data; 
+  } catch (error) {
+    console.error("Error fetching account by ID:", error);
+    throw error;
+  }
+};
+
+
+
+

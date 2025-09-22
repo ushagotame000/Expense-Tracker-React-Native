@@ -12,3 +12,10 @@ uvicorn app.main:app --reload
 
 # Browse 
 http://127.0.0.1:8000/
+
+
+# for linux
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirement.txt
+uvicorn app.main:app --reload
