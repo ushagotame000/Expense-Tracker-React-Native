@@ -68,6 +68,7 @@ const ChartPie: React.FC<PieChartProps> = ({ categoryData, onSegmentPress }) => 
             key={index}
             style={styles.legendItem}
             onPress={() => onSegmentPress?.(item)}
+            //  onPress={() => console.log(item)} 
           >
             <View style={[styles.colorBox, { backgroundColor: item.color }]} />
             <View style={styles.legendTextContainer}>

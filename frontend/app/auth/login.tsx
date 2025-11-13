@@ -41,6 +41,7 @@ const LoginForm = () => {
     if (!validateForm()) return;
     setIsLoading(true);
     try {
+      console.log("Logging in with:", username)
       const response = await login(username, password);
       console.log(response.user)
       await AsyncStorage.setItem('access_token', response.access_token);

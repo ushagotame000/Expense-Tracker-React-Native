@@ -8,6 +8,7 @@ import {
   Dimensions,
   Modal,
   Alert,
+  Platform,
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { FontAwesome } from "@expo/vector-icons";
@@ -23,6 +24,7 @@ import ConfirmationModal from "../components/ConfirmationModal";
 import ModalComponent from "../components/ModalComponent";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import * as MediaLibrary from 'expo-media-library';
 
 const { height, width } = Dimensions.get("window");
 
@@ -234,7 +236,10 @@ export default function Transaction() {
 
     const sortedCategories = Object.entries(categories)
       .map(([name, amount], index) => ({
-        name,
+        name: name
+          .toLowerCase()
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (c) => c.toUpperCase()),
         amount,
         color: categoryColors[index % categoryColors.length],
       }))
@@ -368,40 +373,109 @@ export default function Transaction() {
 
     return csv;
   };
+const handleDownloadReport = async () => {
+  try {
+    // Get the filtered transactions based on the selected report period
+    const reportTransactions = getFilteredTransactionsByPeriod(reportPeriod);
 
-  const handleDownloadReport = async () => {
-    try {
-      const reportTransactions = getFilteredTransactionsByPeriod(reportPeriod);
-
-      if (reportTransactions.length === 0) {
-        Alert.alert(
-          "No Data",
-          `No transactions found for ${reportPeriod} period.`
-        );
-        return;
-      }
-
-      const csvContent = generateCSVContent(reportTransactions, reportPeriod);
-      const fileName = `transaction_report_${reportPeriod}_${new Date().getTime()}.csv`;
-      const fileUri = FileSystem.documentDirectory + fileName;
-
-      await FileSystem.writeAsStringAsync(fileUri, csvContent, {
-        encoding: FileSystem.EncodingType.UTF8,
-      });
-
-      const isAvailable = await Sharing.isAvailableAsync();
-      if (isAvailable) {
-        await Sharing.shareAsync(fileUri);
-      } else {
-        Alert.alert("Success", `Report saved to: ${fileUri}`);
-      }
-
-      setShowDownloadModal(false);
-    } catch (error) {
-      console.error("Error downloading report:", error);
-      Alert.alert("Error", "Failed to generate report. Please try again.");
+    // If no transactions are found for the selected period, show an alert
+    if (reportTransactions.length === 0) {
+      Alert.alert("No Data", `No transactions found for ${reportPeriod} period.`);
+      return;
     }
-  };
+
+    // Generate the CSV content
+    const csvContent = generateCSVContent(reportTransactions, reportPeriod);
+    
+    // Define a unique file name based on the report period and timestamp
+    const fileName = `transaction_report_${reportPeriod}_${new Date().getTime()}.csv`;
+    
+    // For Android, we will try to save it in the Downloads folder.
+    let fileUri;
+
+    if (Platform.OS === 'android') {
+      // Android Downloads folder path
+      const downloadsDirectory = FileSystem.documentDirectory + 'Download/';
+      await FileSystem.makeDirectoryAsync(downloadsDirectory, { intermediates: true });
+
+      fileUri = downloadsDirectory + fileName;
+    } else {
+      // iOS / other platforms - app's document directory
+      fileUri = FileSystem.documentDirectory + fileName;
+    }
+
+    // Write the CSV file to the specified URI
+    await FileSystem.writeAsStringAsync(fileUri, csvContent, {
+      encoding: FileSystem.EncodingType.UTF8,
+    });
+
+    // Check if sharing is available (to open in external apps)
+    const isAvailable = await Sharing.isAvailableAsync();
+    if (isAvailable) {
+      // If sharing is available, share the file
+      await Sharing.shareAsync(fileUri);
+    } else {
+      // If not sharing, show success message with the saved file URI
+      Alert.alert('Success', `Report saved to your device: ${fileUri}`);
+    }
+
+    // Optionally close any modals
+    setShowDownloadModal(false);
+  } catch (error) {
+    console.error("Error saving report:", error);
+    Alert.alert("Error", "Failed to save report. Please try again.");
+  }
+};
+  // const handleDownloadReport = async () => {
+  //   try {
+  //     const reportTransactions = getFilteredTransactionsByPeriod(reportPeriod);
+
+  //     if (reportTransactions.length === 0) {
+  //       Alert.alert(
+  //         "No Data",
+  //         `No transactions found for ${reportPeriod} period.`
+  //       );
+  //       return;
+  //     }
+
+  //     const csvContent = generateCSVContent(reportTransactions, reportPeriod);
+  //     const fileName = `transaction_report_${reportPeriod}_${new Date().getTime()}.csv`;
+  //     const fileUri = FileSystem.documentDirectory + fileName;
+  //     // const fileUri = FileSystem.cacheDirectory + fileName;
+
+  //     await FileSystem.writeAsStringAsync(fileUri, csvContent, {
+  //       encoding: FileSystem.EncodingType.UTF8,
+  //     });
+
+  //     // const { status } = await MediaLibrary.requestPermissionsAsync();
+  //     // if (status !== 'granted') {
+  //     //   Alert.alert("Permission Denied", "Permission to access media library is required to save the report.");
+  //     //   return;
+  //     // }
+  //     // if (Platform.OS === 'android') {
+  //     //   const asset = await MediaLibrary.createAssetAsync(fileUri);
+  //     //   const album = await MediaLibrary.getAlbumAsync('Download');
+  //     //   if (album == null) {
+  //     //     await MediaLibrary.createAlbumAsync('Download', asset, false);
+  //     //   } else {
+  //     //     await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+  //     //   }
+  //     //   Alert.alert("Success", `Report saved to Download folder.`);
+  //     // }
+
+  //     const isAvailable = await Sharing.isAvailableAsync();
+  //     if (isAvailable) {
+  //       await Sharing.shareAsync(fileUri);
+  //     } else {
+  //       Alert.alert("Success", `Report saved to: ${fileUri}`);
+  //     }
+
+  //     setShowDownloadModal(false);
+  //   } catch (error) {
+  //     console.error("Error downloading report:", error);
+  //     Alert.alert("Error", "Failed to generate report. Please try again.");
+  //   }
+  // };
 
   const groupedTransactions = groupTransactionsByDate(filteredTransactions);
 
@@ -481,8 +555,8 @@ export default function Transaction() {
           </View>
         </ImageBackground>
 
-          <View style={styles.body}>
-        
+        <View style={styles.body}>
+
           <ChartPie
             categoryData={categoryData}
             onSegmentPress={handleSegmentPress}
@@ -526,7 +600,7 @@ export default function Transaction() {
                       </Text>
                       {transaction.category && (
                         <Text style={styles.category}>
-                          {transaction.category}
+                          {transaction.category.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())}
                         </Text>
                       )}
                     </View>
@@ -674,7 +748,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: 50, 
+    paddingTop: 50,
     paddingHorizontal: 20,
   },
   headerTitle: {
@@ -741,7 +815,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     paddingLeft: 8,
   },
-   body: {
+  body: {
     flex: 1,
     padding: 20,
     marginTop: height * 0.25,

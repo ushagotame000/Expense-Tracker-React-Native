@@ -142,18 +142,18 @@ const FilterTransaction = () => {
         {["all", "income", "expense"].map((type) => (
           <TouchableOpacity
             key={type}
-                style={[
-        styles.tabButton,
-        activeTab === type &&
-          (type === "income"
-            ? styles.activeIncomeTab
-            : type === "expense"
-            ? styles.activeExpenseTab
-            : styles.activeTab), 
-      ]}
+            style={[
+              styles.tabButton,
+              activeTab === type &&
+              (type === "income"
+                ? styles.activeIncomeTab
+                : type === "expense"
+                  ? styles.activeExpenseTab
+                  : styles.activeTab),
+            ]}
             onPress={() => handleFilter(type as any)}
           >
-             {type === "income" && (
+            {type === "income" && (
               <FontAwesome
                 name="arrow-up"
                 size={18}
@@ -202,7 +202,9 @@ const FilterTransaction = () => {
                       {t.created_at && formatTransactionTime(t.created_at)}
                     </Text>
                     {t.category && (
-                      <Text style={styles.category}>{t.category}</Text>
+                      <Text style={styles.category}>{t.category.toLowerCase()
+                        .replace(/_/g, " ")
+                        .replace(/\b\w/g, (c) => c.toUpperCase())}</Text>
                     )}
                   </View>
                   <Text
@@ -259,8 +261,8 @@ const styles = StyleSheet.create({
     color: "#333",
     fontWeight: "500",
   },
-   tabIcon: {
-    marginRight: 8,  
+  tabIcon: {
+    marginRight: 8,
   },
   activeText: {
     color: "white",
@@ -287,8 +289,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     backgroundColor: "#f9f9f9",
     borderRadius: 8,
-    borderBottomColor:"#cb2323ff",
-   borderBottomWidth: 1, 
+    borderBottomColor: "#cb2323ff",
+    borderBottomWidth: 1,
   },
   textContainer: {
     flex: 1,
@@ -329,25 +331,25 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
   },
- seeMoreButton: {
-  alignSelf: 'flex-end', 
-  paddingHorizontal: 20,
-  paddingVertical: 8,
-  borderRadius: 20,
-  marginBottom: 10,
-},
+  seeMoreButton: {
+    alignSelf: 'flex-end',
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginBottom: 10,
+  },
 
-seeMoreText: {
-  color: '#007bff',
-  fontWeight: 'bold',
-  textDecorationLine: 'underline', 
-},
-activeIncomeTab: {
-  backgroundColor: "#17a34a", 
-},
-activeExpenseTab: {
-  backgroundColor: "#F44336",
-},
+  seeMoreText: {
+    color: '#007bff',
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+  },
+  activeIncomeTab: {
+    backgroundColor: "#17a34a",
+  },
+  activeExpenseTab: {
+    backgroundColor: "#F44336",
+  },
 
 });
 
