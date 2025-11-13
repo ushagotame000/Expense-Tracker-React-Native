@@ -213,7 +213,7 @@ const FilterTransaction = () => {
                         : styles.income,
                     ]}
                   >
-                    {t.type.toLowerCase() === "expense" ? "-" : "+"}$
+                    {t.type.toLowerCase() === "expense" ? "-" : "+"}Rs.
                     {t.amount.toFixed(2)}
                   </Text>
                 </View>

@@ -374,7 +374,7 @@ export default function HomePage() {
                       ellipsizeMode="tail"
                     >
                       {" "}
-                      {accountData.account.name}
+                      {accountData.account.name.charAt(0).toUpperCase() + accountData.account.name.slice(1)}
                     </Text>
                     <Text style={styles.accountBalance}>
                       Rs {accountData.account.balance.toFixed(2)}
