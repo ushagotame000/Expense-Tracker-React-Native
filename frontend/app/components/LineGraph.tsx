@@ -122,10 +122,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#333',
     fontWeight: '500',
+    fontFamily:"Inter-Semibold"
   },
   categoryValue: {
-    fontSize: 11,
-    color: '#666',
+    fontSize: 12,
+    color: '#ff6f3bff',
   },
 });
 

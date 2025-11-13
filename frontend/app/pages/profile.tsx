@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { icons } from "@/assets/images/assets";
 import ListItem from "../components/ListItem";
-import { logout } from "../api/auth";
 import { useNavigation } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -18,34 +17,45 @@ const { height } = Dimensions.get("window");
 
 export default function Profile() {
   const [user, setUser] = useState<any>();
-    useEffect(()=>{
-      const loadUserData = async() => {
-        try{
-          const userData = await AsyncStorage.getItem('user')
-             if (userData !== null) {
-            setUser(JSON.parse(userData));
-          }
+  
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const userData = await AsyncStorage.getItem("user");
+        if (userData !== null) {
+          setUser(JSON.parse(userData));
         }
-        catch (e) {
-          console.log("Failed to load user data", e);
-        }
+      } catch (e) {
+        console.log("Failed to load user data", e);
       }
-     loadUserData();
-    }, []);
+    };
+    loadUserData();
+  }, []);
+
   const logout = () => {
-     alert('Logout pressed'); // Test if this logs
-     // Your actual logout logic here
-   };
-   const navigation = useNavigation();
+    alert("Logout pressed"); 
+    localStorage.removeItem("access_token")
+    localStorage.removeItem("user_id")
+    localStorage.removeItem("user")
+
+    
+  };
+
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
+      {/* Background Header Image */}
       <ImageBackground
         source={icons.Upperhalf}
         style={styles.imageBackground}
         resizeMode="cover"
       >
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.iconButton} onPress={() => navigation.goBack()}>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => navigation.goBack()}
+          >
             <FontAwesome name="arrow-left" size={20} color="#ffffff" />
           </TouchableOpacity>
 
@@ -57,10 +67,12 @@ export default function Profile() {
         </View>
       </ImageBackground>
 
+      {/* Profile Section */}
       <View style={styles.body}>
-        <View style={styles.profileImage}>
+        <View style={styles.profileImageContainer}>
           <FontAwesome name="user" size={150} color="#00712D" />
         </View>
+
         <View style={styles.info}>
           <Text style={styles.name}>{user?.username}</Text>
           <Text style={styles.email}>{user?.email}</Text>
@@ -73,9 +85,9 @@ export default function Profile() {
           <ListItem icon="envelope" text="Message center" />
           <ListItem icon="shield" text="Login and security" />
           <ListItem icon="lock" text="Data and privacy" />
-         <TouchableOpacity onPress={logout}>
-          <ListItem icon="arrow-left" text="Logout" />
-         </TouchableOpacity>
+          <TouchableOpacity onPress={logout}>
+            <ListItem icon="arrow-left" text="Logout" />
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -89,18 +101,23 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     height: height * 0.4,
-    paddingTop: 60,
-    paddingHorizontal: 20,
+    width: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: -1, 
   },
-  header: {
+  headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginTop: 35,
+    paddingHorizontal: 20,
   },
   iconButton: {
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    padding: 8,
     borderRadius: 10,
+    padding: 2,
+    width: 40,
   },
   title: {
     color: "#fff",
@@ -110,14 +127,15 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     padding: 20,
+    marginTop: height * 0.35, 
   },
-  profileImage: {
+  profileImageContainer: {
     height: 170,
     width: 170,
-    borderRadius: 100,
+    borderRadius: 85,
     backgroundColor: "#eee",
     alignSelf: "center",
-    marginTop: "-40%",
+    marginTop: -80, 
     alignItems: "center",
     justifyContent: "center",
   },
@@ -127,15 +145,14 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 20,
-    fontFamily: "Inter-SemiBold",
+    fontWeight: "600",
   },
   email: {
     fontSize: 14,
-    fontFamily: "Inter-SemiBold",
     color: "#00712D",
   },
   listContainer: {
-    marginTop: 5,
+    marginTop: 20,
     gap: 20,
   },
 });

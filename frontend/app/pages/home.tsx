@@ -15,23 +15,37 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View
+  View,
 } from "react-native";
-import { AccountData, AccountWithTransactions, addAccount, deleteAccount, getAllUserAccounts, ITotalBalances } from "../api/account";
+import {
+  AccountData,
+  AccountWithTransactions,
+  addAccount,
+  deleteAccount,
+  getAllUserAccounts,
+  ITotalBalances,
+} from "../api/account";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 import { logout } from "../api/auth";
-import { addTransaction, getAllTransaction, TransactionData, TransactionDataFetch } from "../api/transaction";
+import {
+  addTransaction,
+  getAllTransaction,
+  TransactionData,
+  TransactionDataFetch,
+} from "../api/transaction";
 import { Greeting } from "../constant/greeting";
 import FilterTransaction from "../screen/FilterTransaction";
 import ScrollContainer from "@/components/ScrollContainer";
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 import ModalComponent from "../components/ModalComponent";
 import ConfirmationModal from "../components/ConfirmationModal";
 const { height, width } = Dimensions.get("window");
 
-type pickerMode = 'date' | 'time';
+type pickerMode = "date" | "time";
 export default function HomePage() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalAccountVisible, setModalAccountVisible] = useState(false);
@@ -130,7 +144,6 @@ export default function HomePage() {
     fetchAllTransaction();
   }, []);
 
-
   const handleAddaccount = async () => {
     if (!newAccountName.trim()) {
       setError("Account name is required");
@@ -172,7 +185,7 @@ export default function HomePage() {
         if (userId) {
           const userAccounts = await getAllUserAccounts(userId);
 
-          console.log("Hello",userAccounts)
+          console.log("Hello", userAccounts);
           // console.log('fetched accout:', userAccounts.total_balances)
           setTotalBalances(userAccounts.total_balances);
           setAccounts(userAccounts.accounts);
@@ -188,18 +201,16 @@ export default function HomePage() {
     fetchUserAccount();
   }, []);
 
-  const handleEdit = (account_id:string) => {
+  const handleEdit = (account_id: string) => {
     console.log("Edit Account:", selectedAccount);
     router.push(`/editpages/${account_id}`);
     setModalComponentVisible(false);
   };
 
-
-// Account delete
+  // Account delete
   const handleDeleteAccount = () => {
-  setModalComponentVisible(false);
+    setModalComponentVisible(false);
     setDeleteModalVisible(true);
-
   };
 
   //Account delete confirmation
@@ -210,7 +221,7 @@ export default function HomePage() {
       const response = await deleteAccount(account_id);
       if (response && response.success) {
         console.log("account deleted successfully");
-        Alert.alert("Account deleted successfully")
+        Alert.alert("Account deleted successfully");
       }
     } catch (error) {
       console.error("Error during account deletion:", error);
@@ -219,7 +230,6 @@ export default function HomePage() {
     }
   };
 
-  
   const cancelDelete = () => {
     setDeleteModalVisible(false);
   };
@@ -266,6 +276,7 @@ export default function HomePage() {
   };
 
   return (
+      <View style={styles.container}>
     <ScrollContainer>
       <View style={styles.container}>
         <ImageBackground
@@ -273,7 +284,7 @@ export default function HomePage() {
           style={styles.imageBackground}
           resizeMode="cover"
         >
-          <View style={styles.header}>
+          <View style={styles.headerContainer}>
             <View>
               <Text style={styles.greeting}>{Greeting()},</Text>
               <Text style={styles.name}>{user?.username}</Text>
@@ -396,21 +407,19 @@ export default function HomePage() {
               </TouchableOpacity>
             </ScrollView>
 
-           {/* account add edit modal  */}
+            {/* account add edit modal  */}
             <ModalComponent
               visible={isModalComponentVisible}
               onClose={() => setModalComponentVisible(false)}
-             
               onDelete={handleDeleteAccount}
               item={selectedAccount}
-               onEdit={()=>{
-                  if (selectedAccount !== null) {
+              onEdit={() => {
+                if (selectedAccount !== null) {
                   handleEdit(selectedAccount);
-              }
-                else {
-                  console.warn("Selected account Id is null.")
-            }
-            }}
+                } else {
+                  console.warn("Selected account Id is null.");
+                }
+              }}
             />
 
             {/* Delete  account Confirmation Modal */}
@@ -420,10 +429,8 @@ export default function HomePage() {
               onConfirm={() => {
                 if (selectedAccount !== null) {
                   handleConfirmAccount(selectedAccount);
-                 setDeleteModalVisible(false);
+                  setDeleteModalVisible(false);
                   Alert.alert("Account deleted successfully");
-
-
                 } else {
                   console.warn("Selected account Id is null.");
                 }
@@ -431,23 +438,11 @@ export default function HomePage() {
             />
           </View>
 
-          {/* </ScrollView> */}
-
-          {/* transaction history layout */}
-          {/* <View style={styles.transactionHeader}>
-          <Text style={styles.transactionTitle}>Transaction History</Text>
-          <Text style={styles.semiTitle}>See all</Text>
-        </View> */}
           <FilterTransaction />
         </View>
         {/* end transaction history */}
 
-        <TouchableOpacity
-          style={styles.floatingButton}
-          onPress={() => setModalVisible(true)}
-        >
-          <Feather name="plus" size={32} color="#fff" />
-        </TouchableOpacity>
+      
 
         <Modal
           animationType="fade"
@@ -603,12 +598,7 @@ export default function HomePage() {
               <TouchableWithoutFeedback>
                 <View style={styles.modalView}>
                   <Text style={styles.modalTitle}>Create Account</Text>
-                  <Text>
-                    {" "}
-                    {accounts.length > 0
-                      ? ""
-                      : "No accounts found"}
-                  </Text>
+                  <Text> {accounts.length > 0 ? "" : "No accounts found"}</Text>
                   {/* Account options */}
                   <View>
                     {accounts.length > 0 ? (
@@ -706,65 +696,70 @@ export default function HomePage() {
         </Modal>
       </View>
     </ScrollContainer>
+      <TouchableOpacity
+          style={styles.floatingButton}
+          onPress={() => setModalVisible(true)}
+        >
+          <Feather name="plus" size={32} color="#fff" />
+        </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     backgroundColor: "#fff",
-
   },
   addButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: "#007AFF",
     padding: 15,
     borderRadius: 8,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 20,
   },
   addButtonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   errorText: {
-    color: 'red'
+    color: "red",
   },
   addButtonText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
     marginLeft: 10,
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalContent: {
-    width: '90%',
-    backgroundColor: 'white',
+    width: "90%",
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
   },
   modalTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 5,
     padding: 12,
     marginBottom: 15,
   },
   balanceContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 15,
   },
   currencyPicker: {
@@ -773,36 +768,39 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   actionButton: {
     padding: 10,
     borderRadius: 5,
-    width: '48%',
-    alignItems: 'center',
+    width: "48%",
+    alignItems: "center",
   },
   cancelButton: {
-    backgroundColor: '#ccc',
+    backgroundColor: "#ccc",
   },
   submitButton: {
-    backgroundColor: '#17a34a',
+    backgroundColor: "#17a34a",
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontFamily: "Inter-Regular",
   },
-  imageBackground: {
+ imageBackground: {
     height: height * 0.4,
-    paddingTop: 60,
-    paddingHorizontal: 20,
+    width: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0,
   },
-  header: {
+ headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    marginTop: "5%",
+    paddingTop: 50, // Adjusted padding for spacing
+    paddingHorizontal: 20,
   },
   greeting: {
     color: "#fff",
@@ -823,7 +821,8 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    padding: 10,
+    padding: 20,
+    marginTop: height * 0.35,
   },
   sectionTitle: {
     fontSize: 16,
@@ -899,21 +898,22 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   floatingButton: {
-    position: "absolute",
-    bottom: 5,
-    left: width / 2 - 30,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: "#00712D",
-    justifyContent: "center",
-    alignItems: "center",
+    position: "absolute",       
+    bottom: 20,      
+    left: "50%",                  
+    marginLeft: -30,              
+    width: 60,                    
+    height: 60,                   
+    borderRadius: 30,            
+    backgroundColor: "#00712D",   
+    justifyContent: "center",     
+    alignItems: "center",         
     shadowColor: "#00712D",
-    shadowOffset: { width: 10, height: 10 },
-    shadowOpacity: 0.5,
+    shadowOffset: { width: 0, height: 5 }, 
+    shadowOpacity: 0.3,
     shadowRadius: 10,
+    elevation: 5,                 
   },
-
   modalButton: {
     backgroundColor: "#17a34a",
     padding: 10,
@@ -931,27 +931,27 @@ const styles = StyleSheet.create({
     fontFamily: "Inter-Regular",
   },
   accountContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderColor: 'black',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderColor: "black",
     borderWidth: 1,
     borderStyle: "solid",
     marginVertical: 12,
     width: "100%",
-    height: 90
+    height: 90,
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalView: {
-    width: '80%',
-    backgroundColor: 'white',
+    width: "80%",
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -960,124 +960,101 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 15,
-    textAlign: 'center',
-    color: '#17a34a',
-    fontFamily: "Inter-Regular",
-  },
+ 
   accountOption: {
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: "#eee",
   },
   accountText: {
     fontSize: 16,
-    color: '#17a34a',
+    color: "#17a34a",
     fontFamily: "Inter-Regular",
   },
-  addButtonContent: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  addButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-    marginLeft: 5,
-  },
-  addButton: {
-    backgroundColor: 'green',
-    padding: 5,
-    borderRadius: 5,
-    shadowColor: 'gray',
-  },
+  
   horizontalScrollContainer: {
-    width: '100%',
+    width: "100%",
     marginVertical: 12,
   },
 
   scrollContentContainer: {
     paddingHorizontal: 16,
-    height: '100%'
+    height: "100%",
   },
 
   accountCard: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     marginRight: 12,
     padding: 16,
     borderRadius: 12,
     width: 160,
-    height: 'auto',
+    height: "auto",
     borderWidth: 1,
-    borderColor: '#000000',
+    borderColor: "#000000",
     // Enhanced shadow
-    shadowColor: '#000000',
+    shadowColor: "#000000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 6,
     elevation: 4,
     // For absolute positioning of ping
-    overflow: 'hidden',
-    position: 'relative',
+    overflow: "hidden",
+    position: "relative",
   },
 
   accountName: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#38a169',  // Green text color
+    fontWeight: "600",
+    color: "#000000", 
     marginBottom: 4,
   },
 
   accountBalance: {
     fontSize: 18,
-    fontWeight: '700',
-    color: '#2f855a',  // Darker green
+    fontWeight: "700",
+    color: "#2f855a", // Darker green
     marginBottom: 2,
   },
 
   accountTransactions: {
     fontSize: 12,
-    color: '#718096',  // Gray text
+    color: "#718096", // Gray text
     opacity: 0.9,
   },
 
   // New style for the green ping indicator
   accountPing: {
-    position: 'absolute',
+    position: "absolute",
     top: 10,
     right: 10,
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#48bb78',  // Vibrant green
+    backgroundColor: "#48bb78", // Vibrant green
   },
   dropdownContainer: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 4,
     marginVertical: 8,
   },
   pickerText: {
     height: 50,
-    width: '100%',
+    width: "100%",
   },
   noAccountsText: {
     padding: 10,
-    color: '#999',
+    color: "#999",
   },
   income: {
-    color: '#4CAF50',  // Green for income
-    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+    color: "#4CAF50", // Green for income
+    backgroundColor: "rgba(76, 175, 80, 0.1)",
     paddingHorizontal: 8,
     borderRadius: 4,
   },
   expense: {
-    color: '#F44336',  // Red for expenses
+    color: "#F44336", // Red for expenses
     // Optional additional styling:
-    backgroundColor: 'rgba(244, 67, 54, 0.1)',
+    backgroundColor: "rgba(244, 67, 54, 0.1)",
   },
 });
