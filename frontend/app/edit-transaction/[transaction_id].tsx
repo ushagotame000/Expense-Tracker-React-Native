@@ -33,9 +33,9 @@ const [accountId, setAccountId] = useState<string | undefined>(undefined);
    const fetchTransaction = async () => {
      try {
        const response = await getTransactionById(transaction_id as string);
+       console.log(response,"responseis")
        const transaction = response.transaction;
 
-       console.log("Fetched transaction:", transaction);
 
        setTransaction(transaction);
        setDescription(transaction.description);
