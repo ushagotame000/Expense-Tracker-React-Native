@@ -125,6 +125,7 @@ export default function Transaction() {
         if (!userId) throw new Error("User ID not found");
 
         const fetchedTransactions = await getAllTransaction(userId);
+console.log("fetched transaction by id", fetchedTransactions)
         const sortedTransactions = [...fetchedTransactions].sort((a, b) => {
           const dateA = a.created_at ? new Date(a.created_at) : new Date(0);
           const dateB = b.created_at ? new Date(b.created_at) : new Date(0);
@@ -132,7 +133,9 @@ export default function Transaction() {
         });
 
         setTransactions(sortedTransactions);
+        
         calculateMonthlyData(sortedTransactions);
+console.log("fetched sorted transaction by id", sortedTransactions)
 
         const currentMonth = new Date().getMonth();
         const currentMonthTransactions = sortedTransactions.filter(
@@ -241,6 +244,8 @@ export default function Transaction() {
       const date = new Date(transaction.created_at);
       return date.getMonth() === monthIndex;
     });
+   console.log(" thisis filterd", filtered)
+
     setSelectedMonth(monthIndex);
     setFilteredTransactions(filtered);
     calculateCategoryData(filtered);
@@ -278,8 +283,10 @@ export default function Transaction() {
       setDeleteModalVisible(false);
     }
   };
+  console.log("beforegroupedTransactions",filteredTransactions)
 
   const groupedTransactions = groupTransactionsByDate(filteredTransactions);
+  console.log("groupedTransactions",groupedTransactions)
 
   if (isLoading) {
     return (
@@ -385,6 +392,7 @@ export default function Transaction() {
           Object.entries(groupedTransactions).map(([date, transactions]) => (
             <View key={date} style={styles.dateGroup}>
               <Text style={styles.dateHeader}>{date}</Text>
+          
               {transactions.map((transaction) => (
                 <TouchableOpacity
                   key={transaction._id}
@@ -494,7 +502,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   monthScrollContainer: {
-    paddingHorizontal: width / 2 - 35,
+    paddingHorizontal: width / 6 - 50,
   },
   buttonContainer: {
     flexDirection: "row",

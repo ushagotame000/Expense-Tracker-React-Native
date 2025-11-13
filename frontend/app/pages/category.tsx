@@ -172,17 +172,19 @@ export default function Category() {
         </View>
       </ImageBackground>
 
-      <FlatList
-        data={categories}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.name}
-        numColumns={2}
-        contentContainerStyle={styles.listContainer}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>No categories found</Text>
-        }
-      />
+      <View style={styles.listWrapper}>
+        <FlatList
+          data={categories}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.name}
+          numColumns={2}
+          contentContainerStyle={styles.listContainer}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={
+            <Text style={styles.emptyText}>No categories found</Text>
+          }
+        />
+      </View>
     </View>
   )
 }
@@ -194,14 +196,17 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     height: height * 0.4,
-    paddingTop: 40,
-    paddingHorizontal: 20,
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
   },
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 35,
+    paddingHorizontal: 20,
   },
   iconButton: {
     borderRadius: 10,
@@ -209,7 +214,7 @@ const styles = StyleSheet.create({
     width: 40,
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#ffffff',
     textAlign: 'center',
@@ -219,6 +224,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  listWrapper: {
+    marginTop: height * 0.15, 
+    flex: 1,
   },
   listContainer: {
     paddingHorizontal: 16,

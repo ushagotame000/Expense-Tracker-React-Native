@@ -171,7 +171,8 @@ export default function HomePage() {
         const userId = await AsyncStorage.getItem("user_id");
         if (userId) {
           const userAccounts = await getAllUserAccounts(userId);
-          // console.log("Hello",userAccounts)
+
+          console.log("Hello",userAccounts)
           // console.log('fetched accout:', userAccounts.total_balances)
           setTotalBalances(userAccounts.total_balances);
           setAccounts(userAccounts.accounts);
