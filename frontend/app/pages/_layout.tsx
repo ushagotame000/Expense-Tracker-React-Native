@@ -1,4 +1,4 @@
-import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import ProtectedRoute from "../auth/protectedRoute";
 import { AuthProvider } from "../context/authContext";
@@ -34,14 +34,28 @@ export default function PagesLayout() {
         name="category"
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="trending-up"
+            <MaterialIcons
+              name="category"
               color={color}
               size={35}
             />
           ),
         }}
       />
+       <Tabs.Screen
+        name="prediction"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons
+              name="online-prediction"
+              color={color}
+              size={35}
+            />
+          ),
+        }}
+      />
+
+
 
       <Tabs.Screen
         name="profile"
