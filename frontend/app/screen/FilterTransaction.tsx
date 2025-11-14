@@ -139,21 +139,46 @@ const FilterTransaction = () => {
     <View style={styles.container}>
       {/* Filter Tabs */}
       <View style={styles.filterContainer}>
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+        <TouchableOpacity
+          style={[styles.tabButton, activeTab === 'all' && styles.activeTab]}
+          onPress={() => handleFilter('all')}
+        >
+          <Text style={[styles.tabText, activeTab === 'all' && styles.activeText]}>All</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tabButton, activeTab === 'income' && styles.activeTab]}
+          onPress={() => handleFilter('income')}
+        >
+          <Text style={[styles.tabText, activeTab === 'income' && styles.activeText]}>Income</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tabButton, activeTab === 'expense' && styles.activeTab]}
+          onPress={() => handleFilter('expense')}
+        >
+          <Text style={[styles.tabText, activeTab === 'expense' && styles.activeText]}>Expense</Text>
+        </TouchableOpacity>
+=======
+>>>>>>> Stashed changes
         {["all", "income", "expense"].map((type) => (
           <TouchableOpacity
             key={type}
-                style={[
-        styles.tabButton,
-        activeTab === type &&
-          (type === "income"
-            ? styles.activeIncomeTab
-            : type === "expense"
-            ? styles.activeExpenseTab
-            : styles.activeTab), 
-      ]}
+            style={[
+              styles.tabButton,
+              activeTab === type &&
+              (type === "income"
+                ? styles.activeIncomeTab
+                : type === "expense"
+                  ? styles.activeExpenseTab
+                  : styles.activeTab),
+            ]}
             onPress={() => handleFilter(type as any)}
           >
-             {type === "income" && (
+            {type === "income" && (
               <FontAwesome
                 name="arrow-up"
                 size={18}
@@ -176,6 +201,10 @@ const FilterTransaction = () => {
             </Text>
           </TouchableOpacity>
         ))}
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
       </View>
 
       {/*  Pagination "See More" Button */}
@@ -197,12 +226,35 @@ const FilterTransaction = () => {
               {transactions.map((t) => (
                 <View key={t._id} style={styles.item}>
                   <View style={styles.textContainer}>
+<<<<<<< Updated upstream
                     <Text style={styles.description}>{t.description}</Text>
+=======
+                    <Text style={styles.description}>
+                      {transaction.description}
+                    </Text>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
                     <Text style={styles.time}>
                       {t.created_at && formatTransactionTime(t.created_at)}
                     </Text>
+<<<<<<< Updated upstream
+=======
+                    <Text style={styles.time}>
+                    </Text>
+                    {transaction.category && (
+                      <Text style={styles.category}>
+                        {transaction.category}
+                      </Text>
+=======
+>>>>>>> Stashed changes
                     {t.category && (
-                      <Text style={styles.category}>{t.category}</Text>
+                      <Text style={styles.category}>{t.category.toLowerCase()
+                        .replace(/_/g, " ")
+                        .replace(/\b\w/g, (c) => c.toUpperCase())}</Text>
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                     )}
                   </View>
                   <Text
@@ -256,11 +308,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#17a34a",
   },
   tabText: {
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+    color: '#333',
+    fontWeight: '500',
+=======
+>>>>>>> Stashed changes
     color: "#333",
     fontWeight: "500",
   },
-   tabIcon: {
-    marginRight: 8,  
+  tabIcon: {
+    marginRight: 8,
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
   },
   activeText: {
     color: "white",
@@ -287,8 +350,16 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     backgroundColor: "#f9f9f9",
     borderRadius: 8,
-    borderBottomColor:"#cb2323ff",
-   borderBottomWidth: 1, 
+<<<<<<< Updated upstream
+    borderBottomColor: "#cb2323ff",
+    borderBottomWidth: 1,
+=======
+<<<<<<< Updated upstream
+=======
+    borderBottomColor: "#cb2323ff",
+    borderBottomWidth: 1,
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
   },
   textContainer: {
     flex: 1,
@@ -329,26 +400,35 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
   },
- seeMoreButton: {
-  alignSelf: 'flex-end', 
-  paddingHorizontal: 20,
-  paddingVertical: 8,
-  borderRadius: 20,
-  marginBottom: 10,
-},
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+  seeMoreButton: {
+    alignSelf: 'flex-end',
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginBottom: 10,
+  },
 
-seeMoreText: {
-  color: '#007bff',
-  fontWeight: 'bold',
-  textDecorationLine: 'underline', 
-},
-activeIncomeTab: {
-  backgroundColor: "#17a34a", 
-},
-activeExpenseTab: {
-  backgroundColor: "#F44336",
-},
+  seeMoreText: {
+    color: '#007bff',
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+  },
+  activeIncomeTab: {
+    backgroundColor: "#17a34a",
+  },
+  activeExpenseTab: {
+    backgroundColor: "#F44336",
+  },
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 });
 
 export default FilterTransaction;

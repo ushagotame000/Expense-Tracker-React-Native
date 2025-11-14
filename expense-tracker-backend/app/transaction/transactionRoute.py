@@ -62,16 +62,25 @@ async def addTransaction(transaction: TransactionCreate, classifier: NaiveBayesC
         raise HTTPException(status_code=500, detail=f"Failed to add transaction: {e}")
 
 @router.get("/get-transactions/{user_id}")
-async def getTransactions(user_id: str):
+async def getTransactions(user_id):
     if not ObjectId.is_valid(user_id):
         raise HTTPException(status_code=400, detail="Invalid user ID")
     try:
-        transactions = await transaction_collection.find({"user_id": ObjectId(user_id)}).to_list(length=None)
+        user_oid = ObjectId(user_id)
+        transactions = await transaction_collection.find({"user_id": user_oid}).to_list(length=None)
         if not transactions:
             raise HTTPException(status_code=404, detail="No transactions found for this user ID")
 
+        # transaction_list = [Transaction(**{**tr, "_id": str(tr["_id"])}) for tr in transactions]
         transaction_list = [
-            Transaction(**{**tr, "_id": str(tr["_id"]), "user_id": str(tr["user_id"]), "account_id": str(tr["account_id"])})
+            Transaction(
+                **{
+                    **tr,
+                    "_id": str(tr["_id"]),
+                    "user_id": str(tr["user_id"]),
+                    "account_id": str(tr.get("account_id")) if tr.get("account_id") else None
+                }
+            )
             for tr in transactions
         ]
 
