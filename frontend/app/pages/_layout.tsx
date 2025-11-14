@@ -1,3 +1,66 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
+import ProtectedRoute from "../auth/protectedRoute";
+import { AuthProvider } from "../context/authContext";
+
+export default function PagesLayout() {
+  return (
+    <AuthProvider>
+    <ProtectedRoute>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#00712D",
+        tabBarInactiveTintColor: "#333333",
+      }}
+    >
+      <Tabs.Screen
+        name="home"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="home" color={color} size={35} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="transaction"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="signal" color={color} size={35} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="category"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="trending-up"
+              color={color}
+              size={35}
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="profile"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="user" color={color} size={35} />
+          ),
+        }}
+      />
+    </Tabs>
+    </ProtectedRoute>
+    </AuthProvider>
+  );
+}
+=======
+>>>>>>> Stashed changes
 import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import ProtectedRoute from "../auth/protectedRoute";
@@ -75,3 +138,7 @@ export default function PagesLayout() {
     </AuthProvider>
   );
 }
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
