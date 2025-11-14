@@ -8,14 +8,28 @@ import {
   Dimensions,
   FlatList,
   ActivityIndicator,
+  Platform,
+  StatusBar,
+  Alert,
 } from 'react-native';
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { icons } from '@/assets/images/assets';
 import { getPredictedExpenses } from '../api/prediction';
 
-const { height } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+
+// Responsive scaling functions
+const scale = (size: number) => (SCREEN_WIDTH / 375) * size;
+const verticalScale = (size: number) => (SCREEN_HEIGHT / 812) * size;
+const moderateScale = (size: number, factor = 0.5) => size + (scale(size) - size) * factor;
+
+// Breakpoints for different screen sizes
+const isSmallDevice = SCREEN_WIDTH < 375;
+const isMediumDevice = SCREEN_WIDTH >= 375 && SCREEN_WIDTH < 768;
+const isLargeDevice = SCREEN_WIDTH >= 768;
 
 // Icon mapping for each category
 const categoryIcons: { [key: string]: keyof typeof MaterialCommunityIcons.glyphMap } = {
@@ -31,14 +45,14 @@ const categoryIcons: { [key: string]: keyof typeof MaterialCommunityIcons.glyphM
 
 // Vibrant gradient colors for each category
 const categoryColors: { [key: string]: string[] } = {
-  bills: ['#FF9F00', '#FF5722'],  // Vibrant orange-red gradient
-  education: ['#64B5F6', '#2196F3'],  // Blue gradient
-  entertainment: ['#FF4081', '#F50057'],  // Pink gradient
-  food: ['#FF6B6B', '#FFB6B6'],  // Soft red gradient
-  healthcare: ['#FF8A65', '#FF7043'],  // Warm orange gradient
-  housing: ['#4CAF50', '#81C784'],  // Green gradient
-  transport: ['#4ECDC4', '#1B5E20'],  // Green-blue gradient
-  other: ['#00BCD4', '#0288D1'],  // Blue gradient
+  bills: ['#FF9F00', '#FF5722'],
+  education: ['#64B5F6', '#2196F3'],
+  entertainment: ['#FF4081', '#F50057'],
+  food: ['#FF6B6B', '#FFB6B6'],
+  healthcare: ['#FF8A65', '#FF7043'],
+  housing: ['#4CAF50', '#81C784'],
+  transport: ['#4ECDC4', '#1B5E20'],
+  other: ['#00BCD4', '#0288D1'],
 };
 
 const Prediction = () => {
@@ -46,18 +60,41 @@ const Prediction = () => {
   const [loading, setLoading] = useState(true);
   const [expenses, setExpenses] = useState<{ [key: string]: number }>({});
   const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchPredictions = async () => {
-      setLoading(true);
-      const user_id = localStorage.getItem('user_id');
-      const response = await getPredictedExpenses(user_id);
+      try {
+        setLoading(true);
+        setError('');
+        
+        // Get user_id from AsyncStorage
+        const user_id = await AsyncStorage.getItem('user_id');
+        
+        console.log("Fetching predictions for user_id:", user_id);
+        
+        if (!user_id) {
+          setError('User ID not found. Please log in again.');
+          setLoading(false);
+          return;
+        }
 
-      if (response) {
-        setExpenses(response.predicted_expenses);
-        setMessage(response.msg);
+        const response = await getPredictedExpenses(user_id);
+        
+        console.log("API Response:", response);
+
+        if (response && response.predicted_expenses) {
+          setExpenses(response.predicted_expenses);
+          setMessage(response.msg || '');
+        } else {
+          setError('No prediction data available. Please add more transactions.');
+        }
+      } catch (err) {
+        console.error('Error fetching predictions:', err);
+        setError('Failed to load predictions. Please try again.');
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchPredictions();
@@ -66,20 +103,40 @@ const Prediction = () => {
   // Function to render each category's item
   const renderCategory = ([category, amount]: [string, number]) => {
     const iconName = categoryIcons[category] || 'wallet';
-    const colors = categoryColors[category] || ['#ece9e6', '#ffffff'];  // Default fallback color
+    const colors = categoryColors[category] || ['#ece9e6', '#ffffff'];
 
     return (
       <LinearGradient colors={colors} style={styles.card}>
         <View style={styles.iconWrapper}>
-          <MaterialCommunityIcons name={iconName} size={28} color="#fff" />
+          <MaterialCommunityIcons 
+            name={iconName} 
+            size={moderateScale(28)} 
+            color="#fff" 
+          />
         </View>
         <View style={{ flex: 1 }}>
           <Text style={styles.categoryName}>{category}</Text>
-          <Text style={styles.amountText}>₹{amount.toFixed(2)}</Text>
+          <Text style={styles.amountText}>Rs.{amount.toFixed(2)}</Text>
         </View>
       </LinearGradient>
     );
   };
+
+  const renderEmptyState = () => (
+    <View style={styles.emptyContainer}>
+      <MaterialCommunityIcons 
+        name="chart-line" 
+        size={moderateScale(80)} 
+        color="#ccc" 
+      />
+      <Text style={styles.emptyText}>
+        {error || 'No predictions available yet'}
+      </Text>
+      <Text style={styles.emptySubtext}>
+        Add more transactions to get predictions
+      </Text>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
@@ -93,9 +150,15 @@ const Prediction = () => {
             style={styles.iconButton}
             onPress={() => navigation.goBack()}
           >
-            <FontAwesome name="angle-left" size={30} color="#b5f2ccff" />
+            <FontAwesome 
+              name="angle-left" 
+              size={moderateScale(30)} 
+              color="#b5f2ccff" 
+            />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Prediction for Next Month</Text>
+          <Text style={styles.headerTitle}>
+            {isSmallDevice ? 'Next Month' : 'Prediction for Next Month'}
+          </Text>
           <View style={styles.iconButton} />
         </View>
       </ImageBackground>
@@ -104,14 +167,20 @@ const Prediction = () => {
         {loading ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color="#00a86b" />
+            <Text style={styles.loadingText}>Loading predictions...</Text>
           </View>
+        ) : Object.keys(expenses).length === 0 ? (
+          renderEmptyState()
         ) : (
           <FlatList
             data={Object.entries(expenses)}
             keyExtractor={([category]) => category}
             renderItem={({ item }) => renderCategory(item)}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 20 }}
+            contentContainerStyle={styles.flatListContent}
+            numColumns={isLargeDevice ? 2 : 1}
+            key={isLargeDevice ? 'two-columns' : 'one-column'}
+            columnWrapperStyle={isLargeDevice ? styles.columnWrapper : undefined}
           />
         )}
       </View>
@@ -125,9 +194,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f9f9f9',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   imageBackground: {
-    height: height * 0.4,
+    height: verticalScale(300),
+    maxHeight: SCREEN_HEIGHT * 0.4,
+    minHeight: 200,
     width: '100%',
     position: 'absolute',
     top: 0,
@@ -137,61 +209,103 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 35,
-    paddingHorizontal: 20,
+    marginTop: verticalScale(35),
+    paddingHorizontal: scale(20),
+    minHeight: moderateScale(50),
   },
   iconButton: {
-    borderRadius: 10,
-    padding: 2,
-    width: 40,
+    borderRadius: moderateScale(10),
+    padding: scale(2),
+    width: moderateScale(40),
+    height: moderateScale(40),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: isSmallDevice ? moderateScale(18) : moderateScale(24),
     fontWeight: 'bold',
     color: '#ffffff',
     textAlign: 'center',
     flex: 1,
+    paddingHorizontal: scale(10),
   },
   listWrapper: {
-    marginTop: height * 0.15,  // Adjusted to make room for header
+    marginTop: isSmallDevice ? verticalScale(120) : verticalScale(140),
     flex: 1,
-    paddingHorizontal: 20,  // Padding for better spacing
+    paddingHorizontal: scale(20),
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    minHeight: verticalScale(200),
+  },
+  loadingText: {
+    marginTop: verticalScale(15),
+    fontSize: moderateScale(16),
+    color: '#666',
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: verticalScale(300),
+    paddingHorizontal: scale(40),
+  },
+  emptyText: {
+    fontSize: moderateScale(18),
+    fontWeight: '600',
+    color: '#666',
+    marginTop: verticalScale(20),
+    textAlign: 'center',
+  },
+  emptySubtext: {
+    fontSize: moderateScale(14),
+    color: '#999',
+    marginTop: verticalScale(10),
+    textAlign: 'center',
+  },
+  flatListContent: {
+    paddingBottom: verticalScale(20),
+  },
+  columnWrapper: {
+    justifyContent: 'space-between',
+    gap: scale(12),
   },
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 14,
-    padding: 18,
-    marginVertical: 6,
+    borderRadius: moderateScale(14),
+    padding: scale(18),
+    marginVertical: verticalScale(6),
     shadowColor: '#000',
     shadowOpacity: 0.15,
     shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
     elevation: 5,
+    flex: isLargeDevice ? 0.48 : 1,
+    minHeight: moderateScale(80),
   },
   iconWrapper: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: moderateScale(50),
+    height: moderateScale(50),
+    borderRadius: moderateScale(25),
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 15,
+    marginRight: scale(15),
   },
   categoryName: {
-    fontSize: 18,
+    fontSize: isSmallDevice ? moderateScale(16) : moderateScale(18),
     fontWeight: '600',
-    color: '#fff', // Static white color for category name
+    color: '#fff',
     textTransform: 'capitalize',
+    flexWrap: 'wrap',
   },
   amountText: {
-    fontSize: 16,
+    fontSize: isSmallDevice ? moderateScale(14) : moderateScale(16),
     fontWeight: '700',
-    color: '#fff', // Static white color for amount
-    marginTop: 3,
+    color: '#fff',
+    marginTop: verticalScale(3),
   },
 });
