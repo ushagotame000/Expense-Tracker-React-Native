@@ -40,7 +40,7 @@ async def deleteAccount(account_id:str):
         result = await account_collection.delete_one({"_id": ObjectId(account_id)})
         if result.deleted_count == 0:
             raise HTTPException(status_code=404, detail="Account not found")
-        return {"msg": "Account deleted successfully"}
+        return {"msg": "Account deleted successfully", "success": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to delete account: {e}")
 
@@ -60,13 +60,15 @@ async def get_user_accounts(user_id: str):
         total_balance = sum(account['balance'] for account in accounts)
 
         # Get all account IDs
-        account_ids = [str(account["_id"]) for account in accounts]
+        account_ids = [ObjectId(account["_id"]) for account in accounts]
 
         # Fetch all transactions across all user's accounts
         transactions_raw = await transaction_collection.find({
             "account_id": {"$in": account_ids}
         }).to_list(length=None)
-
+        print(account_ids)
+        print(transactions_raw)
+        print('working ')
         # Calculate total income and expense from transactions
         total_income = sum(tx["amount"] for tx in transactions_raw if tx["type"] == "income")
         total_expense = sum(tx["amount"] for tx in transactions_raw if tx["type"] == "expense")

@@ -112,10 +112,11 @@ const EditAccount: React.FC = () => {
           style={styles.input}
           onValueChange={(itemValue) => setCurrency(itemValue)}
         >
-          <Picker.Item label="₹ INR" value="INR" />
+          <Picker.Item label="Rs NPR" value="NPR" />
+          {/* <Picker.Item label="₹ INR" value="INR" />
           <Picker.Item label="$ USD" value="USD" />
           <Picker.Item label="€ EUR" value="EUR" />
-          <Picker.Item label="£ GBP" value="GBP" />
+          <Picker.Item label="£ GBP" value="GBP" /> */}
         </Picker>
 
         <View style={styles.buttonContainer}>
