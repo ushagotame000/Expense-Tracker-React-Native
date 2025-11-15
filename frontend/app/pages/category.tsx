@@ -19,6 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getAllTransaction } from '../api/transaction'
 import { icons } from '@/assets/images/assets'
 import { useNavigation } from 'expo-router'
+import { headerStyles } from '../styles/common/headerStyles'
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 // Responsive scaling functions
@@ -186,14 +187,14 @@ export default function Category() {
     <View style={styles.container}>
       <ImageBackground
         source={icons.Upperhalf}
-        style={styles.imageBackground}
+        style={headerStyles.imageBackground}
         resizeMode="cover"
       >
-        <View style={styles.headerContainer}>
-          <TouchableOpacity style={styles.iconButton} onPress={() => navigation.goBack()}>
+        <View style={headerStyles.headerContainer}>
+          <TouchableOpacity style={headerStyles.iconButton} onPress={() => navigation.goBack()}>
             <FontAwesome name="angle-left" size={30} color="#b5f2ccff" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Categories</Text>
+          <Text style={headerStyles.headerTitle}>Categories</Text>
           <View style={styles.iconButton} />
         </View>
       </ImageBackground>

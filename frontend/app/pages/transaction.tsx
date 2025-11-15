@@ -27,7 +27,7 @@ import * as Sharing from "expo-sharing";
 import * as MediaLibrary from 'expo-media-library';
 import { styles } from "../styles/pages/transactionStyles";
 const { height, width } = Dimensions.get("window");
-
+import { headerStyles } from "../styles/common/headerStyles";
 // Helper functions
 const formatTransactionDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -492,17 +492,17 @@ const handleDownloadReport = async () => {
       <View style={styles.container}>
         <ImageBackground
           source={icons.Upperhalf}
-          style={styles.imageBackground}
+          style={headerStyles.imageBackground}
           resizeMode="cover"
         >
-          <View style={styles.header}>
+          <View style={headerStyles.headerContainer}>
             <TouchableOpacity
-              style={styles.iconButton}
+              style={headerStyles.iconButton}
               onPress={() => navigation.goBack()}
             >
               <FontAwesome name="angle-left" size={30} color="#b5f2ccff" />
             </TouchableOpacity>
-            <Text style={styles.headerTitle}>Transactions</Text>
+            <Text style={headerStyles.headerTitle}>Transactions</Text>
             <TouchableOpacity
               style={styles.iconButton}
               onPress={() => setShowDownloadModal(true)}

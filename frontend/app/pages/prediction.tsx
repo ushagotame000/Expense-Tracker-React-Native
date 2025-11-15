@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    fontSize: isSmallDevice ? moderateScale(18) : moderateScale(24),
+    fontSize: moderateScale(18),
     fontWeight: 'bold',
     color: '#ffffff',
     textAlign: 'center',
@@ -296,14 +296,14 @@ const styles = StyleSheet.create({
     marginRight: scale(15),
   },
   categoryName: {
-    fontSize: isSmallDevice ? moderateScale(16) : moderateScale(18),
+    fontSize: moderateScale(16),
     fontWeight: '600',
     color: '#fff',
     textTransform: 'capitalize',
     flexWrap: 'wrap',
   },
   amountText: {
-    fontSize: isSmallDevice ? moderateScale(14) : moderateScale(16),
+    fontSize: moderateScale(14),
     fontWeight: '700',
     color: '#fff',
     marginTop: verticalScale(3),
