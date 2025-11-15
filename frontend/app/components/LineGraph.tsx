@@ -1,7 +1,8 @@
 import React from "react";
-import { Dimensions, View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Dimensions, View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { PieChart } from "react-native-chart-kit";
 
+// Get screen width for responsive design
 const screenWidth = Dimensions.get("window").width;
 
 // Define types for our data
@@ -40,67 +41,82 @@ const ChartPie: React.FC<PieChartProps> = ({ categoryData, onSegmentPress }) => 
   return (
     <View style={styles.container}>
       {/* Pie Chart */}
-      <View style={styles.chartContainer}>
-        <PieChart
-          data={chartData}
-          width={screenWidth * 0.90}  
-          height={220}
-          chartConfig={{
-            backgroundColor: "#ffffff",
-            backgroundGradientFrom: "#ffffff",
-            backgroundGradientTo: "#ffffff",
-            decimalPlaces: 2,
-            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-          }}
-          accessor="population"
-          backgroundColor="transparent"
-          paddingLeft="0"  // Changed from 15 to 0
-          absolute
-          hasLegend={false}
-          style={styles.chartStyle}
-        />
-      </View>
+      {categoryData.length > 0 ? (
+        <View style={styles.chartContainer}>
+          <PieChart
+            data={chartData}
+            width={screenWidth * 0.65}  // Adjusted to be responsive to screen size
+            height={220}
+            chartConfig={{
+              backgroundColor: "#ffffff",
+              backgroundGradientFrom: "#ffffff",
+              backgroundGradientTo: "#ffffff",
+              decimalPlaces: 2,
+              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            }}
+            accessor="population"
+            backgroundColor="transparent"
+            paddingLeft="0"  // Changed from 15 to 0 to avoid extra padding
+            absolute
+            hasLegend={false}
+            style={styles.chartStyle}
+          />
+        </View>
+      ) : (
+        // Show fallback image or message when no data
+        <View style={styles.chartContainer}>
+          <Image
+            source={require('@/assets/images/no-transactions.png')} // Make sure to replace with a valid image path
+            style={styles.placeholderImage}
+          />
+        </View>
+      )}
 
       {/* Category Legend - Right Column */}
       <View style={styles.legendContainer}>
-        {chartData.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.legendItem}
-            onPress={() => onSegmentPress?.(item)}
-            //  onPress={() => console.log(item)} 
-          >
-            <View style={[styles.colorBox, { backgroundColor: item.color }]} />
-            <View style={styles.legendTextContainer}>
-              <Text style={styles.categoryName} numberOfLines={1}>
-                {item.name}
-              </Text>
-              <Text style={styles.categoryValue}>
-                Rs {item.population.toFixed(2)} ({(totalAmount > 0 ? 
-                  ((item.population / totalAmount) * 100).toFixed(1) : 0)}%)
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ))}
+        {chartData.length > 0 ? (
+          chartData.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.legendItem}
+              onPress={() => onSegmentPress?.(item)}  // Trigger the onPress callback
+            >
+              <View style={[styles.colorBox, { backgroundColor: item.color }]} />
+              <View style={styles.legendTextContainer}>
+                <Text style={styles.categoryName} numberOfLines={1}>
+                  {item.name}
+                </Text>
+                <Text style={styles.categoryValue}>
+                  Rs {item.population.toFixed(2)} ({(totalAmount > 0 ? 
+                    ((item.population / totalAmount) * 100).toFixed(1) : 0)}%)
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))
+        ) : (
+          <Text style={styles.noDataText}>No data available</Text>  // Display a message if no data
+        )}
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
- container: {
+  container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: -10,
-    paddingHorizontal: 10,  
+    paddingHorizontal: 10,
   },
   chartContainer: {
-    width: '65%',  
+    width: '65%',  // Responsive chart width
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   legendContainer: {
-    width: '35%',  
-    paddingLeft: 5, 
+    width: '35%',  // Responsive legend width
+    paddingLeft: 5,
   },
   chartStyle: {
     borderRadius: 16,
@@ -123,13 +139,24 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#333',
     fontWeight: '500',
-    fontFamily:"Inter-Semibold"
+    fontFamily: "Inter-Semibold"
   },
   categoryValue: {
     fontSize: 12,
     color: '#ff6f3bff',
   },
+  noDataText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#0a0a0aff',
+    textAlign: 'center',
+  },
+  placeholderImage: {
+    width: 200,
+    height: 200,
+    marginBottom: 10,
+    resizeMode: 'cover',
+  },
 });
-
 
 export default ChartPie;

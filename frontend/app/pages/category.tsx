@@ -19,7 +19,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getAllTransaction } from '../api/transaction'
 import { icons } from '@/assets/images/assets'
 import { useNavigation } from 'expo-router'
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
+// Responsive scaling functions
+const scale = (size: number) => (SCREEN_WIDTH / 375) * size;
+const verticalScale = (size: number) => (SCREEN_HEIGHT / 812) * size;
+const moderateScale = (size: number, factor = 0.5) => size + (scale(size) - size) * factor;
+
+// Breakpoints for different screen sizes
+const isSmallDevice = SCREEN_WIDTH < 375;
+const isMediumDevice = SCREEN_WIDTH >= 375 && SCREEN_WIDTH < 768;
+const isLargeDevice = SCREEN_WIDTH >= 768;
 const { height } = Dimensions.get('window')
 
 // Icon and color mapping functions
@@ -131,8 +141,7 @@ export default function Category() {
 
   const renderItem = ({ item }: { item: { name: string; total: number } }) => (
     <TouchableOpacity
-      style={[styles.card, { backgroundColor: getCategoryColor(item.name) }]}
-    >
+      style={[styles.card, { backgroundColor: getCategoryColor(item.name) }]}>
       <View style={styles.iconContainer}>{getIconComponent(item.name)}</View>
       <View style={styles.textContainer}>
         <Text style={styles.categoryName}>
@@ -146,6 +155,23 @@ export default function Category() {
         </Text>
       </View>
     </TouchableOpacity>
+  )
+
+  // Empty state for when no categories are available
+  const renderEmptyState = () => (
+    <View style={styles.emptyContainer}>
+      <MaterialCommunityIcons 
+        name="chart-line" 
+        size={80} 
+        color="#ccc" 
+      />
+      <Text style={styles.emptyText}>
+        No categories found
+      </Text>
+      <Text style={styles.emptySubtext}>
+        Add more transactions to see your spending & income breakdown
+      </Text>
+    </View>
   )
 
   if (isLoading) {
@@ -180,15 +206,12 @@ export default function Category() {
           numColumns={2}
           contentContainerStyle={styles.listContainer}
           showsVerticalScrollIndicator={false}
-          ListEmptyComponent={
-            <Text style={styles.emptyText}>No categories found</Text>
-          }
+          ListEmptyComponent={renderEmptyState}  // Use the renderEmptyState function here
         />
       </View>
     </View>
   )
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -233,11 +256,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 20,
   },
+emptyContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: height - 200,
+    paddingHorizontal: scale(40),
+  },
   emptyText: {
-    textAlign: 'center',
-    marginTop: 20,
-    fontSize: 16,
+    fontSize: moderateScale(18),
+    fontWeight: '600',
     color: '#666',
+    marginTop: verticalScale(20),
+    textAlign: 'center',
+  },
+  emptySubtext: {
+    fontSize: moderateScale(14),
+    color: '#999',
+    marginTop: verticalScale(10),
+    textAlign: 'center',
   },
   card: {
     flex: 1,
@@ -282,4 +318,6 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     opacity: 0.8,
   },
+ 
+
 })
